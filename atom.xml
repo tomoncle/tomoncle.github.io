@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>tomoncle</title>
+  <subtitle>tomoncle</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="https://tomoncle.github.io/"/>
+  <updated>2017-07-08T06:43:35.383Z</updated>
+  <id>https://tomoncle.github.io/</id>
+  
+  <author>
+    <name>Tom Lee</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Kubernetes-High-Availability</title>
+    <link href="https://tomoncle.github.io/2017/07/08/kubernetes-ha/"/>
+    <id>https://tomoncle.github.io/2017/07/08/kubernetes-ha/</id>
+    <published>2017-07-08T06:30:21.000Z</published>
+    <updated>2017-07-08T06:43:35.383Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="Kubernetes-Cluster-HA"><a href="#Kubernetes-Cluster-HA" class="headerlink" title="Kubernetes Cluster HA"></a>Kubernetes Cluster HA</h1><blockquote>
+<p>apiserver do cluster,controller-manager and scheduler do HA<br>servers(centos7):192.168.137.145~147<br><a id="more"></a></p>
+</blockquote>
+<h2 id="环境准备工作"><a href="#环境准备工作" class="headerlink" title="环境准备工作"></a>环境准备工作</h2><pre><code>#关闭防火墙
+systemctl stop firewalld &amp;&amp; systemctl disable firewalld
+
+#关闭selinux
+setenforce 0 
+#编辑/etc/selinux/config  SELINUX=disabled
+sed -i &quot;s/SELINUX=enforcing/SELINUX=disabled/g&quot; /etc/selinux/config
+</code></pre><h2 id="软件安装"><a href="#软件安装" class="headerlink" title="软件安装"></a>软件安装</h2><pre><code>yum -y install etcd kubernetes 
+</code></pre><h2 id="ETCD集群"><a href="#ETCD集群" class="headerlink" title="ETCD集群"></a>ETCD集群</h2><p>获取etcd集群token</p>
+<pre><code>#获取etcd集群token (https://discovery.etcd.io/3254bffbbd2a7814f401733088931eaa)
+curl https://discovery.etcd.io/new?size=3
+</code></pre><p>etcd配置/etc/etcd/etcd.conf</p>
+<pre><code># [member]
+ETCD_NAME=etcd2
+ETCD_DATA_DIR=&quot;/var/lib/etcd/etcd2.etcd&quot;
+#ETCD_WAL_DIR=&quot;&quot;
+#ETCD_SNAPSHOT_COUNT=&quot;10000&quot;
+#ETCD_HEARTBEAT_INTERVAL=&quot;100&quot;
+#ETCD_ELECTION_TIMEOUT=&quot;1000&quot;
+ETCD_LISTEN_PEER_URLS=&quot;http://192.168.137.146:2380&quot;
+ETCD_LISTEN_CLIENT_URLS=&quot;http://localhost:2379,http://192.168.137.146:2379&quot;
+#ETCD_MAX_SNAPSHOTS=&quot;5&quot;
+#ETCD_MAX_WALS=&quot;5&quot;
+#ETCD_CORS=&quot;&quot;
+#
+#[cluster]
+ETCD_INITIAL_ADVERTISE_PEER_URLS=&quot;http://192.168.137.146:2380&quot;
+# if you use different ETCD_NAME (e.g. test), set ETCD_INITIAL_CLUSTER value for this name, i.e. &quot;test=http://...&quot;
+#ETCD_INITIAL_CLUSTER=&quot;default=http://localhost:2380&quot;
+#ETCD_INITIAL_CLUSTER_STATE=&quot;new&quot;
+#ETCD_INITIAL_CLUSTER_TOKEN=&quot;etcd-cluster&quot;
+ETCD_ADVERTISE_CLIENT_URLS=&quot;http://192.168.137.146:2379&quot;
+ETCD_DISCOVERY=&quot;https://discovery.etcd.io/3254bffbbd2a7814f401733088931eaa&quot;
+#ETCD_DISCOVERY_SRV=&quot;&quot;
+#ETCD_DISCOVERY_FALLBACK=&quot;proxy&quot;
+#ETCD_DISCOVERY_PROXY=&quot;&quot;
+#ETCD_STRICT_RECONFIG_CHECK=&quot;false&quot;
+#
+#[proxy]
+#ETCD_PROXY=&quot;off&quot;
+#ETCD_PROXY_FAILURE_WAIT=&quot;5000&quot;
+#ETCD_PROXY_REFRESH_INTERVAL=&quot;30000&quot;
+#ETCD_PROXY_DIAL_TIMEOUT=&quot;1000&quot;
+#ETCD_PROXY_WRITE_TIMEOUT=&quot;5000&quot;
+#ETCD_PROXY_READ_TIMEOUT=&quot;0&quot;
+#
+#[security]
+#ETCD_CERT_FILE=&quot;&quot;
+#ETCD_KEY_FILE=&quot;&quot;
+#ETCD_CLIENT_CERT_AUTH=&quot;false&quot;
+#ETCD_TRUSTED_CA_FILE=&quot;&quot;
+#ETCD_PEER_CERT_FILE=&quot;&quot;
+#ETCD_PEER_KEY_FILE=&quot;&quot;
+#ETCD_PEER_CLIENT_CERT_AUTH=&quot;false&quot;
+#ETCD_PEER_TRUSTED_CA_FILE=&quot;&quot;
+#
+#[logging]
+#ETCD_DEBUG=&quot;false&quot;
+# examples for -log-package-levels etcdserver=WARNING,security=DEBUG
+#ETCD_LOG_PACKAGE_LEVELS=&quot;&quot;
+</code></pre><h2 id="kubernetes"><a href="#kubernetes" class="headerlink" title="kubernetes"></a>kubernetes</h2><p>配置/etc/kubernetes</p>
+<h3 id="apiServer"><a href="#apiServer" class="headerlink" title="apiServer"></a>apiServer</h3><pre><code>###
+# kubernetes system config
+#
+# The following values are used to configure the kube-apiserver
+#
+
+# The address on the local server to listen to.
+KUBE_API_ADDRESS=&quot;--insecure-bind-address=0.0.0.0&quot;
+
+# The port on the local server to listen on.
+# KUBE_API_PORT=&quot;--port=8080&quot;
+
+# Port minions listen on
+# KUBELET_PORT=&quot;--kubelet-port=10250&quot;
+
+# Comma separated list of nodes in the etcd cluster
+KUBE_ETCD_SERVERS=&quot;--etcd-servers=http://127.0.0.1:2379,http:192.168.1.146:2379,http://192.168.1.147:2379&quot;
+
+# Address range to use for services
+KUBE_SERVICE_ADDRESSES=&quot;--service-cluster-ip-range=10.254.0.0/16&quot;
+
+# default admission control policies
+KUBE_ADMISSION_CONTROL=&quot;--admission-control=NamespaceLifecycle,NamespaceExists,LimitRanger,SecurityContextDeny,ResourceQuota&quot;
+
+# Add your own!
+KUBE_API_ARGS=&quot;&quot;
+</code></pre><h3 id="config"><a href="#config" class="headerlink" title="config"></a>config</h3><pre><code>###
+# kubernetes system config
+#
+# The following values are used to configure various aspects of all
+# kubernetes services, including
+#
+#   kube-apiserver.service
+#   kube-controller-manager.service
+#   kube-scheduler.service
+#   kubelet.service
+#   kube-proxy.service
+# logging to stderr means we get it in the systemd journal
+KUBE_LOGTOSTDERR=&quot;--logtostderr=true&quot;
+
+# journal message level, 0 is debug
+KUBE_LOG_LEVEL=&quot;--v=0&quot;
+
+# Should this cluster be allowed to run privileged docker containers
+KUBE_ALLOW_PRIV=&quot;--allow-privileged=false&quot;
+
+# How the controller-manager, scheduler, and proxy find the apiserver，配置参数(本机ip:8080)
+KUBE_MASTER=&quot;--master=http://192.168.137.145:8080&quot;
+</code></pre><h3 id="controller-manager"><a href="#controller-manager" class="headerlink" title="controller-manager"></a>controller-manager</h3><pre><code>###
+# The following values are used to configure the kubernetes controller-manager
+
+# defaults from config and apiserver should be adequate
+
+# Add your own!
+# --leader-elect=true 表示etcd 服务master选举，只有选举为leader的节点才会执行操作，即做controller-manager高可用
+# --master=127.0.0.1:8080  参数可以不指定，默认使用本地的8080端口
+KUBE_CONTROLLER_MANAGER_ARGS=&quot;--master=127.0.0.1:8080 --v=2 --leader-elect=true 1&gt;&gt;/var/log/kube-controller-manager.log 2&gt;&amp;1&quot;
+</code></pre><h3 id="scheduler"><a href="#scheduler" class="headerlink" title="scheduler"></a>scheduler</h3><pre><code>###
+# kubernetes scheduler config
+
+# default config should be adequate
+
+# Add your own!
+# 参数配置见controller-manager
+KUBE_SCHEDULER_ARGS=&quot;--master=127.0.0.1:8080 --v=2 --leader-elect=true&quot;
+</code></pre><h3 id="kubelet"><a href="#kubelet" class="headerlink" title="kubelet"></a>kubelet</h3><pre><code>###
+# kubernetes kubelet (minion) config
+
+# The address for the info server to serve on (set to 0.0.0.0 or &quot;&quot; for all interfaces)
+KUBELET_ADDRESS=&quot;--address=0.0.0.0&quot;
+
+# The port for the info server to serve on
+# KUBELET_PORT=&quot;--port=10250&quot;
+
+# You may leave this blank to use the actual hostname
+KUBELET_HOSTNAME=&quot;--hostname-override=node01&quot;
+
+# location of the api-server cluster api main 集群入口
+KUBELET_API_SERVER=&quot;--api-servers=http://vip:port&quot;
+
+# pod infrastructure container
+KUBELET_POD_INFRA_CONTAINER=&quot;--pod-infra-container-image=registry.access.redhat.com/rhel7/pod-infrastructure:latest&quot;
+
+# Add your own!
+KUBELET_ARGS=&quot;&quot;
+</code></pre><ul>
+<li><code>apiServer</code>可以使用<code>keepalived</code>做集群，或者使用<code>nginx</code>做集群都可以。</li>
+<li>网络里使用flannel或者其他网络管理组件都可以。</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;Kubernetes-Cluster-HA&quot;&gt;&lt;a href=&quot;#Kubernetes-Cluster-HA&quot; class=&quot;headerlink&quot; title=&quot;Kubernetes Cluster HA&quot;&gt;&lt;/a&gt;Kubernetes Cluster HA&lt;/h1&gt;&lt;blockquote&gt;
+&lt;p&gt;apiserver do cluster,controller-manager and scheduler do HA&lt;br&gt;servers(centos7):192.168.137.145~147&lt;br&gt;
+    
+    </summary>
+    
+      <category term="kubernetes" scheme="https://tomoncle.github.io/categories/kubernetes/"/>
+    
+    
+      <category term="HA" scheme="https://tomoncle.github.io/tags/HA/"/>
+    
+  </entry>
+  
+</feed>
