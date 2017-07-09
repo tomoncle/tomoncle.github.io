@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://tomoncle.github.io/"/>
-  <updated>2017-07-08T06:43:35.383Z</updated>
+  <updated>2017-07-09T01:47:11.307Z</updated>
   <id>https://tomoncle.github.io/</id>
   
   <author>
@@ -20,11 +20,12 @@
     <link href="https://tomoncle.github.io/2017/07/08/kubernetes-ha/"/>
     <id>https://tomoncle.github.io/2017/07/08/kubernetes-ha/</id>
     <published>2017-07-08T06:30:21.000Z</published>
-    <updated>2017-07-08T06:43:35.383Z</updated>
+    <updated>2017-07-09T01:47:11.307Z</updated>
     
     <content type="html"><![CDATA[<h1 id="Kubernetes-Cluster-HA"><a href="#Kubernetes-Cluster-HA" class="headerlink" title="Kubernetes Cluster HA"></a>Kubernetes Cluster HA</h1><blockquote>
-<p>apiserver do cluster,controller-manager and scheduler do HA<br>servers(centos7):192.168.137.145~147<br><a id="more"></a></p>
+<p>apiserver do cluster,controller-manager and scheduler do HA<br>servers(centos7):192.168.137.145~147</p>
 </blockquote>
+<a id="more"></a>
 <h2 id="环境准备工作"><a href="#环境准备工作" class="headerlink" title="环境准备工作"></a>环境准备工作</h2><pre><code>#关闭防火墙
 systemctl stop firewalld &amp;&amp; systemctl disable firewalld
 
@@ -180,7 +181,8 @@ KUBELET_ARGS=&quot;&quot;
     <summary type="html">
     
       &lt;h1 id=&quot;Kubernetes-Cluster-HA&quot;&gt;&lt;a href=&quot;#Kubernetes-Cluster-HA&quot; class=&quot;headerlink&quot; title=&quot;Kubernetes Cluster HA&quot;&gt;&lt;/a&gt;Kubernetes Cluster HA&lt;/h1&gt;&lt;blockquote&gt;
-&lt;p&gt;apiserver do cluster,controller-manager and scheduler do HA&lt;br&gt;servers(centos7):192.168.137.145~147&lt;br&gt;
+&lt;p&gt;apiserver do cluster,controller-manager and scheduler do HA&lt;br&gt;servers(centos7):192.168.137.145~147&lt;/p&gt;
+&lt;/blockquote&gt;
     
     </summary>
     

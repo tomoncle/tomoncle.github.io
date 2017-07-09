@@ -102,7 +102,7 @@
 <meta property="og:url" content="https://tomoncle.github.io/2017/07/08/kubernetes-ha/index.html">
 <meta property="og:site_name" content="tomoncle">
 <meta property="og:description" content="Kubernetes Cluster HA apiserver do cluster,controller-manager and scheduler do HAservers(centos7):192.168.137.145~147">
-<meta property="og:updated_time" content="2017-07-08T06:43:35.383Z">
+<meta property="og:updated_time" content="2017-07-09T01:47:11.307Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Kubernetes-High-Availability">
 <meta name="twitter:description" content="Kubernetes Cluster HA apiserver do cluster,controller-manager and scheduler do HAservers(centos7):192.168.137.145~147">
@@ -179,7 +179,7 @@
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-wrapper">
-  <div class="site-meta ">
+  <div class="site-meta custom-logo">
     
 
     <div class="custom-logo-site-title">
@@ -397,6 +397,11 @@
           
 
           
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
 
           
 
@@ -413,8 +418,9 @@
 
       
         <h1 id="Kubernetes-Cluster-HA"><a href="#Kubernetes-Cluster-HA" class="headerlink" title="Kubernetes Cluster HA"></a>Kubernetes Cluster HA</h1><blockquote>
-<p>apiserver do cluster,controller-manager and scheduler do HA<br>servers(centos7):192.168.137.145~147<br><a id="more"></a></p>
+<p>apiserver do cluster,controller-manager and scheduler do HA<br>servers(centos7):192.168.137.145~147</p>
 </blockquote>
+<a id="more"></a>
 <h2 id="环境准备工作"><a href="#环境准备工作" class="headerlink" title="环境准备工作"></a>环境准备工作</h2><pre><code>#关闭防火墙
 systemctl stop firewalld &amp;&amp; systemctl disable firewalld
 
@@ -579,6 +585,22 @@ KUBELET_ARGS=&quot;&quot;
     <div>
       
         
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>Adhere to the original technology sharing, your support will encourage me to continue writing!</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/mm_facetoface_collect_qrcode_1499564219024.png" alt="Tom Lee WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+    </div>
+  </div>
+
 
       
     </div>
@@ -790,6 +812,26 @@ KUBELET_ARGS=&quot;&quot;
 
 
         
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
 
         
       </div>
@@ -823,6 +865,8 @@ KUBELET_ARGS=&quot;&quot;
   
 
 
+  
+
 
 
 
@@ -850,6 +894,9 @@ KUBELET_ARGS=&quot;&quot;
 
   
   <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
 
 
   

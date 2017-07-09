@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://tomoncle.github.io/2017/07/08/kubernetes-ha/</loc>
+    
+    <lastmod>2017-07-09T01:47:11.307Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://tomoncle.github.io/categories/index.html</loc>
+    
+    <lastmod>2017-07-09T01:22:06.851Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://tomoncle.github.io/baidu_verify_HcZNvcGN32.html</loc>
     
     <lastmod>2017-07-08T15:15:00.015Z</lastmod>
@@ -16,23 +30,9 @@
   </url>
   
   <url>
-    <loc>https://tomoncle.github.io/2017/07/08/kubernetes-ha/</loc>
-    
-    <lastmod>2017-07-08T06:43:35.383Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://tomoncle.github.io/tags/index.html</loc>
     
     <lastmod>2017-07-08T01:40:32.573Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://tomoncle.github.io/categories/index.html</loc>
-    
-    <lastmod>2017-07-08T01:06:33.660Z</lastmod>
     
   </url>
   
