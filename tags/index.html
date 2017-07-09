@@ -101,7 +101,7 @@
 <meta property="og:url" content="https://tomoncle.github.io/tags/index.html">
 <meta property="og:site_name" content="tomoncle">
 <meta property="og:description" content="Do as you would be done by others.">
-<meta property="og:updated_time" content="2017-07-08T01:40:32.573Z">
+<meta property="og:updated_time" content="2017-07-09T13:28:20.479Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="tags">
 <meta name="twitter:description" content="Do as you would be done by others.">
@@ -128,8 +128,15 @@
       labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
     }
   };
+   (function(){
+        if(''){
+            if (prompt('请输入文章密码') !== ''){
+                alert('密码错误！');
+                history.back();
+            }
+        }
+    })();
 </script>
-
 
 
   <link rel="canonical" href="https://tomoncle.github.io/tags/"/>
@@ -430,6 +437,15 @@
                     <i class="fa fa-fw fa-github"></i>
                   
                   GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://blog.csdn.net/king_aric" rel="external nofollow" target="_blank" title="CSDN">
+                  
+                    <i class="fa fa-fw fa-crosshairs"></i>
+                  
+                  CSDN
                 </a>
               </span>
             
