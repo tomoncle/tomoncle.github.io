@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://tomoncle.github.io/"/>
-  <updated>2017-07-10T02:24:12.737Z</updated>
+  <updated>2017-09-19T06:30:38.470Z</updated>
   <id>https://tomoncle.github.io/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="https://tomoncle.github.io/2017/07/08/kubernetes-ha/"/>
     <id>https://tomoncle.github.io/2017/07/08/kubernetes-ha/</id>
     <published>2017-07-08T06:30:21.000Z</published>
-    <updated>2017-07-10T02:24:12.737Z</updated>
+    <updated>2017-09-19T06:30:38.470Z</updated>
     
     <content type="html"><![CDATA[<h1 id="Kubernetes-Cluster-HA"><a href="#Kubernetes-Cluster-HA" class="headerlink" title="Kubernetes Cluster HA"></a>Kubernetes Cluster HA</h1><blockquote>
 <p>apiserver do cluster,controller-manager and scheduler do HA<br>servers(centos7):192.168.137.145~147</p>
