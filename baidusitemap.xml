@@ -3,14 +3,12 @@
 
 
     
-    
-    
   <url>
     <loc>https://tomoncle.github.io/2017/07/08/kubernetes-ha/</loc>
-    <lastmod>2017-09-19T06:30:38.470Z</lastmod>
+    <lastmod>2018-04-02T07:42:33.628Z</lastmod>
     <data>
         <display>
-        <title>Kubernetes-High-Availability</title>
+        <title>Kubernetes集群高可用配置</title>
         <pubTime>2017-07-08T06:30:21.000Z</pubTime>
         
         <tag>HA</tag>
@@ -24,6 +22,32 @@
     </data>
     </url>
 
+    
+  <url>
+    <loc>https://tomoncle.github.io/2018/04/02/celery/</loc>
+    <lastmod>2018-04-02T07:38:43.752Z</lastmod>
+    <data>
+        <display>
+        <title>celery分布式任务队列</title>
+        <pubTime>2018-04-02T07:20:27.000Z</pubTime>
+        
+        <tag>Python</tag>
+         
+        <tag>Distributed</tag>
+         
+        <tag>Queue</tag>
+         
+         
+           
+             
+              <breadCrumb title="Python-celery" url="https://tomoncle.github.io/categories/Python-celery/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+    
     
     
 </urlset>

@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://tomoncle.github.io/"/>
-  <updated>2017-09-19T06:30:38.470Z</updated>
+  <updated>2018-04-02T07:38:43.752Z</updated>
   <id>https://tomoncle.github.io/</id>
   
   <author>
@@ -16,16 +16,105 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>Kubernetes-High-Availability</title>
+    <title>celery分布式任务队列</title>
+    <link href="https://tomoncle.github.io/2018/04/02/celery/"/>
+    <id>https://tomoncle.github.io/2018/04/02/celery/</id>
+    <published>2018-04-02T07:20:27.000Z</published>
+    <updated>2018-04-02T07:38:43.752Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="celery分布式任务队列"><a href="#celery分布式任务队列" class="headerlink" title="celery分布式任务队列"></a>celery分布式任务队列</h1><blockquote>
+<p>celery是一种简单、灵活、可靠的分布式系统，可以处理大量的信息，是一个以实时处理为重点，同时支持任务调度的任务队列</p>
+</blockquote>
+<h1 id="版本差异使用"><a href="#版本差异使用" class="headerlink" title="版本差异使用"></a>版本差异使用</h1><h2 id="celery-3-1-23-与-django-1-7-8"><a href="#celery-3-1-23-与-django-1-7-8" class="headerlink" title="celery (3.1.23) 与 django (1.7.8)"></a>celery (3.1.23) 与 django (1.7.8)</h2><h3 id="安装："><a href="#安装：" class="headerlink" title="安装："></a>安装：</h3>  <figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">$</span> pip install celery==3.1.23</div><div class="line"><span class="meta">$</span> pip install django-celery==3.1.17</div><div class="line"><span class="meta">$</span> pip install django-celery-with-redis==3.0</div></pre></td></tr></table></figure>
+<h3 id="settings-py"><a href="#settings-py" class="headerlink" title="settings.py :"></a>settings.py :</h3><blockquote>
+<p>在<code>INSTALLED_APPS</code>中添加的<code>djcelery</code>是必须的. <code>kombu.transport.django</code>则是基于Django的broker<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># settings.py</span></div><div class="line"></div><div class="line"><span class="keyword">import</span> djcelery</div><div class="line"></div><div class="line">INSTALLED_APPS = (</div><div class="line">    <span class="string">'...'</span></div><div class="line">    <span class="string">'djcelery'</span>,</div><div class="line">    <span class="string">'kombu.transport.django'</span>,</div><div class="line">    <span class="string">'djangoapp.tasks'</span> <span class="comment"># 任务模块</span></div><div class="line">    <span class="string">'...'</span></div><div class="line">)</div><div class="line"></div><div class="line"><span class="comment"># 启动后会默认在INSTALLED_APPS寻找tasks.py这个文件,将里面的@task()标记的方法加入任务列表</span></div><div class="line">djcelery.setup_loader()  </div><div class="line"></div><div class="line"><span class="comment"># celery模块其他配置参数</span></div><div class="line">CELERY_ENABLE_UTC = <span class="keyword">False</span></div><div class="line">CELERY_TIMEZONE = <span class="string">'Asia/Shanghai'</span></div><div class="line"></div><div class="line"><span class="comment">### 以上为公共配置,不管谁做后台都一样</span></div></pre></td></tr></table></figure></p>
+</blockquote>
+<a id="more"></a>
+<ul>
+<li><p>使用django内置的服务来作为celery的后台:</p>
+<ul>
+<li>配置 settings.py：<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">BROKER_URL = <span class="string">'django://'</span></div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>使用rabbitMQ服务来作为celery的后台:</p>
+<ul>
+<li><p>安装：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">$</span> apt-get install rabbitmq-server</div><div class="line"><span class="meta">$</span> pip install celery</div><div class="line"><span class="meta">$</span> pip install django-celery</div></pre></td></tr></table></figure>
+</li>
+<li><p>常见错误：段错误 (核心已转储) ==&gt;遇到这个错误的系统中的python-librabbitmq版本为1.0.3-0ubuntu1</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">$</span> apt-get remove python-librabbitmq</div><div class="line"><span class="meta">$</span> pip install librabbitmq</div></pre></td></tr></table></figure>
+</li>
+<li><p>配置 settings.py：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#settings　配置使用rabbitmq作为celery的后台</span></div><div class="line">BROKER_HOST = <span class="string">"localhost"</span></div><div class="line">BROKER_PORT = <span class="number">5672</span></div><div class="line">BROKER_USER = <span class="string">"guest"</span></div><div class="line">BROKER_PASSWORD = <span class="string">"guest"</span></div><div class="line">BROKER_VHOST = <span class="string">"/"</span></div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>使用redis服务来作为celery的后台:</p>
+<ul>
+<li><p>安装：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">$</span> pip install django-celery-with-redis</div><div class="line"><span class="meta">$</span> pip install celery</div><div class="line"><span class="meta">$</span> pip install django-celery</div></pre></td></tr></table></figure>
+</li>
+<li><p>配置 settings.py：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#settings　配置使用redis来作为celery的后台</span></div><div class="line">BROKER_URL=<span class="string">"redis://localhost:6379/0"</span></div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>settings.py其它配置：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># CELERY_ALWAYS_EAGER = True       #配置该项可以在系统使用celery定义的方法时不用显示打使用xx.delay()来调用</span></div><div class="line"><span class="comment"># CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler'</span></div><div class="line"></div><div class="line"><span class="comment">#broker: 代理</span></div><div class="line"><span class="comment">#backend: 指定保存结果后端</span></div><div class="line"></div><div class="line"><span class="comment">#可以设置没有返回结果，在任务中加入ignore_result属性 @app.task(ignore_result=True)</span></div><div class="line"></div><div class="line"><span class="comment">#CELERY_ENABLE_UTC = False 　　# 不使用UTC</span></div><div class="line"><span class="comment">#CELERY_TIMEZONE = 'Asia/Shanghai'</span></div><div class="line"><span class="comment">#CELERY_TASK_RESULT_EXPIRES = 10 　# 任务结果的时效时间</span></div><div class="line"><span class="comment">#CELERYD_LOG_FILE = BASE_DIR + "/logs/celery/celery.log" # log路径</span></div><div class="line"><span class="comment">#CELERYBEAT_LOG_FILE = BASE_DIR + "/logs/celery/beat.log" # beat log路径</span></div><div class="line"><span class="comment">#CELERY_ACCEPT_CONTENT = ['pickle', 'json', 'msgpack', 'yaml'] # 允许的格式</span></div><div class="line"></div><div class="line"><span class="comment">#CELERY_TASK_SERIALIZER='json'</span></div><div class="line"><span class="comment">#CELERY_RESULT_SERIALIZER='json'</span></div><div class="line"><span class="comment">#CELERY_RESULT_BACKEND='redis://10.0.0.0:6379/0'</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>celery常用命令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span> 1.启动terminal</div><div class="line"><span class="meta">$</span> python manage.py  runserver 0.0.0.0:19999</div><div class="line"><span class="meta"></span></div><div class="line"># 2.启动worker:</div><div class="line"><span class="meta">$</span> python manage.py celery worker --loglevel=info</div><div class="line"><span class="meta"></span></div><div class="line"># 3.Celery会通过celerybeat进程来完成定期任务</div><div class="line"><span class="meta">$</span> python manage.py celery beat</div><div class="line"><span class="meta"></span></div><div class="line"># 4.后台运行/重启/停止/停止等待</div><div class="line"><span class="meta">$</span> python manage celery multi start/restart/stop/stopwait w1 -A proj -l info</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="代码编写："><a href="#代码编写：" class="headerlink" title="代码编写："></a>代码编写：</h3><ul>
+<li><p>目录：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">tom@aric-ThinkPad-E450:~/djangoapp/djangoapp/tasks$ tree</div><div class="line">.</div><div class="line">├── __init__.py</div><div class="line">├── task_a.py</div><div class="line">├── task_b.py</div><div class="line">└── tasks.py</div></pre></td></tr></table></figure>
+</li>
+<li><p>tasks.py</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># -*- coding: UTF-8 -*-</span></div><div class="line"><span class="string">"""</span></div><div class="line">celery启动时会自动扫描tasks.py 这个文件,</div><div class="line">使用时需要导入子模块</div><div class="line">"""</div><div class="line"></div><div class="line"><span class="keyword">from</span> celery <span class="keyword">import</span> platforms</div><div class="line"></div><div class="line"><span class="comment"># 导入任务子模块</span></div><div class="line"><span class="keyword">from</span> task_a <span class="keyword">import</span> *</div><div class="line"><span class="keyword">from</span> task_b <span class="keyword">import</span> *</div><div class="line"></div><div class="line"><span class="comment"># 开启超级管理员使用模式</span></div><div class="line">platforms.C_FORCE_ROOT = <span class="keyword">True</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>tasks_a.py</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># -*- coding: UTF-8 -*-</span></div><div class="line"><span class="string">"""</span></div><div class="line">usage: add.delay(1, 10)</div><div class="line"></div><div class="line">: function_name.delay(**args)</div><div class="line"></div><div class="line">"""</div><div class="line"><span class="keyword">import</span> threading</div><div class="line"><span class="keyword">import</span> time</div><div class="line"></div><div class="line"><span class="keyword">import</span> celery</div><div class="line"></div><div class="line"><span class="comment"># 创建task对象</span></div><div class="line"><span class="comment"># 注意：修改task代码时,需要重启celery</span></div><div class="line">task = celery.task()</div><div class="line"></div><div class="line"></div><div class="line"><span class="meta">@task</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">add</span><span class="params">(x, y)</span>:</span></div><div class="line">    <span class="string">"""</span></div><div class="line">    打印和返回的内容均会在celery启动的终端中进行打印输出</div><div class="line">    :param x:</div><div class="line">    :param y:</div><div class="line">    :return:</div><div class="line">    """</div><div class="line">    <span class="keyword">print</span> <span class="string">'%s: begin...'</span> % threading.Thread().getName()</div><div class="line">    time.sleep(<span class="number">10</span>)</div><div class="line">    <span class="keyword">print</span> <span class="string">'%s: end...'</span> % threading.Thread().getName()</div><div class="line">    <span class="keyword">return</span> <span class="string">'[[return data:%s,%s]]'</span> % (x, y)</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="celery-4-1-0"><a href="#celery-4-1-0" class="headerlink" title="celery (4.1.0)"></a>celery (4.1.0)</h2>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;celery分布式任务队列&quot;&gt;&lt;a href=&quot;#celery分布式任务队列&quot; class=&quot;headerlink&quot; title=&quot;celery分布式任务队列&quot;&gt;&lt;/a&gt;celery分布式任务队列&lt;/h1&gt;&lt;blockquote&gt;
+&lt;p&gt;celery是一种简单、灵活、可靠的分布式系统，可以处理大量的信息，是一个以实时处理为重点，同时支持任务调度的任务队列&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id=&quot;版本差异使用&quot;&gt;&lt;a href=&quot;#版本差异使用&quot; class=&quot;headerlink&quot; title=&quot;版本差异使用&quot;&gt;&lt;/a&gt;版本差异使用&lt;/h1&gt;&lt;h2 id=&quot;celery-3-1-23-与-django-1-7-8&quot;&gt;&lt;a href=&quot;#celery-3-1-23-与-django-1-7-8&quot; class=&quot;headerlink&quot; title=&quot;celery (3.1.23) 与 django (1.7.8)&quot;&gt;&lt;/a&gt;celery (3.1.23) 与 django (1.7.8)&lt;/h2&gt;&lt;h3 id=&quot;安装：&quot;&gt;&lt;a href=&quot;#安装：&quot; class=&quot;headerlink&quot; title=&quot;安装：&quot;&gt;&lt;/a&gt;安装：&lt;/h3&gt;  &lt;figure class=&quot;highlight shell&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;meta&quot;&gt;$&lt;/span&gt; pip install celery==3.1.23&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;meta&quot;&gt;$&lt;/span&gt; pip install django-celery==3.1.17&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;meta&quot;&gt;$&lt;/span&gt; pip install django-celery-with-redis==3.0&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h3 id=&quot;settings-py&quot;&gt;&lt;a href=&quot;#settings-py&quot; class=&quot;headerlink&quot; title=&quot;settings.py :&quot;&gt;&lt;/a&gt;settings.py :&lt;/h3&gt;&lt;blockquote&gt;
+&lt;p&gt;在&lt;code&gt;INSTALLED_APPS&lt;/code&gt;中添加的&lt;code&gt;djcelery&lt;/code&gt;是必须的. &lt;code&gt;kombu.transport.django&lt;/code&gt;则是基于Django的broker&lt;br&gt;&lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;5&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;6&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;7&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;8&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;9&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;10&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;11&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;12&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;13&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;14&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;15&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;16&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;17&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;18&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;19&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;20&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# settings.py&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; djcelery&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;INSTALLED_APPS = (&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;string&quot;&gt;&#39;...&#39;&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;string&quot;&gt;&#39;djcelery&#39;&lt;/span&gt;,&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;string&quot;&gt;&#39;kombu.transport.django&#39;&lt;/span&gt;,&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;string&quot;&gt;&#39;djangoapp.tasks&#39;&lt;/span&gt; &lt;span class=&quot;comment&quot;&gt;# 任务模块&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;string&quot;&gt;&#39;...&#39;&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;)&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# 启动后会默认在INSTALLED_APPS寻找tasks.py这个文件,将里面的@task()标记的方法加入任务列表&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;djcelery.setup_loader()  &lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# celery模块其他配置参数&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;CELERY_ENABLE_UTC = &lt;span class=&quot;keyword&quot;&gt;False&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;CELERY_TIMEZONE = &lt;span class=&quot;string&quot;&gt;&#39;Asia/Shanghai&#39;&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;### 以上为公共配置,不管谁做后台都一样&lt;/span&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+    
+    </summary>
+    
+      <category term="Python-celery" scheme="https://tomoncle.github.io/categories/Python-celery/"/>
+    
+    
+      <category term="Python" scheme="https://tomoncle.github.io/tags/Python/"/>
+    
+      <category term="Distributed" scheme="https://tomoncle.github.io/tags/Distributed/"/>
+    
+      <category term="Queue" scheme="https://tomoncle.github.io/tags/Queue/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Kubernetes集群高可用配置</title>
     <link href="https://tomoncle.github.io/2017/07/08/kubernetes-ha/"/>
     <id>https://tomoncle.github.io/2017/07/08/kubernetes-ha/</id>
     <published>2017-07-08T06:30:21.000Z</published>
-    <updated>2017-09-19T06:30:38.470Z</updated>
+    <updated>2018-04-02T07:42:33.628Z</updated>
     
     <content type="html"><![CDATA[<h1 id="Kubernetes-Cluster-HA"><a href="#Kubernetes-Cluster-HA" class="headerlink" title="Kubernetes Cluster HA"></a>Kubernetes Cluster HA</h1><blockquote>
 <p>apiserver do cluster,controller-manager and scheduler do HA<br>servers(centos7):192.168.137.145~147</p>
 </blockquote>
-<a id="more"></a>
 <h2 id="环境准备工作"><a href="#环境准备工作" class="headerlink" title="环境准备工作"></a>环境准备工作</h2><pre><code>#关闭防火墙
 systemctl stop firewalld &amp;&amp; systemctl disable firewalld
 
@@ -34,7 +123,8 @@ setenforce 0
 #编辑/etc/selinux/config  SELINUX=disabled
 sed -i &quot;s/SELINUX=enforcing/SELINUX=disabled/g&quot; /etc/selinux/config
 </code></pre><h2 id="软件安装"><a href="#软件安装" class="headerlink" title="软件安装"></a>软件安装</h2><pre><code>yum -y install etcd kubernetes 
-</code></pre><h2 id="ETCD集群"><a href="#ETCD集群" class="headerlink" title="ETCD集群"></a>ETCD集群</h2><p>获取etcd集群token</p>
+</code></pre><a id="more"></a>
+<h2 id="ETCD集群"><a href="#ETCD集群" class="headerlink" title="ETCD集群"></a>ETCD集群</h2><p>获取etcd集群token</p>
 <pre><code>#获取etcd集群token (https://discovery.etcd.io/3254bffbbd2a7814f401733088931eaa)
 curl https://discovery.etcd.io/new?size=3
 </code></pre><p>etcd配置/etc/etcd/etcd.conf</p>
@@ -183,6 +273,15 @@ KUBELET_ARGS=&quot;&quot;
       &lt;h1 id=&quot;Kubernetes-Cluster-HA&quot;&gt;&lt;a href=&quot;#Kubernetes-Cluster-HA&quot; class=&quot;headerlink&quot; title=&quot;Kubernetes Cluster HA&quot;&gt;&lt;/a&gt;Kubernetes Cluster HA&lt;/h1&gt;&lt;blockquote&gt;
 &lt;p&gt;apiserver do cluster,controller-manager and scheduler do HA&lt;br&gt;servers(centos7):192.168.137.145~147&lt;/p&gt;
 &lt;/blockquote&gt;
+&lt;h2 id=&quot;环境准备工作&quot;&gt;&lt;a href=&quot;#环境准备工作&quot; class=&quot;headerlink&quot; title=&quot;环境准备工作&quot;&gt;&lt;/a&gt;环境准备工作&lt;/h2&gt;&lt;pre&gt;&lt;code&gt;#关闭防火墙
+systemctl stop firewalld &amp;amp;&amp;amp; systemctl disable firewalld
+
+#关闭selinux
+setenforce 0 
+#编辑/etc/selinux/config  SELINUX=disabled
+sed -i &amp;quot;s/SELINUX=enforcing/SELINUX=disabled/g&amp;quot; /etc/selinux/config
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&quot;软件安装&quot;&gt;&lt;a href=&quot;#软件安装&quot; class=&quot;headerlink&quot; title=&quot;软件安装&quot;&gt;&lt;/a&gt;软件安装&lt;/h2&gt;&lt;pre&gt;&lt;code&gt;yum -y install etcd kubernetes 
+&lt;/code&gt;&lt;/pre&gt;
     
     </summary>
     

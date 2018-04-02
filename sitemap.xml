@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://tomoncle.github.io/2017/07/08/kubernetes-ha/</loc>
+    
+    <lastmod>2018-04-02T07:42:33.628Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://tomoncle.github.io/2018/04/02/celery/</loc>
+    
+    <lastmod>2018-04-02T07:38:43.752Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://tomoncle.github.io/about/index.html</loc>
     
     <lastmod>2017-09-20T06:26:33.740Z</lastmod>
@@ -12,13 +26,6 @@
     <loc>https://tomoncle.github.io/tags/index.html</loc>
     
     <lastmod>2017-09-19T06:30:38.474Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://tomoncle.github.io/2017/07/08/kubernetes-ha/</loc>
-    
-    <lastmod>2017-09-19T06:30:38.470Z</lastmod>
     
   </url>
   
