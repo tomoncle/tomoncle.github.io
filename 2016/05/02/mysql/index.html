@@ -1,0 +1,906 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Mysql," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="tomoncle" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="mysql安装 整理一些常用的mysql命令与一些示例.  初始化配置初始化root密码：mysqladmin -u root password &amp;#39;root&amp;#39;修改root密码1234@&amp;gt;mysql -u root -p@&amp;gt;密码MySQL&amp;gt;update mysql.user set password=password(&amp;apos;新密码&amp;apos;) where U">
+<meta name="keywords" content="Mysql">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mysql常用命令">
+<meta property="og:url" content="https://tomoncle.github.io/2016/05/02/mysql/index.html">
+<meta property="og:site_name" content="tomoncle">
+<meta property="og:description" content="mysql安装 整理一些常用的mysql命令与一些示例.  初始化配置初始化root密码：mysqladmin -u root password &amp;#39;root&amp;#39;修改root密码1234@&amp;gt;mysql -u root -p@&amp;gt;密码MySQL&amp;gt;update mysql.user set password=password(&amp;apos;新密码&amp;apos;) where U">
+<meta property="og:updated_time" content="2018-04-02T09:22:03.424Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="mysql常用命令">
+<meta name="twitter:description" content="mysql安装 整理一些常用的mysql命令与一些示例.  初始化配置初始化root密码：mysqladmin -u root password &amp;#39;root&amp;#39;修改root密码1234@&amp;gt;mysql -u root -p@&amp;gt;密码MySQL&amp;gt;update mysql.user set password=password(&amp;apos;新密码&amp;apos;) where U">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '6NFT839C0P',
+      apiKey: '9d2da1e94178f2e64089e2d9184f436a',
+      indexName: 'tomoncle.github.io',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+   (function(){
+        if(''){
+            if (prompt('请输入文章密码') !== ''){
+                alert('密码错误！');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+  <link rel="canonical" href="https://tomoncle.github.io/2016/05/02/mysql/"/>
+
+
+
+
+
+  <title>mysql常用命令 | tomoncle</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?e2058eb9aa2d0f4414b9165a0dd65686";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta custom-logo">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">tomoncle</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">tomoncle</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://tomoncle.github.io/2016/05/02/mysql/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Tom Lee">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/17229533.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="tomoncle">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">mysql常用命令</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-05-02T17:16:08+08:00">
+                2016-05-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Mysql/" itemprop="url" rel="index">
+                    <span itemprop="name">Mysql</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="mysql安装"><a href="#mysql安装" class="headerlink" title="mysql安装"></a>mysql安装</h1><blockquote>
+<p>整理一些常用的mysql命令与一些示例.</p>
+</blockquote>
+<h1 id="初始化配置"><a href="#初始化配置" class="headerlink" title="初始化配置"></a>初始化配置</h1><h4 id="初始化root密码：mysqladmin-u-root-password-39-root-39"><a href="#初始化root密码：mysqladmin-u-root-password-39-root-39" class="headerlink" title="初始化root密码：mysqladmin -u root password &#39;root&#39;"></a>初始化root密码：<code>mysqladmin -u root password &#39;root&#39;</code></h4><h4 id="修改root密码"><a href="#修改root密码" class="headerlink" title="修改root密码"></a>修改root密码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">@&gt;mysql -u root -p</div><div class="line">@&gt;密码</div><div class="line">MySQL&gt;update mysql.user set password=password(&apos;新密码&apos;) where User=&quot;admin&quot; and Host=&quot;localhost&quot;;</div><div class="line">MySQL&gt;flush privileges;</div></pre></td></tr></table></figure>
+<h4 id="开启远程访问"><a href="#开启远程访问" class="headerlink" title="开启远程访问"></a>开启远程访问</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">MySQL&gt;use mysql; </div><div class="line">MySQL&gt;update user set host = &apos;%&apos; where user = &apos;root&apos;;</div><div class="line">MySQL&gt;flush privileges;</div></pre></td></tr></table></figure>
+<h4 id="异常：ERROR-1062-23000-Duplicate-entry-‘-root’-for-key-‘PRIMARY’"><a href="#异常：ERROR-1062-23000-Duplicate-entry-‘-root’-for-key-‘PRIMARY’" class="headerlink" title="异常：ERROR 1062 (23000): Duplicate entry ‘%-root’ for key ‘PRIMARY’"></a>异常：ERROR 1062 (23000): Duplicate entry ‘%-root’ for key ‘PRIMARY’</h4><p>使用命令 <code>select host from user where user=&#39;root&#39;;</code>查看是否存在了<strong>host=’%’</strong>,如果存在，直接命令：<code>flush privileges;</code></p>
+<a id="more"></a>
+<h1 id="linux常用命令"><a href="#linux常用命令" class="headerlink" title="linux常用命令"></a>linux常用命令</h1><p>操作命令要以分号结束</p>
+<h3 id="登陆"><a href="#登陆" class="headerlink" title="登陆"></a>登陆</h3><pre><code>mysql -uroot -p
+</code></pre><h3 id="终端清屏"><a href="#终端清屏" class="headerlink" title="终端清屏"></a>终端清屏</h3><pre><code>mysql&gt; system clear
+</code></pre><h2 id="创建："><a href="#创建：" class="headerlink" title="创建："></a>创建：</h2><h5 id="创建数据库："><a href="#创建数据库：" class="headerlink" title="创建数据库："></a>创建数据库：</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">mysql -h localhost -P 3306 -uroot -p123456 &lt;&lt;EOF</div><div class="line">  CREATE DATABASE db_name;</div><div class="line">  alter database db_name character set utf8;</div><div class="line">  GRANT ALL PRIVILEGES ON db_name.* TO 'user_name'@'localhost' IDENTIFIED BY 'password';</div><div class="line">  GRANT ALL PRIVILEGES ON db_name.* TO 'user_name'@'%' IDENTIFIED BY 'password';</div><div class="line">  FLUSH PRIVILEGES;</div><div class="line">  exit</div><div class="line">EOF</div></pre></td></tr></table></figure>
+<h2 id="查看"><a href="#查看" class="headerlink" title="查看"></a>查看</h2><h5 id="查看数据库："><a href="#查看数据库：" class="headerlink" title="查看数据库："></a>查看数据库：</h5><pre><code>show databases;
+</code></pre><h5 id="进入数据库："><a href="#进入数据库：" class="headerlink" title="进入数据库："></a>进入数据库：</h5><pre><code>use test;
+</code></pre><h5 id="查看数据库表："><a href="#查看数据库表：" class="headerlink" title="查看数据库表："></a>查看数据库表：</h5><pre><code>show tables;
+
+select table_name from information_schema.tables where table_schema=&apos;king-aric&apos;;
+</code></pre><h5 id="查看表结构："><a href="#查看表结构：" class="headerlink" title="查看表结构："></a>查看表结构：</h5><pre><code>desc tablename;
+</code></pre><h5 id="查看表数据："><a href="#查看表数据：" class="headerlink" title="查看表数据："></a>查看表数据：</h5><pre><code>select * from tablename;
+select * from tablename\G
+</code></pre><h5 id="生成删除test数据库的所有表的结果集"><a href="#生成删除test数据库的所有表的结果集" class="headerlink" title="生成删除test数据库的所有表的结果集"></a>生成删除test数据库的所有表的结果集</h5><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">mysql&gt; </div><div class="line">mysql&gt; SELECT concat('DROP TABLE IF EXISTS ', table_name, ';')</div><div class="line">    -&gt; FROM information_schema.tables</div><div class="line">    -&gt; WHERE table_schema = 'test';</div><div class="line">+--------------------------------------------------+</div><div class="line">| concat('DROP TABLE IF EXISTS ', table_name, ';') |</div><div class="line">+--------------------------------------------------+</div><div class="line">| DROP TABLE IF EXISTS celery_taskmeta;            |</div><div class="line">| DROP TABLE IF EXISTS celery_tasksetmeta;         |</div><div class="line">| DROP TABLE IF EXISTS cloud_center;               |</div><div class="line">| DROP TABLE IF EXISTS cloud_version;              |</div><div class="line">| DROP TABLE IF EXISTS cron_model;                 |</div><div class="line">+--------------------------------------------------+</div><div class="line">5 rows in set (0.07 sec)</div><div class="line"></div><div class="line">mysql&gt; DROP TABLE IF EXISTS celery_taskmeta;</div></pre></td></tr></table></figure>
+<h5 id="生成清空test数据库所有表数据结果集"><a href="#生成清空test数据库所有表数据结果集" class="headerlink" title="生成清空test数据库所有表数据结果集"></a>生成清空test数据库所有表数据结果集</h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">SELECT</span> <span class="keyword">concat</span>(<span class="string">'TRUNCATE TABLE '</span>, table_name, <span class="string">';'</span>) <span class="keyword">FROM</span> information_schema.tables <span class="keyword">WHERE</span> table_schema = <span class="string">'test'</span>;</div></pre></td></tr></table></figure>
+<h2 id="mysql备份"><a href="#mysql备份" class="headerlink" title="mysql备份"></a>mysql备份</h2><h3 id="只导出表结构"><a href="#只导出表结构" class="headerlink" title="只导出表结构"></a>只导出表结构</h3><h5 id="导出整个数据库结构（不包含数据）"><a href="#导出整个数据库结构（不包含数据）" class="headerlink" title="导出整个数据库结构（不包含数据）"></a>导出整个数据库结构（不包含数据）</h5><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">root@aric-ThinkPad-E450:/# mysqldump -h localhost -uroot -p -d database &gt; dump.sql</div></pre></td></tr></table></figure>
+<h5 id="导出单个数据表结构（不包含数据）"><a href="#导出单个数据表结构（不包含数据）" class="headerlink" title="导出单个数据表结构（不包含数据）"></a>导出单个数据表结构（不包含数据）</h5><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">root@aric-ThinkPad-E450:/# mysqldump -h localhost -uroot -p  -d database table &gt; dump.sql</div></pre></td></tr></table></figure>
+<h3 id="只导出表数据"><a href="#只导出表数据" class="headerlink" title="只导出表数据"></a>只导出表数据</h3><h5 id="导出整个数据库数据"><a href="#导出整个数据库数据" class="headerlink" title="导出整个数据库数据"></a>导出整个数据库数据</h5><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">root@aric-ThinkPad-E450:/# mysqldump -h localhost -uroot -p  -t database &gt; dump.sql</div></pre></td></tr></table></figure>
+<h5 id="导出数据库一个表数据"><a href="#导出数据库一个表数据" class="headerlink" title="导出数据库一个表数据"></a>导出数据库一个表数据</h5><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">root@aric-ThinkPad-E450:/# mysqldump -h localhost -uroot -p  -t database table &gt; table_dump.sql</div></pre></td></tr></table></figure>
+<h3 id="导出结构-数据"><a href="#导出结构-数据" class="headerlink" title="导出结构+数据"></a>导出结构+数据</h3><h5 id="导出整个数据库结构和数据"><a href="#导出整个数据库结构和数据" class="headerlink" title="导出整个数据库结构和数据"></a>导出整个数据库结构和数据</h5><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">root@aric-ThinkPad-E450:/# mysqldump -h localhost -uroot -p database &gt; dump.sql</div></pre></td></tr></table></figure>
+<h5 id="导出单个数据表结构和数据"><a href="#导出单个数据表结构和数据" class="headerlink" title="导出单个数据表结构和数据"></a>导出单个数据表结构和数据</h5><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">root@aric-ThinkPad-E450:/# mysqldump -h localhost -uroot -p  database table &gt; dump.sql</div></pre></td></tr></table></figure>
+<h2 id="mysql脚本"><a href="#mysql脚本" class="headerlink" title="mysql脚本"></a>mysql脚本</h2><h3 id="保存生成＂删除test数据库＂的脚本到文件"><a href="#保存生成＂删除test数据库＂的脚本到文件" class="headerlink" title="保存生成＂删除test数据库＂的脚本到文件"></a>保存生成＂删除test数据库＂的脚本到文件</h3><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">root@aric-ThinkPad-E450:/# </div><div class="line">root@aric-ThinkPad-E450:/# mysql -p  -N -s information_schema -e "SELECT CONCAT('delete from ',TABLE_NAME,';') FROM TABLES WHERE TABLE_SCHEMA='test'" &gt; /opt/temp.sql;</div><div class="line">Enter password: </div><div class="line">root@aric-ThinkPad-E450:/# cat /opt/temp.sql</div></pre></td></tr></table></figure>
+<h3 id="执行sql脚本-参数-“-D数据库”-到test数据库"><a href="#执行sql脚本-参数-“-D数据库”-到test数据库" class="headerlink" title="执行sql脚本[参数　“-D数据库”]到test数据库"></a>执行sql脚本[参数　“-D数据库”]到test数据库</h3><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">root@aric-ThinkPad-E450:/# mysql -p -Dtest &lt; /opt/temp.sql</div></pre></td></tr></table></figure>
+<h3 id="执行sql语句"><a href="#执行sql语句" class="headerlink" title="执行sql语句"></a>执行sql语句</h3><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">root@aric-ThinkPad-E450:/# mysql -p -e "select * from test.users"</div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>Adhere to the original technology sharing, your support will encourage me to continue writing!</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wx.jpg" alt="Tom Lee WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/zfb.jpg" alt="Tom Lee Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Mysql/" rel="tag"><i class="fa fa-tag"></i> Mysql</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/05/02/MQ/" rel="prev" title="MQ安装整理">
+                MQ安装整理 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/17229533.jpg"
+               alt="Tom Lee" />
+          <p class="site-author-name" itemprop="name">Tom Lee</p>
+           
+              <p class="site-description motion-element" itemprop="description">Do as you would be done by others.</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/tomoncle" rel="external nofollow" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://blog.csdn.net/king_aric" rel="external nofollow" target="_blank" title="CSDN">
+                  
+                    <i class="fa fa-fw fa-crosshairs"></i>
+                  
+                  CSDN
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#mysql安装"><span class="nav-number">1.</span> <span class="nav-text">mysql安装</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#初始化配置"><span class="nav-number">2.</span> <span class="nav-text">初始化配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#初始化root密码：mysqladmin-u-root-password-39-root-39"><span class="nav-number">2.0.0.1.</span> <span class="nav-text">初始化root密码：mysqladmin -u root password 'root'</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#修改root密码"><span class="nav-number">2.0.0.2.</span> <span class="nav-text">修改root密码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#开启远程访问"><span class="nav-number">2.0.0.3.</span> <span class="nav-text">开启远程访问</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#异常：ERROR-1062-23000-Duplicate-entry-‘-root’-for-key-‘PRIMARY’"><span class="nav-number">2.0.0.4.</span> <span class="nav-text">异常：ERROR 1062 (23000): Duplicate entry ‘%-root’ for key ‘PRIMARY’</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#linux常用命令"><span class="nav-number">3.</span> <span class="nav-text">linux常用命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#登陆"><span class="nav-number">3.0.1.</span> <span class="nav-text">登陆</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#终端清屏"><span class="nav-number">3.0.2.</span> <span class="nav-text">终端清屏</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建："><span class="nav-number">3.1.</span> <span class="nav-text">创建：</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#创建数据库："><span class="nav-number">3.1.0.0.1.</span> <span class="nav-text">创建数据库：</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查看"><span class="nav-number">3.2.</span> <span class="nav-text">查看</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#查看数据库："><span class="nav-number">3.2.0.0.1.</span> <span class="nav-text">查看数据库：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#进入数据库："><span class="nav-number">3.2.0.0.2.</span> <span class="nav-text">进入数据库：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#查看数据库表："><span class="nav-number">3.2.0.0.3.</span> <span class="nav-text">查看数据库表：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#查看表结构："><span class="nav-number">3.2.0.0.4.</span> <span class="nav-text">查看表结构：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#查看表数据："><span class="nav-number">3.2.0.0.5.</span> <span class="nav-text">查看表数据：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#生成删除test数据库的所有表的结果集"><span class="nav-number">3.2.0.0.6.</span> <span class="nav-text">生成删除test数据库的所有表的结果集</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#生成清空test数据库所有表数据结果集"><span class="nav-number">3.2.0.0.7.</span> <span class="nav-text">生成清空test数据库所有表数据结果集</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mysql备份"><span class="nav-number">3.3.</span> <span class="nav-text">mysql备份</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#只导出表结构"><span class="nav-number">3.3.1.</span> <span class="nav-text">只导出表结构</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#导出整个数据库结构（不包含数据）"><span class="nav-number">3.3.1.0.1.</span> <span class="nav-text">导出整个数据库结构（不包含数据）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#导出单个数据表结构（不包含数据）"><span class="nav-number">3.3.1.0.2.</span> <span class="nav-text">导出单个数据表结构（不包含数据）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#只导出表数据"><span class="nav-number">3.3.2.</span> <span class="nav-text">只导出表数据</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#导出整个数据库数据"><span class="nav-number">3.3.2.0.1.</span> <span class="nav-text">导出整个数据库数据</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#导出数据库一个表数据"><span class="nav-number">3.3.2.0.2.</span> <span class="nav-text">导出数据库一个表数据</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#导出结构-数据"><span class="nav-number">3.3.3.</span> <span class="nav-text">导出结构+数据</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#导出整个数据库结构和数据"><span class="nav-number">3.3.3.0.1.</span> <span class="nav-text">导出整个数据库结构和数据</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#导出单个数据表结构和数据"><span class="nav-number">3.3.3.0.2.</span> <span class="nav-text">导出单个数据表结构和数据</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mysql脚本"><span class="nav-number">3.4.</span> <span class="nav-text">mysql脚本</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#保存生成＂删除test数据库＂的脚本到文件"><span class="nav-number">3.4.1.</span> <span class="nav-text">保存生成＂删除test数据库＂的脚本到文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#执行sql脚本-参数-“-D数据库”-到test数据库"><span class="nav-number">3.4.2.</span> <span class="nav-text">执行sql脚本[参数　“-D数据库”]到test数据库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#执行sql语句"><span class="nav-number">3.4.3.</span> <span class="nav-text">执行sql语句</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Tom Lee</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" rel="external nofollow" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" rel="external nofollow" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=5.1.1"></script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

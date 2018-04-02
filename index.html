@@ -333,150 +333,6 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://tomoncle.github.io/2018/04/02/celery/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Tom Lee">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/17229533.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="tomoncle">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/04/02/celery/" itemprop="url">celery分布式任务队列</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-04-02T15:20:27+08:00">
-                2018-04-02
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Python-celery/" itemprop="url" rel="index">
-                    <span itemprop="name">Python-celery</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="celery分布式任务队列"><a href="#celery分布式任务队列" class="headerlink" title="celery分布式任务队列"></a>celery分布式任务队列</h1><blockquote>
-<p>celery是一种简单、灵活、可靠的分布式系统，可以处理大量的信息，是一个以实时处理为重点，同时支持任务调度的任务队列</p>
-</blockquote>
-<h1 id="版本差异使用"><a href="#版本差异使用" class="headerlink" title="版本差异使用"></a>版本差异使用</h1><h2 id="celery-3-1-23-与-django-1-7-8"><a href="#celery-3-1-23-与-django-1-7-8" class="headerlink" title="celery (3.1.23) 与 django (1.7.8)"></a>celery (3.1.23) 与 django (1.7.8)</h2><h3 id="安装："><a href="#安装：" class="headerlink" title="安装："></a>安装：</h3>  <figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">$</span> pip install celery==3.1.23</div><div class="line"><span class="meta">$</span> pip install django-celery==3.1.17</div><div class="line"><span class="meta">$</span> pip install django-celery-with-redis==3.0</div></pre></td></tr></table></figure>
-<h3 id="settings-py"><a href="#settings-py" class="headerlink" title="settings.py :"></a>settings.py :</h3><blockquote>
-<p>在<code>INSTALLED_APPS</code>中添加的<code>djcelery</code>是必须的. <code>kombu.transport.django</code>则是基于Django的broker<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># settings.py</span></div><div class="line"></div><div class="line"><span class="keyword">import</span> djcelery</div><div class="line"></div><div class="line">INSTALLED_APPS = (</div><div class="line">    <span class="string">'...'</span></div><div class="line">    <span class="string">'djcelery'</span>,</div><div class="line">    <span class="string">'kombu.transport.django'</span>,</div><div class="line">    <span class="string">'djangoapp.tasks'</span> <span class="comment"># 任务模块</span></div><div class="line">    <span class="string">'...'</span></div><div class="line">)</div><div class="line"></div><div class="line"><span class="comment"># 启动后会默认在INSTALLED_APPS寻找tasks.py这个文件,将里面的@task()标记的方法加入任务列表</span></div><div class="line">djcelery.setup_loader()  </div><div class="line"></div><div class="line"><span class="comment"># celery模块其他配置参数</span></div><div class="line">CELERY_ENABLE_UTC = <span class="keyword">False</span></div><div class="line">CELERY_TIMEZONE = <span class="string">'Asia/Shanghai'</span></div><div class="line"></div><div class="line"><span class="comment">### 以上为公共配置,不管谁做后台都一样</span></div></pre></td></tr></table></figure></p>
-</blockquote>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/04/02/celery/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="https://tomoncle.github.io/2017/07/08/kubernetes-ha/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -617,9 +473,588 @@ sed -i &quot;s/SELINUX=enforcing/SELINUX=disabled/g&quot; /etc/selinux/config
 
 
     
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://tomoncle.github.io/2017/06/02/openSource/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Tom Lee">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/17229533.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="tomoncle">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/06/02/openSource/" itemprop="url">开源文档集</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-06-02T16:55:50+08:00">
+                2017-06-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/docs/" itemprop="url" rel="index">
+                    <span itemprop="name">docs</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="Docs"><a href="#Docs" class="headerlink" title="Docs"></a>Docs</h1><ul>
+<li><a href="http://tool.oschina.net/" target="_blank" rel="external">在线工具库</a> | <a href="http://tool.oschina.net/apidocs" target="_blank" rel="external">API 文档</a> | <a href="http://tool.oschina.net/markdown" target="_blank" rel="external">在线 Markdown 编译器</a></li>
+</ul>
+<h1 id="Open-Test-Service"><a href="#Open-Test-Service" class="headerlink" title="Open Test Service"></a>Open Test Service</h1><ul>
+<li><a href="https://httpbin.org" target="_blank" rel="external">开源测试服务</a></li>
+</ul>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/06/02/openSource/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://tomoncle.github.io/2016/11/02/celery/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Tom Lee">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/17229533.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="tomoncle">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2016/11/02/celery/" itemprop="url">celery分布式任务队列</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-11-02T15:20:27+08:00">
+                2016-11-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python-celery/" itemprop="url" rel="index">
+                    <span itemprop="name">Python-celery</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="celery分布式任务队列"><a href="#celery分布式任务队列" class="headerlink" title="celery分布式任务队列"></a>celery分布式任务队列</h1><blockquote>
+<p>celery是一种简单、灵活、可靠的分布式系统，可以处理大量的信息，是一个以实时处理为重点，同时支持任务调度的任务队列</p>
+</blockquote>
+<h1 id="版本差异使用"><a href="#版本差异使用" class="headerlink" title="版本差异使用"></a>版本差异使用</h1><h2 id="celery-3-1-23-与-django-1-7-8"><a href="#celery-3-1-23-与-django-1-7-8" class="headerlink" title="celery (3.1.23) 与 django (1.7.8)"></a>celery (3.1.23) 与 django (1.7.8)</h2><h3 id="安装："><a href="#安装：" class="headerlink" title="安装："></a>安装：</h3>  <figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">$</span> pip install celery==3.1.23</div><div class="line"><span class="meta">$</span> pip install django-celery==3.1.17</div><div class="line"><span class="meta">$</span> pip install django-celery-with-redis==3.0</div></pre></td></tr></table></figure>
+<h3 id="settings-py"><a href="#settings-py" class="headerlink" title="settings.py :"></a>settings.py :</h3><blockquote>
+<p>在<code>INSTALLED_APPS</code>中添加的<code>djcelery</code>是必须的. <code>kombu.transport.django</code>则是基于Django的broker<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># settings.py</span></div><div class="line"></div><div class="line"><span class="keyword">import</span> djcelery</div><div class="line"></div><div class="line">INSTALLED_APPS = (</div><div class="line">    <span class="string">'...'</span></div><div class="line">    <span class="string">'djcelery'</span>,</div><div class="line">    <span class="string">'kombu.transport.django'</span>,</div><div class="line">    <span class="string">'djangoapp.tasks'</span> <span class="comment"># 任务模块</span></div><div class="line">    <span class="string">'...'</span></div><div class="line">)</div><div class="line"></div><div class="line"><span class="comment"># 启动后会默认在INSTALLED_APPS寻找tasks.py这个文件,将里面的@task()标记的方法加入任务列表</span></div><div class="line">djcelery.setup_loader()  </div><div class="line"></div><div class="line"><span class="comment"># celery模块其他配置参数</span></div><div class="line">CELERY_ENABLE_UTC = <span class="keyword">False</span></div><div class="line">CELERY_TIMEZONE = <span class="string">'Asia/Shanghai'</span></div><div class="line"></div><div class="line"><span class="comment">### 以上为公共配置,不管谁做后台都一样</span></div></pre></td></tr></table></figure></p>
+</blockquote>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2016/11/02/celery/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://tomoncle.github.io/2016/10/05/redisDynamicAddNodes/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Tom Lee">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/17229533.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="tomoncle">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2016/10/05/redisDynamicAddNodes/" itemprop="url">redis动态添加删除节点</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-10-05T17:39:04+08:00">
+                2016-10-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Redis/" itemprop="url" rel="index">
+                    <span itemprop="name">Redis</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="redis动态添加、删除节点"><a href="#redis动态添加、删除节点" class="headerlink" title="redis动态添加、删除节点"></a>redis动态添加、删除节点</h1><h2 id="添加节点"><a href="#添加节点" class="headerlink" title="添加节点"></a>添加节点</h2><ul>
+<li>添加节点命令： <strong><code>./redis/bin/redis-trib.rb add-node 新节点ip:端口 已知节点ip:端口</code></strong> <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[root@node1 redis-cluster]<span class="comment">#./redis/bin/redis-trib.rb add-node 192.168.137.147:7007 192.168.137.147:7001</span></div></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li><p>添加slave节点（方式1） :</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[root@node1 redis-cluster]<span class="comment">#./redis/bin/redis-trib.rb add-node  --slave --master-id 813befe6b157312120c27c0d29573b84e79245a7 192.168.137.147:7008 192.168.137.147:7007</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>添加slave节点（方式2） ：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">[root@node1 redis-cluster]<span class="comment">#./redis/bin/redis-trib.rb add-node 192.168.137.147:7008 192.168.137.147:7007</span></div><div class="line">[root@node1 redis-cluster]<span class="comment">#</span></div><div class="line">[root@node1 redis-cluster]<span class="comment"># ./redis/bin/redis-cli -c -h 192.168.137.147 -p 7008</span></div><div class="line">192.168.137.147:7008&gt; CLUSTER REPLICATE 813befe6b157312120c27c0d29573b84e79245a7</div><div class="line">OK</div><div class="line">192.168.137.147:7008&gt;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2016/10/05/redisDynamicAddNodes/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://tomoncle.github.io/2016/10/02/redisStandby/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Tom Lee">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/17229533.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="tomoncle">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2016/10/02/redisStandby/" itemprop="url">redis主从模式配置</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-10-02T17:38:28+08:00">
+                2016-10-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Redis/" itemprop="url" rel="index">
+                    <span itemprop="name">Redis</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="redis主备环境搭建master-slave"><a href="#redis主备环境搭建master-slave" class="headerlink" title="redis主备环境搭建master-slave"></a>redis主备环境搭建master-slave</h1><p>以下我在本地一台服务器搭建一个master–slave 主从复制结构</p>
+<h3 id="服务安装目录结构"><a href="#服务安装目录结构" class="headerlink" title="服务安装目录结构"></a>服务安装目录结构</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">[root@node1 redis]# tree</div><div class="line">.</div><div class="line">├── bin</div><div class="line">│   ├── redis-benchmark</div><div class="line">│   ├── redis-check-aof</div><div class="line">│   ├── redis-check-rdb</div><div class="line">│   ├── redis-cli</div><div class="line">│   ├── redis-sentinel -&gt; redis-server</div><div class="line">│   └── redis-server</div><div class="line">├── master.conf</div><div class="line">├── node.conf</div><div class="line">├── redis.conf.bak</div><div class="line">└── sentinel.conf</div><div class="line"></div><div class="line">1 directory, 10 files</div></pre></td></tr></table></figure>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2016/10/02/redisStandby/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
   </section>
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
 
 
           </div>
@@ -662,7 +1097,7 @@ sed -i &quot;s/SELINUX=enforcing/SELINUX=disabled/g&quot; /etc/selinux/config
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-count">9</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>
@@ -673,7 +1108,7 @@ sed -i &quot;s/SELINUX=enforcing/SELINUX=disabled/g&quot; /etc/selinux/config
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-count">7</span>
                 <span class="site-state-item-name">categories</span>
               </a>
             </div>
@@ -684,7 +1119,7 @@ sed -i &quot;s/SELINUX=enforcing/SELINUX=disabled/g&quot; /etc/selinux/config
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-count">15</span>
                 <span class="site-state-item-name">tags</span>
               </a>
             </div>

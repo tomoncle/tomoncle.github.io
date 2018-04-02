@@ -77,7 +77,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="activemq,rabbitmq,mq," />
 
 
 
@@ -95,15 +95,17 @@
 
 
 
-<meta name="description" content="Do as you would be done by others.">
-<meta property="og:type" content="website">
-<meta property="og:title" content="tomoncle">
-<meta property="og:url" content="https://tomoncle.github.io/archives/2018/index.html">
+<meta name="description" content="activeMQ安装-下载 1.安装jdk，需要jdk1.7以上版本 2.解压缩activeMQ的压缩包 : tar -zxvf apache-activemq-*-bin.tar.gz 3.进入bin目录启动和停止: 启动 ：./activemq start 停止 ：./activemq stop    访问后台管理: 地址：http://localhost:8161/admin 用户名：adm">
+<meta name="keywords" content="activemq,rabbitmq,mq">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MQ安装整理">
+<meta property="og:url" content="https://tomoncle.github.io/2016/05/02/MQ/index.html">
 <meta property="og:site_name" content="tomoncle">
-<meta property="og:description" content="Do as you would be done by others.">
+<meta property="og:description" content="activeMQ安装-下载 1.安装jdk，需要jdk1.7以上版本 2.解压缩activeMQ的压缩包 : tar -zxvf apache-activemq-*-bin.tar.gz 3.进入bin目录启动和停止: 启动 ：./activemq start 停止 ：./activemq stop    访问后台管理: 地址：http://localhost:8161/admin 用户名：adm">
+<meta property="og:updated_time" content="2018-04-02T09:58:02.696Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="tomoncle">
-<meta name="twitter:description" content="Do as you would be done by others.">
+<meta name="twitter:title" content="MQ安装整理">
+<meta name="twitter:description" content="activeMQ安装-下载 1.安装jdk，需要jdk1.7以上版本 2.解压缩activeMQ的压缩包 : tar -zxvf apache-activemq-*-bin.tar.gz 3.进入bin目录启动和停止: 启动 ：./activemq start 停止 ：./activemq stop    访问后台管理: 地址：http://localhost:8161/admin 用户名：adm">
 
 
 
@@ -138,13 +140,13 @@
 </script>
 
 
-  <link rel="canonical" href="https://tomoncle.github.io/archives/2018/"/>
+  <link rel="canonical" href="https://tomoncle.github.io/2016/05/02/MQ/"/>
 
 
 
 
 
-  <title>Archive | tomoncle</title>
+  <title>MQ安装整理 | tomoncle</title>
   
 
 
@@ -179,7 +181,7 @@
     
   
 
-  <div class="container sidebar-position-left  page-archive  ">
+  <div class="container sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -321,66 +323,226 @@
           <div id="content" class="content">
             
 
-  <section id="posts" class="posts-collapse">
-    <span class="archive-move-on"></span>
+  <div id="posts" class="posts-expand">
+    
 
-    <span class="archive-page-counter">
-      
-      
-      
-        
-      
-      Um..! 2 posts in total. Keep on posting.
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://tomoncle.github.io/2016/05/02/MQ/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Tom Lee">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/17229533.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="tomoncle">
     </span>
 
     
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">MQ安装整理</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-05-02T17:40:29+08:00">
+                2016-05-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/MQ/" itemprop="url" rel="index">
+                    <span itemprop="name">MQ</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
 
       
       
-      
 
+      
+        <h1 id="activeMQ"><a href="#activeMQ" class="headerlink" title="activeMQ"></a>activeMQ</h1><h3 id="安装-下载"><a href="#安装-下载" class="headerlink" title="安装-下载"></a>安装-<a href="http://activemq.apache.org/download-archives.html" target="_blank" rel="external">下载</a></h3><ul>
+<li>1.安装jdk，需要jdk1.7以上版本</li>
+<li>2.解压缩activeMQ的压缩包 : <code>tar -zxvf apache-activemq-*-bin.tar.gz</code></li>
+<li>3.进入<code>bin</code>目录<code>启动</code>和<code>停止</code>:<ul>
+<li>启动 ：<code>./activemq start</code></li>
+<li>停止 ：<code>./activemq stop</code></li>
+</ul>
+</li>
+</ul>
+<h3 id="访问后台管理"><a href="#访问后台管理" class="headerlink" title="访问后台管理:"></a>访问后台管理:</h3><ul>
+<li>地址：<code>http://localhost:8161/admin</code></li>
+<li>用户名：<code>admin</code></li>
+<li>密码：<code>admin</code></li>
+</ul>
+<h3 id="端口说明："><a href="#端口说明：" class="headerlink" title="端口说明："></a>端口说明：</h3><p><code>ActiveMQ</code>默认采用<code>61616</code>端口提供<code>JMS</code>服务，使用<code>8161</code>端口提供管理控制台服务</p>
+<a id="more"></a>
+<h1 id="rabbitMQ"><a href="#rabbitMQ" class="headerlink" title="rabbitMQ"></a>rabbitMQ</h1><h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><h4 id="ubuntu14-04"><a href="#ubuntu14-04" class="headerlink" title="ubuntu14.04"></a>ubuntu14.04</h4><ul>
+<li>安装<code>rabbitMQ</code>, 默认安装依赖的<code>erlang</code>(使用<code>erl</code>命令来检测): <code>sudo apt-get install rabbitmq-server</code></li>
+<li>检测安装目录: <code>whereis rabbitmq</code></li>
+<li>进入安装目录，开启web查看工具：<code>cd /usr/lib/rabbitmq/bin &amp;&amp; rabbitmq-plugins enable rabbitmq_management</code></li>
+<li>重启服务：<code>rabbitmqctl stop &amp; rabbitmq-server start</code></li>
+<li>测试访问：<code>curl http://127.0.0.1:15672/</code></li>
+</ul>
+
+      
+    </div>
+
+    <div>
       
         
-        <div class="collection-title">
-          <h2 class="archive-year motion-element" id="archive-year-2018">2018</h2>
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>Adhere to the original technology sharing, your support will encourage me to continue writing!</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wx.jpg" alt="Tom Lee WeChat Pay"/>
+          <p>微信打赏</p>
         </div>
       
       
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/zfb.jpg" alt="Tom Lee Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
 
       
+    </div>
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
+    <div>
+      
         
-            <a class="post-title-link" href="/2018/04/02/celery/" itemprop="url">
-              
-                <span itemprop="name">celery分布式任务队列</span>
-              
-            </a>
-        
-      </h2>
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-04-02T15:20:27+08:00"
-              content="2018-04-02" >
-          04-02
-        </time>
-      </div>
+      
+    </div>
 
-    </header>
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/activemq/" rel="tag"><i class="fa fa-tag"></i> activemq</a>
+          
+            <a href="/tags/rabbitmq/" rel="tag"><i class="fa fa-tag"></i> rabbitmq</a>
+          
+            <a href="/tags/mq/" rel="tag"><i class="fa fa-tag"></i> mq</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/05/02/mysql/" rel="next" title="mysql常用命令">
+                <i class="fa fa-chevron-left"></i> mysql常用命令
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/06/06/mongodb/" rel="prev" title="mongodb使用整理">
+                mongodb使用整理 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </article>
 
 
 
-    
-
-  </section>
-
-  
-
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -388,6 +550,10 @@
 
 
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
         
@@ -407,8 +573,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/17229533.jpg"
@@ -423,7 +598,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-count">9</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>
@@ -434,7 +609,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-count">7</span>
                 <span class="site-state-item-name">categories</span>
               </a>
             </div>
@@ -445,7 +620,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-count">15</span>
                 <span class="site-state-item-name">tags</span>
               </a>
             </div>
@@ -497,6 +672,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#activeMQ"><span class="nav-number">1.</span> <span class="nav-text">activeMQ</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-下载"><span class="nav-number">1.0.1.</span> <span class="nav-text">安装-下载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#访问后台管理"><span class="nav-number">1.0.2.</span> <span class="nav-text">访问后台管理:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#端口说明："><span class="nav-number">1.0.3.</span> <span class="nav-text">端口说明：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#rabbitMQ"><span class="nav-number">2.</span> <span class="nav-text">rabbitMQ</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装"><span class="nav-number">2.1.</span> <span class="nav-text">安装</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#ubuntu14-04"><span class="nav-number">2.1.0.1.</span> <span class="nav-text">ubuntu14.04</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -642,11 +833,9 @@
 
 
   
-  
-    <script type="text/javascript" id="motion.page.archive">
-      $('.archive-year').velocity('transition.slideLeftIn');
-    </script>
-  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
 
 
   

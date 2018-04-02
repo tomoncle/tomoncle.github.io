@@ -2,16 +2,65 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://tomoncle.github.io/2017/07/08/kubernetes-ha/</loc>
+    <loc>https://tomoncle.github.io/2016/10/05/redisDynamicAddNodes/</loc>
     
-    <lastmod>2018-04-02T07:42:33.628Z</lastmod>
+    <lastmod>2018-04-02T10:10:11.784Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://tomoncle.github.io/2018/04/02/celery/</loc>
+    <loc>https://tomoncle.github.io/2016/10/02/redisStandby/</loc>
     
-    <lastmod>2018-04-02T07:38:43.752Z</lastmod>
+    <lastmod>2018-04-02T10:04:47.860Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://tomoncle.github.io/2016/06/06/mongodb/</loc>
+    
+    <lastmod>2018-04-02T09:58:19.476Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://tomoncle.github.io/2016/05/02/MQ/</loc>
+    
+    <lastmod>2018-04-02T09:58:02.696Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://tomoncle.github.io/2016/09/02/redisCluster/</loc>
+    
+    <lastmod>2018-04-02T09:57:44.392Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://tomoncle.github.io/2016/05/02/mysql/</loc>
+    
+    <lastmod>2018-04-02T09:22:03.424Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://tomoncle.github.io/2017/06/02/openSource/</loc>
+    
+    <lastmod>2018-04-02T09:19:40.548Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://tomoncle.github.io/2016/11/02/celery/</loc>
+    
+    <lastmod>2018-04-02T08:59:58.356Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://tomoncle.github.io/2017/07/08/kubernetes-ha/</loc>
+    
+    <lastmod>2018-04-02T07:42:33.628Z</lastmod>
     
   </url>
   

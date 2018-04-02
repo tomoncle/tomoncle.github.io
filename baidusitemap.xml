@@ -4,6 +4,184 @@
 
     
   <url>
+    <loc>https://tomoncle.github.io/2016/10/05/redisDynamicAddNodes/</loc>
+    <lastmod>2018-04-02T10:10:11.784Z</lastmod>
+    <data>
+        <display>
+        <title>redis动态添加删除节点</title>
+        <pubTime>2016-10-05T09:39:04.000Z</pubTime>
+        
+        <tag>redis</tag>
+         
+        <tag>cluster</tag>
+         
+        <tag>node</tag>
+         
+         
+           
+             
+              <breadCrumb title="Redis" url="https://tomoncle.github.io/categories/Redis/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://tomoncle.github.io/2016/10/02/redisStandby/</loc>
+    <lastmod>2018-04-02T10:04:47.860Z</lastmod>
+    <data>
+        <display>
+        <title>redis主从模式配置</title>
+        <pubTime>2016-10-02T09:38:28.000Z</pubTime>
+        
+        <tag>redis</tag>
+         
+         
+           
+             
+              <breadCrumb title="Redis" url="https://tomoncle.github.io/categories/Redis/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://tomoncle.github.io/2016/06/06/mongodb/</loc>
+    <lastmod>2018-04-02T09:58:19.476Z</lastmod>
+    <data>
+        <display>
+        <title>mongodb使用整理</title>
+        <pubTime>2016-06-06T09:11:08.000Z</pubTime>
+        
+        <tag>Mongodb</tag>
+         
+        <tag>DB</tag>
+         
+         
+           
+             
+              <breadCrumb title="Mongodb" url="https://tomoncle.github.io/categories/Mongodb/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://tomoncle.github.io/2016/05/02/MQ/</loc>
+    <lastmod>2018-04-02T09:58:02.696Z</lastmod>
+    <data>
+        <display>
+        <title>MQ安装整理</title>
+        <pubTime>2016-05-02T09:40:29.000Z</pubTime>
+        
+        <tag>activemq</tag>
+         
+        <tag>rabbitmq</tag>
+         
+        <tag>mq</tag>
+         
+         
+           
+             
+              <breadCrumb title="MQ" url="https://tomoncle.github.io/categories/MQ/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://tomoncle.github.io/2016/09/02/redisCluster/</loc>
+    <lastmod>2018-04-02T09:57:44.392Z</lastmod>
+    <data>
+        <display>
+        <title>redis集群搭建</title>
+        <pubTime>2016-09-02T09:38:07.000Z</pubTime>
+        
+        <tag>redis</tag>
+         
+        <tag>cluster</tag>
+         
+         
+           
+             
+              <breadCrumb title="Redis" url="https://tomoncle.github.io/categories/Redis/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://tomoncle.github.io/2016/05/02/mysql/</loc>
+    <lastmod>2018-04-02T09:22:03.424Z</lastmod>
+    <data>
+        <display>
+        <title>mysql常用命令</title>
+        <pubTime>2016-05-02T09:16:08.000Z</pubTime>
+        
+        <tag>Mysql</tag>
+         
+         
+           
+             
+              <breadCrumb title="Mysql" url="https://tomoncle.github.io/categories/Mysql/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://tomoncle.github.io/2017/06/02/openSource/</loc>
+    <lastmod>2018-04-02T09:19:40.548Z</lastmod>
+    <data>
+        <display>
+        <title>开源文档集</title>
+        <pubTime>2017-06-02T08:55:50.000Z</pubTime>
+        
+        <tag>openSource</tag>
+         
+        <tag>docs</tag>
+         
+         
+           
+             
+              <breadCrumb title="docs" url="https://tomoncle.github.io/categories/docs/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://tomoncle.github.io/2016/11/02/celery/</loc>
+    <lastmod>2018-04-02T08:59:58.356Z</lastmod>
+    <data>
+        <display>
+        <title>celery分布式任务队列</title>
+        <pubTime>2016-11-02T07:20:27.000Z</pubTime>
+        
+        <tag>Python</tag>
+         
+        <tag>Distributed</tag>
+         
+        <tag>Queue</tag>
+         
+         
+           
+             
+              <breadCrumb title="Python-celery" url="https://tomoncle.github.io/categories/Python-celery/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://tomoncle.github.io/2017/07/08/kubernetes-ha/</loc>
     <lastmod>2018-04-02T07:42:33.628Z</lastmod>
     <data>
@@ -17,30 +195,6 @@
            
              
               <breadCrumb title="kubernetes" url="https://tomoncle.github.io/categories/kubernetes/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://tomoncle.github.io/2018/04/02/celery/</loc>
-    <lastmod>2018-04-02T07:38:43.752Z</lastmod>
-    <data>
-        <display>
-        <title>celery分布式任务队列</title>
-        <pubTime>2018-04-02T07:20:27.000Z</pubTime>
-        
-        <tag>Python</tag>
-         
-        <tag>Distributed</tag>
-         
-        <tag>Queue</tag>
-         
-         
-           
-             
-              <breadCrumb title="Python-celery" url="https://tomoncle.github.io/categories/Python-celery/"/>
           
         </display>
     </data>

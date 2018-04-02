@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://tomoncle.github.io/"/>
-  <updated>2018-04-02T07:38:43.752Z</updated>
+  <updated>2018-04-02T07:42:33.628Z</updated>
   <id>https://tomoncle.github.io/</id>
   
   <author>
@@ -14,96 +14,6 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
-  
-  <entry>
-    <title>celery分布式任务队列</title>
-    <link href="https://tomoncle.github.io/2018/04/02/celery/"/>
-    <id>https://tomoncle.github.io/2018/04/02/celery/</id>
-    <published>2018-04-02T07:20:27.000Z</published>
-    <updated>2018-04-02T07:38:43.752Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="celery分布式任务队列"><a href="#celery分布式任务队列" class="headerlink" title="celery分布式任务队列"></a>celery分布式任务队列</h1><blockquote>
-<p>celery是一种简单、灵活、可靠的分布式系统，可以处理大量的信息，是一个以实时处理为重点，同时支持任务调度的任务队列</p>
-</blockquote>
-<h1 id="版本差异使用"><a href="#版本差异使用" class="headerlink" title="版本差异使用"></a>版本差异使用</h1><h2 id="celery-3-1-23-与-django-1-7-8"><a href="#celery-3-1-23-与-django-1-7-8" class="headerlink" title="celery (3.1.23) 与 django (1.7.8)"></a>celery (3.1.23) 与 django (1.7.8)</h2><h3 id="安装："><a href="#安装：" class="headerlink" title="安装："></a>安装：</h3>  <figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">$</span> pip install celery==3.1.23</div><div class="line"><span class="meta">$</span> pip install django-celery==3.1.17</div><div class="line"><span class="meta">$</span> pip install django-celery-with-redis==3.0</div></pre></td></tr></table></figure>
-<h3 id="settings-py"><a href="#settings-py" class="headerlink" title="settings.py :"></a>settings.py :</h3><blockquote>
-<p>在<code>INSTALLED_APPS</code>中添加的<code>djcelery</code>是必须的. <code>kombu.transport.django</code>则是基于Django的broker<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># settings.py</span></div><div class="line"></div><div class="line"><span class="keyword">import</span> djcelery</div><div class="line"></div><div class="line">INSTALLED_APPS = (</div><div class="line">    <span class="string">'...'</span></div><div class="line">    <span class="string">'djcelery'</span>,</div><div class="line">    <span class="string">'kombu.transport.django'</span>,</div><div class="line">    <span class="string">'djangoapp.tasks'</span> <span class="comment"># 任务模块</span></div><div class="line">    <span class="string">'...'</span></div><div class="line">)</div><div class="line"></div><div class="line"><span class="comment"># 启动后会默认在INSTALLED_APPS寻找tasks.py这个文件,将里面的@task()标记的方法加入任务列表</span></div><div class="line">djcelery.setup_loader()  </div><div class="line"></div><div class="line"><span class="comment"># celery模块其他配置参数</span></div><div class="line">CELERY_ENABLE_UTC = <span class="keyword">False</span></div><div class="line">CELERY_TIMEZONE = <span class="string">'Asia/Shanghai'</span></div><div class="line"></div><div class="line"><span class="comment">### 以上为公共配置,不管谁做后台都一样</span></div></pre></td></tr></table></figure></p>
-</blockquote>
-<a id="more"></a>
-<ul>
-<li><p>使用django内置的服务来作为celery的后台:</p>
-<ul>
-<li>配置 settings.py：<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">BROKER_URL = <span class="string">'django://'</span></div></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-<li><p>使用rabbitMQ服务来作为celery的后台:</p>
-<ul>
-<li><p>安装：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">$</span> apt-get install rabbitmq-server</div><div class="line"><span class="meta">$</span> pip install celery</div><div class="line"><span class="meta">$</span> pip install django-celery</div></pre></td></tr></table></figure>
-</li>
-<li><p>常见错误：段错误 (核心已转储) ==&gt;遇到这个错误的系统中的python-librabbitmq版本为1.0.3-0ubuntu1</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">$</span> apt-get remove python-librabbitmq</div><div class="line"><span class="meta">$</span> pip install librabbitmq</div></pre></td></tr></table></figure>
-</li>
-<li><p>配置 settings.py：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#settings　配置使用rabbitmq作为celery的后台</span></div><div class="line">BROKER_HOST = <span class="string">"localhost"</span></div><div class="line">BROKER_PORT = <span class="number">5672</span></div><div class="line">BROKER_USER = <span class="string">"guest"</span></div><div class="line">BROKER_PASSWORD = <span class="string">"guest"</span></div><div class="line">BROKER_VHOST = <span class="string">"/"</span></div></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-</ul>
-<ul>
-<li><p>使用redis服务来作为celery的后台:</p>
-<ul>
-<li><p>安装：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">$</span> pip install django-celery-with-redis</div><div class="line"><span class="meta">$</span> pip install celery</div><div class="line"><span class="meta">$</span> pip install django-celery</div></pre></td></tr></table></figure>
-</li>
-<li><p>配置 settings.py：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#settings　配置使用redis来作为celery的后台</span></div><div class="line">BROKER_URL=<span class="string">"redis://localhost:6379/0"</span></div></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-<li><p>settings.py其它配置：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># CELERY_ALWAYS_EAGER = True       #配置该项可以在系统使用celery定义的方法时不用显示打使用xx.delay()来调用</span></div><div class="line"><span class="comment"># CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler'</span></div><div class="line"></div><div class="line"><span class="comment">#broker: 代理</span></div><div class="line"><span class="comment">#backend: 指定保存结果后端</span></div><div class="line"></div><div class="line"><span class="comment">#可以设置没有返回结果，在任务中加入ignore_result属性 @app.task(ignore_result=True)</span></div><div class="line"></div><div class="line"><span class="comment">#CELERY_ENABLE_UTC = False 　　# 不使用UTC</span></div><div class="line"><span class="comment">#CELERY_TIMEZONE = 'Asia/Shanghai'</span></div><div class="line"><span class="comment">#CELERY_TASK_RESULT_EXPIRES = 10 　# 任务结果的时效时间</span></div><div class="line"><span class="comment">#CELERYD_LOG_FILE = BASE_DIR + "/logs/celery/celery.log" # log路径</span></div><div class="line"><span class="comment">#CELERYBEAT_LOG_FILE = BASE_DIR + "/logs/celery/beat.log" # beat log路径</span></div><div class="line"><span class="comment">#CELERY_ACCEPT_CONTENT = ['pickle', 'json', 'msgpack', 'yaml'] # 允许的格式</span></div><div class="line"></div><div class="line"><span class="comment">#CELERY_TASK_SERIALIZER='json'</span></div><div class="line"><span class="comment">#CELERY_RESULT_SERIALIZER='json'</span></div><div class="line"><span class="comment">#CELERY_RESULT_BACKEND='redis://10.0.0.0:6379/0'</span></div></pre></td></tr></table></figure>
-</li>
-<li><p>celery常用命令：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span> 1.启动terminal</div><div class="line"><span class="meta">$</span> python manage.py  runserver 0.0.0.0:19999</div><div class="line"><span class="meta"></span></div><div class="line"># 2.启动worker:</div><div class="line"><span class="meta">$</span> python manage.py celery worker --loglevel=info</div><div class="line"><span class="meta"></span></div><div class="line"># 3.Celery会通过celerybeat进程来完成定期任务</div><div class="line"><span class="meta">$</span> python manage.py celery beat</div><div class="line"><span class="meta"></span></div><div class="line"># 4.后台运行/重启/停止/停止等待</div><div class="line"><span class="meta">$</span> python manage celery multi start/restart/stop/stopwait w1 -A proj -l info</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<h3 id="代码编写："><a href="#代码编写：" class="headerlink" title="代码编写："></a>代码编写：</h3><ul>
-<li><p>目录：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">tom@aric-ThinkPad-E450:~/djangoapp/djangoapp/tasks$ tree</div><div class="line">.</div><div class="line">├── __init__.py</div><div class="line">├── task_a.py</div><div class="line">├── task_b.py</div><div class="line">└── tasks.py</div></pre></td></tr></table></figure>
-</li>
-<li><p>tasks.py</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># -*- coding: UTF-8 -*-</span></div><div class="line"><span class="string">"""</span></div><div class="line">celery启动时会自动扫描tasks.py 这个文件,</div><div class="line">使用时需要导入子模块</div><div class="line">"""</div><div class="line"></div><div class="line"><span class="keyword">from</span> celery <span class="keyword">import</span> platforms</div><div class="line"></div><div class="line"><span class="comment"># 导入任务子模块</span></div><div class="line"><span class="keyword">from</span> task_a <span class="keyword">import</span> *</div><div class="line"><span class="keyword">from</span> task_b <span class="keyword">import</span> *</div><div class="line"></div><div class="line"><span class="comment"># 开启超级管理员使用模式</span></div><div class="line">platforms.C_FORCE_ROOT = <span class="keyword">True</span></div></pre></td></tr></table></figure>
-</li>
-<li><p>tasks_a.py</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># -*- coding: UTF-8 -*-</span></div><div class="line"><span class="string">"""</span></div><div class="line">usage: add.delay(1, 10)</div><div class="line"></div><div class="line">: function_name.delay(**args)</div><div class="line"></div><div class="line">"""</div><div class="line"><span class="keyword">import</span> threading</div><div class="line"><span class="keyword">import</span> time</div><div class="line"></div><div class="line"><span class="keyword">import</span> celery</div><div class="line"></div><div class="line"><span class="comment"># 创建task对象</span></div><div class="line"><span class="comment"># 注意：修改task代码时,需要重启celery</span></div><div class="line">task = celery.task()</div><div class="line"></div><div class="line"></div><div class="line"><span class="meta">@task</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">add</span><span class="params">(x, y)</span>:</span></div><div class="line">    <span class="string">"""</span></div><div class="line">    打印和返回的内容均会在celery启动的终端中进行打印输出</div><div class="line">    :param x:</div><div class="line">    :param y:</div><div class="line">    :return:</div><div class="line">    """</div><div class="line">    <span class="keyword">print</span> <span class="string">'%s: begin...'</span> % threading.Thread().getName()</div><div class="line">    time.sleep(<span class="number">10</span>)</div><div class="line">    <span class="keyword">print</span> <span class="string">'%s: end...'</span> % threading.Thread().getName()</div><div class="line">    <span class="keyword">return</span> <span class="string">'[[return data:%s,%s]]'</span> % (x, y)</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<h2 id="celery-4-1-0"><a href="#celery-4-1-0" class="headerlink" title="celery (4.1.0)"></a>celery (4.1.0)</h2>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;celery分布式任务队列&quot;&gt;&lt;a href=&quot;#celery分布式任务队列&quot; class=&quot;headerlink&quot; title=&quot;celery分布式任务队列&quot;&gt;&lt;/a&gt;celery分布式任务队列&lt;/h1&gt;&lt;blockquote&gt;
-&lt;p&gt;celery是一种简单、灵活、可靠的分布式系统，可以处理大量的信息，是一个以实时处理为重点，同时支持任务调度的任务队列&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h1 id=&quot;版本差异使用&quot;&gt;&lt;a href=&quot;#版本差异使用&quot; class=&quot;headerlink&quot; title=&quot;版本差异使用&quot;&gt;&lt;/a&gt;版本差异使用&lt;/h1&gt;&lt;h2 id=&quot;celery-3-1-23-与-django-1-7-8&quot;&gt;&lt;a href=&quot;#celery-3-1-23-与-django-1-7-8&quot; class=&quot;headerlink&quot; title=&quot;celery (3.1.23) 与 django (1.7.8)&quot;&gt;&lt;/a&gt;celery (3.1.23) 与 django (1.7.8)&lt;/h2&gt;&lt;h3 id=&quot;安装：&quot;&gt;&lt;a href=&quot;#安装：&quot; class=&quot;headerlink&quot; title=&quot;安装：&quot;&gt;&lt;/a&gt;安装：&lt;/h3&gt;  &lt;figure class=&quot;highlight shell&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;meta&quot;&gt;$&lt;/span&gt; pip install celery==3.1.23&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;meta&quot;&gt;$&lt;/span&gt; pip install django-celery==3.1.17&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;meta&quot;&gt;$&lt;/span&gt; pip install django-celery-with-redis==3.0&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;h3 id=&quot;settings-py&quot;&gt;&lt;a href=&quot;#settings-py&quot; class=&quot;headerlink&quot; title=&quot;settings.py :&quot;&gt;&lt;/a&gt;settings.py :&lt;/h3&gt;&lt;blockquote&gt;
-&lt;p&gt;在&lt;code&gt;INSTALLED_APPS&lt;/code&gt;中添加的&lt;code&gt;djcelery&lt;/code&gt;是必须的. &lt;code&gt;kombu.transport.django&lt;/code&gt;则是基于Django的broker&lt;br&gt;&lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;5&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;6&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;7&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;8&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;9&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;10&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;11&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;12&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;13&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;14&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;15&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;16&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;17&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;18&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;19&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;20&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# settings.py&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; djcelery&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;INSTALLED_APPS = (&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;string&quot;&gt;&#39;...&#39;&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;string&quot;&gt;&#39;djcelery&#39;&lt;/span&gt;,&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;string&quot;&gt;&#39;kombu.transport.django&#39;&lt;/span&gt;,&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;string&quot;&gt;&#39;djangoapp.tasks&#39;&lt;/span&gt; &lt;span class=&quot;comment&quot;&gt;# 任务模块&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;string&quot;&gt;&#39;...&#39;&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;)&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# 启动后会默认在INSTALLED_APPS寻找tasks.py这个文件,将里面的@task()标记的方法加入任务列表&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;djcelery.setup_loader()  &lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# celery模块其他配置参数&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;CELERY_ENABLE_UTC = &lt;span class=&quot;keyword&quot;&gt;False&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;CELERY_TIMEZONE = &lt;span class=&quot;string&quot;&gt;&#39;Asia/Shanghai&#39;&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;### 以上为公共配置,不管谁做后台都一样&lt;/span&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-    
-    </summary>
-    
-      <category term="Python-celery" scheme="https://tomoncle.github.io/categories/Python-celery/"/>
-    
-    
-      <category term="Python" scheme="https://tomoncle.github.io/tags/Python/"/>
-    
-      <category term="Distributed" scheme="https://tomoncle.github.io/tags/Distributed/"/>
-    
-      <category term="Queue" scheme="https://tomoncle.github.io/tags/Queue/"/>
-    
-  </entry>
   
   <entry>
     <title>Kubernetes集群高可用配置</title>
@@ -289,6 +199,825 @@ sed -i &amp;quot;s/SELINUX=enforcing/SELINUX=disabled/g&amp;quot; /etc/selinux/c
     
     
       <category term="HA" scheme="https://tomoncle.github.io/tags/HA/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>开源文档集</title>
+    <link href="https://tomoncle.github.io/2017/06/02/openSource/"/>
+    <id>https://tomoncle.github.io/2017/06/02/openSource/</id>
+    <published>2017-06-02T08:55:50.000Z</published>
+    <updated>2018-04-02T09:19:40.548Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="Docs"><a href="#Docs" class="headerlink" title="Docs"></a>Docs</h1><ul>
+<li><a href="http://tool.oschina.net/" target="_blank" rel="external">在线工具库</a> | <a href="http://tool.oschina.net/apidocs" target="_blank" rel="external">API 文档</a> | <a href="http://tool.oschina.net/markdown" target="_blank" rel="external">在线 Markdown 编译器</a></li>
+</ul>
+<h1 id="Open-Test-Service"><a href="#Open-Test-Service" class="headerlink" title="Open Test Service"></a>Open Test Service</h1><ul>
+<li><a href="https://httpbin.org" target="_blank" rel="external">开源测试服务</a></li>
+</ul>
+<a id="more"></a>
+<h1 id="Search-Engines"><a href="#Search-Engines" class="headerlink" title="Search Engines"></a>Search Engines</h1><ul>
+<li><a href="http://cn.bing.com" target="_blank" rel="external">http://cn.bing.com</a></li>
+<li><a href="https://www.google.com" target="_blank" rel="external">https://www.google.com</a></li>
+</ul>
+<h1 id="COTWS"><a href="#COTWS" class="headerlink" title="COTWS"></a>COTWS</h1><ul>
+<li>xx-net : <a href="https://github.com/XX-net/XX-Net" target="_blank" rel="external">WiKi</a></li>
+<li>lantern : <a href="https://github.com/getlantern/lantern-binaries" target="_blank" rel="external">软件列表</a> | <a href="https://github.com/amlyj/lantern" target="_blank" rel="external">WiKi</a></li>
+<li>free : <a href="https://github.com/greatfire/z" target="_blank" rel="external">软件列表</a>｜<a href="https://github.com/greatfire/wiki/tree/936e241efd018c0beb28f03af19054a0d3c2ceac" target="_blank" rel="external">WiKi</a></li>
+</ul>
+<h1 id="Library"><a href="#Library" class="headerlink" title="Library"></a>Library</h1><ul>
+<li><a href="https://releases.hashicorp.com/" target="_blank" rel="external">hashicorp</a></li>
+<li><a href="https://github.com/getlantern/lantern" target="_blank" rel="external">lantern</a> &amp; <a href="https://github.com/getlantern/lantern-binaries" target="_blank" rel="external">lantern-binaries-download</a></li>
+</ul>
+<h1 id="Open-source"><a href="#Open-source" class="headerlink" title="Open source"></a>Open source</h1><h3 id="Java-Free-Source-downloads-tutorials"><a href="#Java-Free-Source-downloads-tutorials" class="headerlink" title="Java Free Source downloads-tutorials"></a><a href="https://www.gontu.org/downloads-tutorials/" target="_blank" rel="external">Java Free Source downloads-tutorials</a></h3><h3 id="Cache"><a href="#Cache" class="headerlink" title="Cache"></a>Cache</h3><ul>
+<li>redis : <a href="https://github.com/antirez/redis" target="_blank" rel="external"><strong>redis</strong></a></li>
+</ul>
+<h3 id="Service-Discovery-and-Configuration"><a href="#Service-Discovery-and-Configuration" class="headerlink" title="Service Discovery and Configuration"></a>Service Discovery and Configuration</h3><ul>
+<li>etcd : <a href="https://github.com/coreos/etcd" target="_blank" rel="external"><strong>etcd</strong></a> | <a href="https://github.com/coreos/discovery.etcd.io" target="_blank" rel="external"><strong>etcd discovery</strong></a></li>
+<li>zookeeper : <a href="https://github.com/apache/zookeeper" target="_blank" rel="external"><strong>zookeeper</strong></a> |</li>
+<li>consul : <a href="https://github.com/hashicorp/consul" target="_blank" rel="external"><strong>consul</strong></a> |</li>
+</ul>
+<h3 id="Zookeeper-Api"><a href="#Zookeeper-Api" class="headerlink" title="Zookeeper Api"></a>Zookeeper Api</h3><ul>
+<li>zk-api : <a href="https://github.com/Netflix/exhibitor" target="_blank" rel="external"><strong>exhibitor</strong></a> | <a href="https://github.com/sgroschupf/zkclient" target="_blank" rel="external"><strong>zkclient</strong></a></li>
+</ul>
+<h3 id="Kubernetes"><a href="#Kubernetes" class="headerlink" title="Kubernetes"></a>Kubernetes</h3><ul>
+<li>source : <a href="https://github.com/kubernetes/kubernetes" target="_blank" rel="external"><strong>kubernetes</strong></a></li>
+<li>Java-client : <a href="https://github.com/fabric8io/kubernetes-client" target="_blank" rel="external"><strong>kubernetes-client</strong></a></li>
+</ul>
+<h3 id="Docker"><a href="#Docker" class="headerlink" title="Docker"></a>Docker</h3><ul>
+<li>docs : <a href="https://github.com/moby/moby" target="_blank" rel="external">docker</a> | <a href="https://github.com/docker-library/docs" target="_blank" rel="external">docker-docs</a></li>
+<li>network : <a href="https://github.com/coreos/flannel" target="_blank" rel="external">flannel</a></li>
+</ul>
+<h3 id="Java"><a href="#Java" class="headerlink" title="Java"></a>Java</h3><ul>
+<li><p>spring : <a href="https://github.com/spring-projects/spring-boot" target="_blank" rel="external">spring-boot</a> |<br><a href="https://github.com/mybatis/spring-boot-starter" target="_blank" rel="external">spring-boot-starter</a></p>
+</li>
+<li><p>crawler : <a href="http://webmagic.io/" target="_blank" rel="external">webmagic</a> |</p>
+</li>
+<li><p>nio : <a href="https://github.com/code4craft/netty-learning" target="_blank" rel="external">netty-learning</a></p>
+</li>
+</ul>
+<h3 id="JavaScript"><a href="#JavaScript" class="headerlink" title="JavaScript"></a>JavaScript</h3><ul>
+<li>icon : <a href="https://github.com/FortAwesome/Font-Awesome" target="_blank" rel="external">Font-Awesome</a> |</li>
+<li>graph : <a href="http://v1.hcharts.cn/demo/index.php?p=46" target="_blank" rel="external">highchart</a> | <a href="https://github.com/d3/d3" target="_blank" rel="external">d3.js(拓扑)</a></li>
+</ul>
+<h3 id="Python"><a href="#Python" class="headerlink" title="Python"></a>Python</h3><ul>
+<li>basic : <a href="https://github.com/amlyj/Python-from-basics" target="_blank" rel="external">Python</a> |<br><a href="https://github.com/tornadoweb/tornado" target="_blank" rel="external"><strong>tornado</strong></a> |<br><a href="https://github.com/pallets/flask" target="_blank" rel="external"><strong>flask</strong></a> |<br><a href="https://github.com/django/django" target="_blank" rel="external"><strong>django</strong></a> |</li>
+<li>rpc : <a href="https://github.com/amlyj/zerorpc-python" target="_blank" rel="external">zerorpc-python(RPC)</a> |<br><a href="https://github.com/amlyj/nameko" target="_blank" rel="external">nameko(微服务)</a> |<br><a href="https://github.com/amlyj/zato" target="_blank" rel="external">zato(Rest Api)</a> |</li>
+</ul>
+<h3 id="Github-Star-Page"><a href="#Github-Star-Page" class="headerlink" title="Github Star Page"></a><a href="https://github-ranking.com/" target="_blank" rel="external">Github Star Page</a></h3><h3 id="GitHub-Emoji"><a href="#GitHub-Emoji" class="headerlink" title="GitHub Emoji"></a><a href="https://github.com/WebpageFX/emoji-cheat-sheet.com" target="_blank" rel="external">GitHub Emoji</a></h3><h3 id="wssh-Web-Terminal"><a href="#wssh-Web-Terminal" class="headerlink" title="wssh (Web Terminal)"></a><a href="https://github.com/aluzzardi/wssh" target="_blank" rel="external">wssh (Web Terminal)</a></h3><h3 id="Openstack"><a href="#Openstack" class="headerlink" title="Openstack"></a><a href="https://github.com/openstack/" target="_blank" rel="external">Openstack</a></h3><h1 id="Software-download"><a href="#Software-download" class="headerlink" title="Software download"></a>Software download</h1><h3 id="思维导图"><a href="#思维导图" class="headerlink" title="思维导图"></a>思维导图</h3><p><a href="http://www.xmind.net/download/previous/" target="_blank" rel="external">思维导图xmind</a></p>
+<hr>
+<h1 id="Docs-1"><a href="#Docs-1" class="headerlink" title="Docs"></a>Docs</h1><h3 id="Python-1"><a href="#Python-1" class="headerlink" title="Python"></a>Python</h3><p><a href="http://python.usyiyi.cn/" target="_blank" rel="external"><strong>Python中文官方文档</strong></a> | <a href="http://www.yiibai.com/" target="_blank" rel="external">Python易百教程</a> |<br><a href="http://python.usyiyi.cn/django/index.html" target="_blank" rel="external"><strong>django中文文档</strong></a> |<br><a href="http://docs.jinkan.org/docs/flask/quickstart.html" target="_blank" rel="external"><strong>flask中文文档</strong></a> |<br><a href="http://docs.pythontab.com/tornado/introduction-to-tornado/" target="_blank" rel="external"><strong>tornado中文文档</strong></a> |<br><a href="http://cn.python-requests.org/zh_CN/latest/" target="_blank" rel="external">requests</a> |<br><a href="http://scrapy-chs.readthedocs.io/zh_CN/latest/index.html" target="_blank" rel="external">scrapy</a> |<br><a href="https://developer.openstack.org/api-ref/" target="_blank" rel="external">openstack api</a> |</p>
+<h3 id="Java-1"><a href="#Java-1" class="headerlink" title="Java"></a>Java</h3><ul>
+<li>spring : <a href="http://docs.spring.io/spring-boot/docs/" target="_blank" rel="external">spring-boot</a></li>
+</ul>
+<h3 id="神经网络"><a href="#神经网络" class="headerlink" title="神经网络"></a>神经网络</h3><ul>
+<li>tensorflow : <a href="http://www.tensorfly.cn/" target="_blank" rel="external">tensorflow.cn</a></li>
+</ul>
+<h3 id="GIT-docs"><a href="#GIT-docs" class="headerlink" title="GIT docs"></a><a href="https://git-scm.com/book/zh/v2" target="_blank" rel="external">GIT docs</a></h3><h3 id="区块链"><a href="#区块链" class="headerlink" title="区块链"></a><a href="http://ethfans.org/" target="_blank" rel="external">区块链</a></h3><ul>
+<li><a href="https://github.com/cryptonomex/graphene" target="_blank" rel="external">石墨希</a></li>
+</ul>
+<h3 id="IBM"><a href="#IBM" class="headerlink" title="IBM"></a><a href="https://www.ibm.com/developerworks/cn/topics/" target="_blank" rel="external">IBM</a></h3><hr>
+<h1 id="Rest-接口测试工具"><a href="#Rest-接口测试工具" class="headerlink" title="Rest 接口测试工具"></a>Rest 接口测试工具</h1><h3 id="firefox"><a href="#firefox" class="headerlink" title="firefox"></a>firefox</h3><ul>
+<li><a href="https://addons.mozilla.org/En-us/firefox/addon/httprequester/" target="_blank" rel="external">httprequester</a></li>
+</ul>
+<h3 id="chrome"><a href="#chrome" class="headerlink" title="chrome"></a>chrome</h3><ul>
+<li><a href="&quot;&quot;">postman</a></li>
+</ul>
+<h3 id="jsonview"><a href="#jsonview" class="headerlink" title="jsonview"></a>jsonview</h3><ul>
+<li>firefox浏览器地址栏输入＂about:addons＂ Chrome浏览器地址栏输入＂chrome://apps/＂　应用商店安装 |</li>
+</ul>
+<hr>
+<h1 id="API"><a href="#API" class="headerlink" title="API"></a>API</h1><ul>
+<li><a href="https://connect.qq.com/manage.html#/appauth/user" target="_blank" rel="external">QQ互联管理中心</a></li>
+</ul>
+<hr>
+<h1 id="镜像站点："><a href="#镜像站点：" class="headerlink" title="镜像站点："></a>镜像站点：</h1><ul>
+<li><a href="http://mirrors.163.com/" target="_blank" rel="external">http://mirrors.163.com/</a></li>
+<li><a href="http://mirrors.sohu.com/" target="_blank" rel="external">http://mirrors.sohu.com/</a></li>
+<li><a href="http://mirror.bit.edu.cn/web/" target="_blank" rel="external"><strong>北京理工大学开源软件镜像服务</strong></a></li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;Docs&quot;&gt;&lt;a href=&quot;#Docs&quot; class=&quot;headerlink&quot; title=&quot;Docs&quot;&gt;&lt;/a&gt;Docs&lt;/h1&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://tool.oschina.net/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;在线工具库&lt;/a&gt; | &lt;a href=&quot;http://tool.oschina.net/apidocs&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;API 文档&lt;/a&gt; | &lt;a href=&quot;http://tool.oschina.net/markdown&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;在线 Markdown 编译器&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id=&quot;Open-Test-Service&quot;&gt;&lt;a href=&quot;#Open-Test-Service&quot; class=&quot;headerlink&quot; title=&quot;Open Test Service&quot;&gt;&lt;/a&gt;Open Test Service&lt;/h1&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://httpbin.org&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;开源测试服务&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+      <category term="docs" scheme="https://tomoncle.github.io/categories/docs/"/>
+    
+    
+      <category term="openSource" scheme="https://tomoncle.github.io/tags/openSource/"/>
+    
+      <category term="docs" scheme="https://tomoncle.github.io/tags/docs/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>celery分布式任务队列</title>
+    <link href="https://tomoncle.github.io/2016/11/02/celery/"/>
+    <id>https://tomoncle.github.io/2016/11/02/celery/</id>
+    <published>2016-11-02T07:20:27.000Z</published>
+    <updated>2018-04-02T08:59:58.356Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="celery分布式任务队列"><a href="#celery分布式任务队列" class="headerlink" title="celery分布式任务队列"></a>celery分布式任务队列</h1><blockquote>
+<p>celery是一种简单、灵活、可靠的分布式系统，可以处理大量的信息，是一个以实时处理为重点，同时支持任务调度的任务队列</p>
+</blockquote>
+<h1 id="版本差异使用"><a href="#版本差异使用" class="headerlink" title="版本差异使用"></a>版本差异使用</h1><h2 id="celery-3-1-23-与-django-1-7-8"><a href="#celery-3-1-23-与-django-1-7-8" class="headerlink" title="celery (3.1.23) 与 django (1.7.8)"></a>celery (3.1.23) 与 django (1.7.8)</h2><h3 id="安装："><a href="#安装：" class="headerlink" title="安装："></a>安装：</h3>  <figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">$</span> pip install celery==3.1.23</div><div class="line"><span class="meta">$</span> pip install django-celery==3.1.17</div><div class="line"><span class="meta">$</span> pip install django-celery-with-redis==3.0</div></pre></td></tr></table></figure>
+<h3 id="settings-py"><a href="#settings-py" class="headerlink" title="settings.py :"></a>settings.py :</h3><blockquote>
+<p>在<code>INSTALLED_APPS</code>中添加的<code>djcelery</code>是必须的. <code>kombu.transport.django</code>则是基于Django的broker<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># settings.py</span></div><div class="line"></div><div class="line"><span class="keyword">import</span> djcelery</div><div class="line"></div><div class="line">INSTALLED_APPS = (</div><div class="line">    <span class="string">'...'</span></div><div class="line">    <span class="string">'djcelery'</span>,</div><div class="line">    <span class="string">'kombu.transport.django'</span>,</div><div class="line">    <span class="string">'djangoapp.tasks'</span> <span class="comment"># 任务模块</span></div><div class="line">    <span class="string">'...'</span></div><div class="line">)</div><div class="line"></div><div class="line"><span class="comment"># 启动后会默认在INSTALLED_APPS寻找tasks.py这个文件,将里面的@task()标记的方法加入任务列表</span></div><div class="line">djcelery.setup_loader()  </div><div class="line"></div><div class="line"><span class="comment"># celery模块其他配置参数</span></div><div class="line">CELERY_ENABLE_UTC = <span class="keyword">False</span></div><div class="line">CELERY_TIMEZONE = <span class="string">'Asia/Shanghai'</span></div><div class="line"></div><div class="line"><span class="comment">### 以上为公共配置,不管谁做后台都一样</span></div></pre></td></tr></table></figure></p>
+</blockquote>
+<a id="more"></a>
+<ul>
+<li><p>使用django内置的服务来作为celery的后台:</p>
+<ul>
+<li>配置 settings.py：<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">BROKER_URL = <span class="string">'django://'</span></div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>使用rabbitMQ服务来作为celery的后台:</p>
+<ul>
+<li><p>安装：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">$</span> apt-get install rabbitmq-server</div><div class="line"><span class="meta">$</span> pip install celery</div><div class="line"><span class="meta">$</span> pip install django-celery</div></pre></td></tr></table></figure>
+</li>
+<li><p>常见错误：段错误 (核心已转储) ==&gt;遇到这个错误的系统中的python-librabbitmq版本为1.0.3-0ubuntu1</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">$</span> apt-get remove python-librabbitmq</div><div class="line"><span class="meta">$</span> pip install librabbitmq</div></pre></td></tr></table></figure>
+</li>
+<li><p>配置 settings.py：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#settings　配置使用rabbitmq作为celery的后台</span></div><div class="line">BROKER_HOST = <span class="string">"localhost"</span></div><div class="line">BROKER_PORT = <span class="number">5672</span></div><div class="line">BROKER_USER = <span class="string">"guest"</span></div><div class="line">BROKER_PASSWORD = <span class="string">"guest"</span></div><div class="line">BROKER_VHOST = <span class="string">"/"</span></div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>使用redis服务来作为celery的后台:</p>
+<ul>
+<li><p>安装：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">$</span> pip install django-celery-with-redis</div><div class="line"><span class="meta">$</span> pip install celery</div><div class="line"><span class="meta">$</span> pip install django-celery</div></pre></td></tr></table></figure>
+</li>
+<li><p>配置 settings.py：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#settings　配置使用redis来作为celery的后台</span></div><div class="line">BROKER_URL=<span class="string">"redis://localhost:6379/0"</span></div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>settings.py其它配置：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># CELERY_ALWAYS_EAGER = True       #配置该项可以在系统使用celery定义的方法时不用显示打使用xx.delay()来调用</span></div><div class="line"><span class="comment"># CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler'</span></div><div class="line"></div><div class="line"><span class="comment">#broker: 代理</span></div><div class="line"><span class="comment">#backend: 指定保存结果后端</span></div><div class="line"></div><div class="line"><span class="comment">#可以设置没有返回结果，在任务中加入ignore_result属性 @app.task(ignore_result=True)</span></div><div class="line"></div><div class="line"><span class="comment">#CELERY_ENABLE_UTC = False 　　# 不使用UTC</span></div><div class="line"><span class="comment">#CELERY_TIMEZONE = 'Asia/Shanghai'</span></div><div class="line"><span class="comment">#CELERY_TASK_RESULT_EXPIRES = 10 　# 任务结果的时效时间</span></div><div class="line"><span class="comment">#CELERYD_LOG_FILE = BASE_DIR + "/logs/celery/celery.log" # log路径</span></div><div class="line"><span class="comment">#CELERYBEAT_LOG_FILE = BASE_DIR + "/logs/celery/beat.log" # beat log路径</span></div><div class="line"><span class="comment">#CELERY_ACCEPT_CONTENT = ['pickle', 'json', 'msgpack', 'yaml'] # 允许的格式</span></div><div class="line"></div><div class="line"><span class="comment">#CELERY_TASK_SERIALIZER='json'</span></div><div class="line"><span class="comment">#CELERY_RESULT_SERIALIZER='json'</span></div><div class="line"><span class="comment">#CELERY_RESULT_BACKEND='redis://10.0.0.0:6379/0'</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>celery常用命令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span> 1.启动terminal</div><div class="line"><span class="meta">$</span> python manage.py  runserver 0.0.0.0:19999</div><div class="line"><span class="meta"></span></div><div class="line"># 2.启动worker:</div><div class="line"><span class="meta">$</span> python manage.py celery worker --loglevel=info</div><div class="line"><span class="meta"></span></div><div class="line"># 3.Celery会通过celerybeat进程来完成定期任务</div><div class="line"><span class="meta">$</span> python manage.py celery beat</div><div class="line"><span class="meta"></span></div><div class="line"># 4.后台运行/重启/停止/停止等待</div><div class="line"><span class="meta">$</span> python manage celery multi start/restart/stop/stopwait w1 -A proj -l info</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="代码编写："><a href="#代码编写：" class="headerlink" title="代码编写："></a>代码编写：</h3><ul>
+<li><p>目录：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">tom@aric-ThinkPad-E450:~/djangoapp/djangoapp/tasks$ tree</div><div class="line">.</div><div class="line">├── __init__.py</div><div class="line">├── task_a.py</div><div class="line">├── task_b.py</div><div class="line">└── tasks.py</div></pre></td></tr></table></figure>
+</li>
+<li><p>tasks.py</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># -*- coding: UTF-8 -*-</span></div><div class="line"><span class="string">"""</span></div><div class="line">celery启动时会自动扫描tasks.py 这个文件,</div><div class="line">使用时需要导入子模块</div><div class="line">"""</div><div class="line"></div><div class="line"><span class="keyword">from</span> celery <span class="keyword">import</span> platforms</div><div class="line"></div><div class="line"><span class="comment"># 导入任务子模块</span></div><div class="line"><span class="keyword">from</span> task_a <span class="keyword">import</span> *</div><div class="line"><span class="keyword">from</span> task_b <span class="keyword">import</span> *</div><div class="line"></div><div class="line"><span class="comment"># 开启超级管理员使用模式</span></div><div class="line">platforms.C_FORCE_ROOT = <span class="keyword">True</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>tasks_a.py</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># -*- coding: UTF-8 -*-</span></div><div class="line"><span class="string">"""</span></div><div class="line">usage: add.delay(1, 10)</div><div class="line"></div><div class="line">: function_name.delay(**args)</div><div class="line"></div><div class="line">"""</div><div class="line"><span class="keyword">import</span> threading</div><div class="line"><span class="keyword">import</span> time</div><div class="line"></div><div class="line"><span class="keyword">import</span> celery</div><div class="line"></div><div class="line"><span class="comment"># 创建task对象</span></div><div class="line"><span class="comment"># 注意：修改task代码时,需要重启celery</span></div><div class="line">task = celery.task()</div><div class="line"></div><div class="line"></div><div class="line"><span class="meta">@task</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">add</span><span class="params">(x, y)</span>:</span></div><div class="line">    <span class="string">"""</span></div><div class="line">    打印和返回的内容均会在celery启动的终端中进行打印输出</div><div class="line">    :param x:</div><div class="line">    :param y:</div><div class="line">    :return:</div><div class="line">    """</div><div class="line">    <span class="keyword">print</span> <span class="string">'%s: begin...'</span> % threading.Thread().getName()</div><div class="line">    time.sleep(<span class="number">10</span>)</div><div class="line">    <span class="keyword">print</span> <span class="string">'%s: end...'</span> % threading.Thread().getName()</div><div class="line">    <span class="keyword">return</span> <span class="string">'[[return data:%s,%s]]'</span> % (x, y)</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="celery-4-1-0"><a href="#celery-4-1-0" class="headerlink" title="celery (4.1.0)"></a>celery (4.1.0)</h2>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;celery分布式任务队列&quot;&gt;&lt;a href=&quot;#celery分布式任务队列&quot; class=&quot;headerlink&quot; title=&quot;celery分布式任务队列&quot;&gt;&lt;/a&gt;celery分布式任务队列&lt;/h1&gt;&lt;blockquote&gt;
+&lt;p&gt;celery是一种简单、灵活、可靠的分布式系统，可以处理大量的信息，是一个以实时处理为重点，同时支持任务调度的任务队列&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id=&quot;版本差异使用&quot;&gt;&lt;a href=&quot;#版本差异使用&quot; class=&quot;headerlink&quot; title=&quot;版本差异使用&quot;&gt;&lt;/a&gt;版本差异使用&lt;/h1&gt;&lt;h2 id=&quot;celery-3-1-23-与-django-1-7-8&quot;&gt;&lt;a href=&quot;#celery-3-1-23-与-django-1-7-8&quot; class=&quot;headerlink&quot; title=&quot;celery (3.1.23) 与 django (1.7.8)&quot;&gt;&lt;/a&gt;celery (3.1.23) 与 django (1.7.8)&lt;/h2&gt;&lt;h3 id=&quot;安装：&quot;&gt;&lt;a href=&quot;#安装：&quot; class=&quot;headerlink&quot; title=&quot;安装：&quot;&gt;&lt;/a&gt;安装：&lt;/h3&gt;  &lt;figure class=&quot;highlight shell&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;meta&quot;&gt;$&lt;/span&gt; pip install celery==3.1.23&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;meta&quot;&gt;$&lt;/span&gt; pip install django-celery==3.1.17&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;meta&quot;&gt;$&lt;/span&gt; pip install django-celery-with-redis==3.0&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h3 id=&quot;settings-py&quot;&gt;&lt;a href=&quot;#settings-py&quot; class=&quot;headerlink&quot; title=&quot;settings.py :&quot;&gt;&lt;/a&gt;settings.py :&lt;/h3&gt;&lt;blockquote&gt;
+&lt;p&gt;在&lt;code&gt;INSTALLED_APPS&lt;/code&gt;中添加的&lt;code&gt;djcelery&lt;/code&gt;是必须的. &lt;code&gt;kombu.transport.django&lt;/code&gt;则是基于Django的broker&lt;br&gt;&lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;5&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;6&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;7&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;8&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;9&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;10&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;11&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;12&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;13&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;14&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;15&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;16&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;17&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;18&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;19&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;20&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# settings.py&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; djcelery&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;INSTALLED_APPS = (&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;string&quot;&gt;&#39;...&#39;&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;string&quot;&gt;&#39;djcelery&#39;&lt;/span&gt;,&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;string&quot;&gt;&#39;kombu.transport.django&#39;&lt;/span&gt;,&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;string&quot;&gt;&#39;djangoapp.tasks&#39;&lt;/span&gt; &lt;span class=&quot;comment&quot;&gt;# 任务模块&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;string&quot;&gt;&#39;...&#39;&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;)&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# 启动后会默认在INSTALLED_APPS寻找tasks.py这个文件,将里面的@task()标记的方法加入任务列表&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;djcelery.setup_loader()  &lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# celery模块其他配置参数&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;CELERY_ENABLE_UTC = &lt;span class=&quot;keyword&quot;&gt;False&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;CELERY_TIMEZONE = &lt;span class=&quot;string&quot;&gt;&#39;Asia/Shanghai&#39;&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;### 以上为公共配置,不管谁做后台都一样&lt;/span&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+    
+    </summary>
+    
+      <category term="Python-celery" scheme="https://tomoncle.github.io/categories/Python-celery/"/>
+    
+    
+      <category term="Python" scheme="https://tomoncle.github.io/tags/Python/"/>
+    
+      <category term="Distributed" scheme="https://tomoncle.github.io/tags/Distributed/"/>
+    
+      <category term="Queue" scheme="https://tomoncle.github.io/tags/Queue/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>redis动态添加删除节点</title>
+    <link href="https://tomoncle.github.io/2016/10/05/redisDynamicAddNodes/"/>
+    <id>https://tomoncle.github.io/2016/10/05/redisDynamicAddNodes/</id>
+    <published>2016-10-05T09:39:04.000Z</published>
+    <updated>2018-04-02T10:10:11.784Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="redis动态添加、删除节点"><a href="#redis动态添加、删除节点" class="headerlink" title="redis动态添加、删除节点"></a>redis动态添加、删除节点</h1><h2 id="添加节点"><a href="#添加节点" class="headerlink" title="添加节点"></a>添加节点</h2><ul>
+<li>添加节点命令： <strong><code>./redis/bin/redis-trib.rb add-node 新节点ip:端口 已知节点ip:端口</code></strong> <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[root@node1 redis-cluster]<span class="comment">#./redis/bin/redis-trib.rb add-node 192.168.137.147:7007 192.168.137.147:7001</span></div></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li><p>添加slave节点（方式1） :</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[root@node1 redis-cluster]<span class="comment">#./redis/bin/redis-trib.rb add-node  --slave --master-id 813befe6b157312120c27c0d29573b84e79245a7 192.168.137.147:7008 192.168.137.147:7007</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>添加slave节点（方式2） ：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">[root@node1 redis-cluster]<span class="comment">#./redis/bin/redis-trib.rb add-node 192.168.137.147:7008 192.168.137.147:7007</span></div><div class="line">[root@node1 redis-cluster]<span class="comment">#</span></div><div class="line">[root@node1 redis-cluster]<span class="comment"># ./redis/bin/redis-cli -c -h 192.168.137.147 -p 7008</span></div><div class="line">192.168.137.147:7008&gt; CLUSTER REPLICATE 813befe6b157312120c27c0d29573b84e79245a7</div><div class="line">OK</div><div class="line">192.168.137.147:7008&gt;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<a id="more"></a>  
+<h5 id="新增端口为7007的节点"><a href="#新增端口为7007的节点" class="headerlink" title="新增端口为7007的节点"></a>新增端口为7007的节点</h5><ul>
+<li><p>1.查看当前节点信息</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">[root@node1 redis-cluster]<span class="comment"># ./redis/bin/redis-cli -c -h 192.168.137.147 -p 7001</span></div><div class="line">192.168.137.147:7001&gt; </div><div class="line">192.168.137.147:7001&gt; </div><div class="line">192.168.137.147:7001&gt; </div><div class="line">192.168.137.147:7001&gt; CLUSTER NODES</div><div class="line">b8c7a04b84b06a5b3f4a529c0cc32c0c915ebcc8 192.168.137.147:7001 myself,master - 0 0 8 connected 0-5627 10923-11088</div><div class="line">4af3d70ace7038c82b65104c983c18e8a047fb12 192.168.137.147:7003 master - 0 1486387997595 3 connected 11089-16383</div><div class="line">e88d24aa120b37751a1aaafbd66db799833587c1 192.168.137.147:7006 slave 4af3d70ace7038c82b65104c983c18e8a047fb12 0 1486387999637 6 connected</div><div class="line">b7544d7ff478b46cfb4d89c781ce8079332dcedf 192.168.137.147:7005 slave 4543836ee8a65a4b30b0f226a0dd6a5c3c04ab60 0 1486388001678 5 connected</div><div class="line">8d368f763314c8ea237cd467e650eef99f6aeb38 192.168.137.147:7004 slave b8c7a04b84b06a5b3f4a529c0cc32c0c915ebcc8 0 1486387998614 8 connected</div><div class="line">4543836ee8a65a4b30b0f226a0dd6a5c3c04ab60 192.168.137.147:7002 master - 0 1486388000659 2 connected 5628-10922</div><div class="line">192.168.137.147:7001&gt;</div></pre></td></tr></table></figure>
+</li>
+<li><p>2.启动端口为7007的节点,配置文件与其他6个节点配置方式一致</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">[root@node1 redis-cluster]<span class="comment"># ./redis/bin/redis-server 7007/redis.conf </span></div><div class="line">[root@node1 redis-cluster]<span class="comment">#</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>3.执行添加操作</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">[root@node1 redis-cluster]<span class="comment"># ./redis/bin/redis-trib.rb add-node 192.168.137.147:7007 192.168.137.147:7001</span></div><div class="line">&gt;&gt;&gt; Adding node 192.168.137.147:7007 to cluster 192.168.137.147:7001</div><div class="line">&gt;&gt;&gt; Performing Cluster Check (using node 192.168.137.147:7001)</div><div class="line">M: b8c7a04b84b06a5b3f4a529c0cc32c0c915ebcc8 192.168.137.147:7001</div><div class="line">   slots:1-5627,10923-11088 (5793 slots) master</div><div class="line">   1 additional replica(s)</div><div class="line">M: 4af3d70ace7038c82b65104c983c18e8a047fb12 192.168.137.147:7003</div><div class="line">   slots:0,11089-16383 (5296 slots) master</div><div class="line">   1 additional replica(s)</div><div class="line">S: e88d24aa120b37751a1aaafbd66db799833587c1 192.168.137.147:7006</div><div class="line">   slots: (0 slots) slave</div><div class="line">   replicates 4af3d70ace7038c82b65104c983c18e8a047fb12</div><div class="line">S: b7544d7ff478b46cfb4d89c781ce8079332dcedf 192.168.137.147:7005</div><div class="line">   slots: (0 slots) slave</div><div class="line">   replicates 4543836ee8a65a4b30b0f226a0dd6a5c3c04ab60</div><div class="line">S: 8d368f763314c8ea237cd467e650eef99f6aeb38 192.168.137.147:7004</div><div class="line">   slots: (0 slots) slave</div><div class="line">   replicates b8c7a04b84b06a5b3f4a529c0cc32c0c915ebcc8</div><div class="line">M: 4543836ee8a65a4b30b0f226a0dd6a5c3c04ab60 192.168.137.147:7002</div><div class="line">   slots:5628-10922 (5295 slots) master</div><div class="line">   1 additional replica(s)</div><div class="line">[OK] All nodes agree about slots configuration.</div><div class="line">&gt;&gt;&gt; Check <span class="keyword">for</span> open slots...</div><div class="line">&gt;&gt;&gt; Check slots coverage...</div><div class="line">[OK] All 16384 slots covered.</div><div class="line">&gt;&gt;&gt; Send CLUSTER MEET to node 192.168.137.147:7007 to make it join the cluster.</div><div class="line">[OK] New node added correctly.</div><div class="line">[root@node1 redis-cluster]<span class="comment">#</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>4.检测是否添加成功</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line">[root@node1 redis-cluster]<span class="comment"># ./redis/bin/redis-trib.rb check 192.168.137.147:7007</span></div><div class="line">&gt;&gt;&gt; Performing Cluster Check (using node 192.168.137.147:7007)</div><div class="line">M: 813befe6b157312120c27c0d29573b84e79245a7 192.168.137.147:7007</div><div class="line">   slots: (0 slots) master</div><div class="line">   0 additional replica(s)</div><div class="line">M: 4af3d70ace7038c82b65104c983c18e8a047fb12 192.168.137.147:7003</div><div class="line">   slots:0,11089-16383 (5296 slots) master</div><div class="line">   1 additional replica(s)</div><div class="line">M: 0d4c4a73991ce0f759adbf51a1453b7fa088fbae 192.168.137.147:7008</div><div class="line">   slots: (0 slots) master</div><div class="line">   0 additional replica(s)</div><div class="line">S: 8d368f763314c8ea237cd467e650eef99f6aeb38 192.168.137.147:7004</div><div class="line">   slots: (0 slots) slave</div><div class="line">   replicates b8c7a04b84b06a5b3f4a529c0cc32c0c915ebcc8</div><div class="line">M: b8c7a04b84b06a5b3f4a529c0cc32c0c915ebcc8 192.168.137.147:7001</div><div class="line">   slots:1-5627,10923-11088 (5793 slots) master</div><div class="line">   1 additional replica(s)</div><div class="line">S: b7544d7ff478b46cfb4d89c781ce8079332dcedf 192.168.137.147:7005</div><div class="line">   slots: (0 slots) slave</div><div class="line">   replicates 4543836ee8a65a4b30b0f226a0dd6a5c3c04ab60</div><div class="line">M: 4543836ee8a65a4b30b0f226a0dd6a5c3c04ab60 192.168.137.147:7002</div><div class="line">   slots:5628-10922 (5295 slots) master</div><div class="line">   1 additional replica(s)</div><div class="line">S: e88d24aa120b37751a1aaafbd66db799833587c1 192.168.137.147:7006</div><div class="line">   slots: (0 slots) slave</div><div class="line">   replicates 4af3d70ace7038c82b65104c983c18e8a047fb12</div><div class="line">[OK] All nodes agree about slots configuration.</div><div class="line">&gt;&gt;&gt; Check <span class="keyword">for</span> open slots...</div><div class="line">&gt;&gt;&gt; Check slots coverage...</div><div class="line">[OK] All 16384 slots covered.</div><div class="line">[root@node1 redis-cluster]<span class="comment">#</span></div></pre></td></tr></table></figure>
+<blockquote>
+<blockquote>
+<p>可以看到已经添加成功，并且为Master，id为813befe6b157312120c27c0d29573b84e79245a7 ，但是没有分配数据槽</p>
+</blockquote>
+</blockquote>
+<ul>
+<li><p>5.从其他主节点分配数据槽<br><strong><code>这里我从7001节点分配200个数据槽（注意删除的时候，要写199，因为从0开始）</code></strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line"> [root@node1 redis-cluster]<span class="comment">#  ./redis/bin/redis-trib.rb reshard 192.168.137.147:7001</span></div><div class="line">&gt;&gt;&gt; Performing Cluster Check (using node 192.168.137.147:7001)</div><div class="line">M: b8c7a04b84b06a5b3f4a529c0cc32c0c915ebcc8 192.168.137.147:7001</div><div class="line">   slots:1-5627,10923-11088 (5793 slots) master</div><div class="line">   1 additional replica(s)</div><div class="line">M: 0d4c4a73991ce0f759adbf51a1453b7fa088fbae 192.168.137.147:7008</div><div class="line">   slots: (0 slots) master</div><div class="line">   0 additional replica(s)</div><div class="line">M: 4af3d70ace7038c82b65104c983c18e8a047fb12 192.168.137.147:7003</div><div class="line">   slots:0,11089-16383 (5296 slots) master</div><div class="line">   1 additional replica(s)</div><div class="line">S: e88d24aa120b37751a1aaafbd66db799833587c1 192.168.137.147:7006</div><div class="line">   slots: (0 slots) slave</div><div class="line">   replicates 4af3d70ace7038c82b65104c983c18e8a047fb12</div><div class="line">S: b7544d7ff478b46cfb4d89c781ce8079332dcedf 192.168.137.147:7005</div><div class="line">   slots: (0 slots) slave</div><div class="line">   replicates 4543836ee8a65a4b30b0f226a0dd6a5c3c04ab60</div><div class="line">S: 8d368f763314c8ea237cd467e650eef99f6aeb38 192.168.137.147:7004</div><div class="line">   slots: (0 slots) slave</div><div class="line">   replicates b8c7a04b84b06a5b3f4a529c0cc32c0c915ebcc8</div><div class="line">M: 4543836ee8a65a4b30b0f226a0dd6a5c3c04ab60 192.168.137.147:7002</div><div class="line">   slots:5628-10922 (5295 slots) master</div><div class="line">   1 additional replica(s)</div><div class="line">M: 813befe6b157312120c27c0d29573b84e79245a7 192.168.137.147:7007</div><div class="line">   slots: (0 slots) master</div><div class="line">   0 additional replica(s)</div><div class="line">[OK] All nodes agree about slots configuration.</div><div class="line">&gt;&gt;&gt; Check <span class="keyword">for</span> open slots...</div><div class="line">&gt;&gt;&gt; Check slots coverage...</div><div class="line">[OK] All 16384 slots covered.</div><div class="line">How many slots <span class="keyword">do</span> you want to move (from 1 to 16384)? 200 (这个是要从7001节点分配的槽数目)</div><div class="line">What is the receiving node ID? 813befe6b157312120c27c0d29573b84e79245a7 (这个是新增节点的id)</div><div class="line">Please enter all the <span class="built_in">source</span> node IDs.</div><div class="line">  Type <span class="string">'all'</span> to use all the nodes as <span class="built_in">source</span> nodes <span class="keyword">for</span> the <span class="built_in">hash</span> slots.</div><div class="line">  Type <span class="string">'done'</span> once you entered all the <span class="built_in">source</span> nodes IDs.</div><div class="line">Source node <span class="comment">#1:all</span></div><div class="line">...</div><div class="line">...</div><div class="line">Do you want to proceed with the proposed reshard plan (yes/no)? yes</div><div class="line">...</div><div class="line">...</div></pre></td></tr></table></figure>
+</li>
+<li><p>6.检测数据槽是否分配成功</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line">[root@node1 redis-cluster]<span class="comment"># ./redis/bin/redis-trib.rb check 192.168.137.147:7007</span></div><div class="line">&gt;&gt;&gt; Performing Cluster Check (using node 192.168.137.147:7007)</div><div class="line">M: 813befe6b157312120c27c0d29573b84e79245a7 192.168.137.147:7007</div><div class="line">   slots:0-71,5628-5691,11089-11151 (199 slots) master</div><div class="line">   0 additional replica(s)</div><div class="line">M: 4af3d70ace7038c82b65104c983c18e8a047fb12 192.168.137.147:7003</div><div class="line">   slots:11152-16383 (5232 slots) master</div><div class="line">   1 additional replica(s)</div><div class="line">M: 0d4c4a73991ce0f759adbf51a1453b7fa088fbae 192.168.137.147:7008</div><div class="line">   slots: (0 slots) master</div><div class="line">   0 additional replica(s)</div><div class="line">S: 8d368f763314c8ea237cd467e650eef99f6aeb38 192.168.137.147:7004</div><div class="line">   slots: (0 slots) slave</div><div class="line">   replicates b8c7a04b84b06a5b3f4a529c0cc32c0c915ebcc8</div><div class="line">M: b8c7a04b84b06a5b3f4a529c0cc32c0c915ebcc8 192.168.137.147:7001</div><div class="line">   slots:72-5627,10923-11088 (5722 slots) master</div><div class="line">   1 additional replica(s)</div><div class="line">S: b7544d7ff478b46cfb4d89c781ce8079332dcedf 192.168.137.147:7005</div><div class="line">   slots: (0 slots) slave</div><div class="line">   replicates 4543836ee8a65a4b30b0f226a0dd6a5c3c04ab60</div><div class="line">M: 4543836ee8a65a4b30b0f226a0dd6a5c3c04ab60 192.168.137.147:7002</div><div class="line">   slots:5692-10922 (5231 slots) master</div><div class="line">   1 additional replica(s)</div><div class="line">S: e88d24aa120b37751a1aaafbd66db799833587c1 192.168.137.147:7006</div><div class="line">   slots: (0 slots) slave</div><div class="line">   replicates 4af3d70ace7038c82b65104c983c18e8a047fb12</div><div class="line">[OK] All nodes agree about slots configuration.</div><div class="line">&gt;&gt;&gt; Check <span class="keyword">for</span> open slots...</div><div class="line">&gt;&gt;&gt; Check slots coverage...</div><div class="line">[OK] All 16384 slots covered.</div><div class="line">[root@node1 redis-cluster]<span class="comment">#</span></div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>7.为7007节点添加从节点7008 (7008配置文件与集群文件配置方式一致)</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line">[root@node1 redis-cluster]<span class="comment"># ./redis/bin/redis-server 7008/redis.conf </span></div><div class="line">[root@node1 redis-cluster]<span class="comment"># </span></div><div class="line">[root@node1 redis-cluster]<span class="comment"># ./redis/bin/redis-trib.rb add-node  --slave --master-id 813befe6b157312120c27c0d29573b84e79245a7 192.168.137.147:7008 192.168.137.147:7007</span></div><div class="line">&gt;&gt;&gt; Adding node 192.168.137.147:7008 to cluster 192.168.137.147:7007</div><div class="line">&gt;&gt;&gt; Performing Cluster Check (using node 192.168.137.147:7007)</div><div class="line">M: 813befe6b157312120c27c0d29573b84e79245a7 192.168.137.147:7007</div><div class="line">   slots:0-71,5628-5691,11089-11151 (199 slots) master</div><div class="line">   0 additional replica(s)</div><div class="line">M: 4af3d70ace7038c82b65104c983c18e8a047fb12 192.168.137.147:7003</div><div class="line">   slots:11152-16383 (5232 slots) master</div><div class="line">   1 additional replica(s)</div><div class="line">S: 8d368f763314c8ea237cd467e650eef99f6aeb38 192.168.137.147:7004</div><div class="line">   slots: (0 slots) slave</div><div class="line">   replicates b8c7a04b84b06a5b3f4a529c0cc32c0c915ebcc8</div><div class="line">M: b8c7a04b84b06a5b3f4a529c0cc32c0c915ebcc8 192.168.137.147:7001</div><div class="line">   slots:72-5627,10923-11088 (5722 slots) master</div><div class="line">   1 additional replica(s)</div><div class="line">S: b7544d7ff478b46cfb4d89c781ce8079332dcedf 192.168.137.147:7005</div><div class="line">   slots: (0 slots) slave</div><div class="line">   replicates 4543836ee8a65a4b30b0f226a0dd6a5c3c04ab60</div><div class="line">M: 4543836ee8a65a4b30b0f226a0dd6a5c3c04ab60 192.168.137.147:7002</div><div class="line">   slots:5692-10922 (5231 slots) master</div><div class="line">   1 additional replica(s)</div><div class="line">S: e88d24aa120b37751a1aaafbd66db799833587c1 192.168.137.147:7006</div><div class="line">   slots: (0 slots) slave</div><div class="line">   replicates 4af3d70ace7038c82b65104c983c18e8a047fb12</div><div class="line">[OK] All nodes agree about slots configuration.</div><div class="line">&gt;&gt;&gt; Check <span class="keyword">for</span> open slots...</div><div class="line">&gt;&gt;&gt; Check slots coverage...</div><div class="line">[OK] All 16384 slots covered.</div><div class="line">&gt;&gt;&gt; Send CLUSTER MEET to node 192.168.137.147:7008 to make it join the cluster.</div><div class="line">Waiting <span class="keyword">for</span> the cluster to join.</div><div class="line">&gt;&gt;&gt; Configure node as replica of 192.168.137.147:7007.</div><div class="line">[OK] New node added correctly.</div><div class="line">[root@node1 redis-cluster]<span class="comment">#</span></div></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li>8.检测集群节点信息<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line">[root@node1 redis-cluster]<span class="comment"># ./redis/bin/redis-trib.rb check 192.168.137.147:7007</span></div><div class="line">&gt;&gt;&gt; Performing Cluster Check (using node 192.168.137.147:7007)</div><div class="line">M: 813befe6b157312120c27c0d29573b84e79245a7 192.168.137.147:7007</div><div class="line">   slots:0-71,5628-5691,11089-11151 (199 slots) master</div><div class="line">   1 additional replica(s)</div><div class="line">S: 4149ffd8c52696e76ecd77bc86e4dc861c1786cf 192.168.137.147:7008</div><div class="line">   slots: (0 slots) slave</div><div class="line">   replicates 813befe6b157312120c27c0d29573b84e79245a7</div><div class="line">M: 4af3d70ace7038c82b65104c983c18e8a047fb12 192.168.137.147:7003</div><div class="line">   slots:11152-16383 (5232 slots) master</div><div class="line">   1 additional replica(s)</div><div class="line">S: 8d368f763314c8ea237cd467e650eef99f6aeb38 192.168.137.147:7004</div><div class="line">   slots: (0 slots) slave</div><div class="line">   replicates b8c7a04b84b06a5b3f4a529c0cc32c0c915ebcc8</div><div class="line">M: b8c7a04b84b06a5b3f4a529c0cc32c0c915ebcc8 192.168.137.147:7001</div><div class="line">   slots:72-5627,10923-11088 (5722 slots) master</div><div class="line">   1 additional replica(s)</div><div class="line">S: b7544d7ff478b46cfb4d89c781ce8079332dcedf 192.168.137.147:7005</div><div class="line">   slots: (0 slots) slave</div><div class="line">   replicates 4543836ee8a65a4b30b0f226a0dd6a5c3c04ab60</div><div class="line">M: 4543836ee8a65a4b30b0f226a0dd6a5c3c04ab60 192.168.137.147:7002</div><div class="line">   slots:5692-10922 (5231 slots) master</div><div class="line">   1 additional replica(s)</div><div class="line">S: e88d24aa120b37751a1aaafbd66db799833587c1 192.168.137.147:7006</div><div class="line">   slots: (0 slots) slave</div><div class="line">   replicates 4af3d70ace7038c82b65104c983c18e8a047fb12</div><div class="line">[OK] All nodes agree about slots configuration.</div><div class="line">&gt;&gt;&gt; Check <span class="keyword">for</span> open slots...</div><div class="line">&gt;&gt;&gt; Check slots coverage...</div><div class="line">[OK] All 16384 slots covered.</div><div class="line">[root@node1 redis-cluster]<span class="comment">#</span></div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="删除节点"><a href="#删除节点" class="headerlink" title="删除节点"></a>删除节点</h2><ul>
+<li>命令 <strong><code>./redis/bin/redis-trib.rb del-node 新节点ip:端口 新增节点id</code></strong> <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[root@node1 redis-cluster]<span class="comment"># ./redis/bin/redis-trib.rb del-node 192.168.137.147:7008 e6194194f91fdb8a35c59265131dfc92b054391b</span></div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="删除端口为7007的主节点及7008的从节点"><a href="#删除端口为7007的主节点及7008的从节点" class="headerlink" title="删除端口为7007的主节点及7008的从节点"></a>删除端口为7007的主节点及7008的从节点</h3><h5 id="删除7008从节点"><a href="#删除7008从节点" class="headerlink" title="删除7008从节点"></a>删除7008从节点</h5><ul>
+<li><p>1.删除节点</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">[root@node1 redis-cluster]<span class="comment"># ./redis/bin/redis-trib.rb del-node 192.168.137.147:7008 4149ffd8c52696e76ecd77bc86e4dc861c1786cf</span></div><div class="line">&gt;&gt;&gt; Removing node 4149ffd8c52696e76ecd77bc86e4dc861c1786cf from cluster 192.168.137.147:7008</div><div class="line">&gt;&gt;&gt; Sending CLUSTER FORGET messages to the cluster...</div><div class="line">&gt;&gt;&gt; SHUTDOWN the node.</div><div class="line">[root@node1 redis-cluster]<span class="comment">#</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>2.检测节点</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">[root@node1 redis-cluster]<span class="comment"># ./redis/bin/redis-trib.rb check 192.168.137.147:7007</span></div><div class="line">&gt;&gt;&gt; Performing Cluster Check (using node 192.168.137.147:7007)</div><div class="line">M: 813befe6b157312120c27c0d29573b84e79245a7 192.168.137.147:7007</div><div class="line">   slots:0-71,5628-5691,11089-11151 (199 slots) master</div><div class="line">   0 additional replica(s)</div><div class="line">M: 4af3d70ace7038c82b65104c983c18e8a047fb12 192.168.137.147:7003</div><div class="line">   slots:11152-16383 (5232 slots) master</div><div class="line">   1 additional replica(s)</div><div class="line">S: 8d368f763314c8ea237cd467e650eef99f6aeb38 192.168.137.147:7004</div><div class="line">   slots: (0 slots) slave</div><div class="line">   replicates b8c7a04b84b06a5b3f4a529c0cc32c0c915ebcc8</div><div class="line">M: b8c7a04b84b06a5b3f4a529c0cc32c0c915ebcc8 192.168.137.147:7001</div><div class="line">   slots:72-5627,10923-11088 (5722 slots) master</div><div class="line">   1 additional replica(s)</div><div class="line">S: b7544d7ff478b46cfb4d89c781ce8079332dcedf 192.168.137.147:7005</div><div class="line">   slots: (0 slots) slave</div><div class="line">   replicates 4543836ee8a65a4b30b0f226a0dd6a5c3c04ab60</div><div class="line">M: 4543836ee8a65a4b30b0f226a0dd6a5c3c04ab60 192.168.137.147:7002</div><div class="line">   slots:5692-10922 (5231 slots) master</div><div class="line">   1 additional replica(s)</div><div class="line">S: e88d24aa120b37751a1aaafbd66db799833587c1 192.168.137.147:7006</div><div class="line">   slots: (0 slots) slave</div><div class="line">   replicates 4af3d70ace7038c82b65104c983c18e8a047fb12</div><div class="line">[OK] All nodes agree about slots configuration.</div><div class="line">&gt;&gt;&gt; Check <span class="keyword">for</span> open slots...</div><div class="line">&gt;&gt;&gt; Check slots coverage...</div><div class="line">[OK] All 16384 slots covered.</div><div class="line">[root@node1 redis-cluster]<span class="comment">#</span></div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h5 id="删除7007主节点"><a href="#删除7007主节点" class="headerlink" title="删除7007主节点"></a>删除7007主节点</h5><ul>
+<li><p>1.移除7007主节点数据槽</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line">[root@node1 redis-cluster]<span class="comment"># ./redis/bin/redis-trib.rb reshard 192.168.137.147:7007</span></div><div class="line">&gt;&gt;&gt; Performing Cluster Check (using node 192.168.137.147:7007)</div><div class="line">M: 813befe6b157312120c27c0d29573b84e79245a7 192.168.137.147:7007</div><div class="line">   slots:0-71,5628-5691,11089-11151 (199 slots) master</div><div class="line">   0 additional replica(s)</div><div class="line">M: 4af3d70ace7038c82b65104c983c18e8a047fb12 192.168.137.147:7003</div><div class="line">   slots:11152-16383 (5232 slots) master</div><div class="line">   1 additional replica(s)</div><div class="line">S: 8d368f763314c8ea237cd467e650eef99f6aeb38 192.168.137.147:7004</div><div class="line">   slots: (0 slots) slave</div><div class="line">   replicates b8c7a04b84b06a5b3f4a529c0cc32c0c915ebcc8</div><div class="line">M: b8c7a04b84b06a5b3f4a529c0cc32c0c915ebcc8 192.168.137.147:7001</div><div class="line">   slots:72-5627,10923-11088 (5722 slots) master</div><div class="line">   1 additional replica(s)</div><div class="line">S: b7544d7ff478b46cfb4d89c781ce8079332dcedf 192.168.137.147:7005</div><div class="line">   slots: (0 slots) slave</div><div class="line">   replicates 4543836ee8a65a4b30b0f226a0dd6a5c3c04ab60</div><div class="line">M: 4543836ee8a65a4b30b0f226a0dd6a5c3c04ab60 192.168.137.147:7002</div><div class="line">   slots:5692-10922 (5231 slots) master</div><div class="line">   1 additional replica(s)</div><div class="line">S: e88d24aa120b37751a1aaafbd66db799833587c1 192.168.137.147:7006</div><div class="line">   slots: (0 slots) slave</div><div class="line">   replicates 4af3d70ace7038c82b65104c983c18e8a047fb12</div><div class="line">[OK] All nodes agree about slots configuration.</div><div class="line">&gt;&gt;&gt; Check <span class="keyword">for</span> open slots...</div><div class="line">&gt;&gt;&gt; Check slots coverage...</div><div class="line">[OK] All 16384 slots covered.</div><div class="line">How many slots <span class="keyword">do</span> you want to move (from 1 to 16384)? 199 (7007节点释放的槽数量)</div><div class="line">What is the receiving node ID? 4543836ee8a65a4b30b0f226a0dd6a5c3c04ab60 （接受数据槽的目标节点id,这里释放到7002节点）</div><div class="line">Please enter all the <span class="built_in">source</span> node IDs.</div><div class="line">  Type <span class="string">'all'</span> to use all the nodes as <span class="built_in">source</span> nodes <span class="keyword">for</span> the <span class="built_in">hash</span> slots.</div><div class="line">  Type <span class="string">'done'</span> once you entered all the <span class="built_in">source</span> nodes IDs.</div><div class="line">Source node <span class="comment">#1:813befe6b157312120c27c0d29573b84e79245a7 （7007节点的id）</span></div><div class="line">Source node <span class="comment">#2:done</span></div><div class="line">...</div><div class="line">...</div><div class="line">Do you want to proceed with the proposed reshard plan (yes/no)? yes</div><div class="line">...</div><div class="line">...</div></pre></td></tr></table></figure>
+</li>
+<li><p>2.删除7007节点 （<strong>重复删除7008从节点步骤即可</strong>）</p>
+</li>
+</ul>
+<h1 id="cussess"><a href="#cussess" class="headerlink" title="cussess !!"></a>cussess !!</h1>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;redis动态添加、删除节点&quot;&gt;&lt;a href=&quot;#redis动态添加、删除节点&quot; class=&quot;headerlink&quot; title=&quot;redis动态添加、删除节点&quot;&gt;&lt;/a&gt;redis动态添加、删除节点&lt;/h1&gt;&lt;h2 id=&quot;添加节点&quot;&gt;&lt;a href=&quot;#添加节点&quot; class=&quot;headerlink&quot; title=&quot;添加节点&quot;&gt;&lt;/a&gt;添加节点&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;添加节点命令： &lt;strong&gt;&lt;code&gt;./redis/bin/redis-trib.rb add-node 新节点ip:端口 已知节点ip:端口&lt;/code&gt;&lt;/strong&gt; &lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;[root@node1 redis-cluster]&lt;span class=&quot;comment&quot;&gt;#./redis/bin/redis-trib.rb add-node 192.168.137.147:7007 192.168.137.147:7001&lt;/span&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;添加slave节点（方式1） :&lt;/p&gt;
+&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;[root@node1 redis-cluster]&lt;span class=&quot;comment&quot;&gt;#./redis/bin/redis-trib.rb add-node  --slave --master-id 813befe6b157312120c27c0d29573b84e79245a7 192.168.137.147:7008 192.168.137.147:7007&lt;/span&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;添加slave节点（方式2） ：&lt;/p&gt;
+&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;5&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;6&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;[root@node1 redis-cluster]&lt;span class=&quot;comment&quot;&gt;#./redis/bin/redis-trib.rb add-node 192.168.137.147:7008 192.168.137.147:7007&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;[root@node1 redis-cluster]&lt;span class=&quot;comment&quot;&gt;#&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;[root@node1 redis-cluster]&lt;span class=&quot;comment&quot;&gt;# ./redis/bin/redis-cli -c -h 192.168.137.147 -p 7008&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;192.168.137.147:7008&amp;gt; CLUSTER REPLICATE 813befe6b157312120c27c0d29573b84e79245a7&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;OK&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;192.168.137.147:7008&amp;gt;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+      <category term="Redis" scheme="https://tomoncle.github.io/categories/Redis/"/>
+    
+    
+      <category term="redis" scheme="https://tomoncle.github.io/tags/redis/"/>
+    
+      <category term="cluster" scheme="https://tomoncle.github.io/tags/cluster/"/>
+    
+      <category term="node" scheme="https://tomoncle.github.io/tags/node/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>redis主从模式配置</title>
+    <link href="https://tomoncle.github.io/2016/10/02/redisStandby/"/>
+    <id>https://tomoncle.github.io/2016/10/02/redisStandby/</id>
+    <published>2016-10-02T09:38:28.000Z</published>
+    <updated>2018-04-02T10:04:47.860Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="redis主备环境搭建master-slave"><a href="#redis主备环境搭建master-slave" class="headerlink" title="redis主备环境搭建master-slave"></a>redis主备环境搭建master-slave</h1><p>以下我在本地一台服务器搭建一个master–slave 主从复制结构</p>
+<h3 id="服务安装目录结构"><a href="#服务安装目录结构" class="headerlink" title="服务安装目录结构"></a>服务安装目录结构</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">[root@node1 redis]# tree</div><div class="line">.</div><div class="line">├── bin</div><div class="line">│   ├── redis-benchmark</div><div class="line">│   ├── redis-check-aof</div><div class="line">│   ├── redis-check-rdb</div><div class="line">│   ├── redis-cli</div><div class="line">│   ├── redis-sentinel -&gt; redis-server</div><div class="line">│   └── redis-server</div><div class="line">├── master.conf</div><div class="line">├── node.conf</div><div class="line">├── redis.conf.bak</div><div class="line">└── sentinel.conf</div><div class="line"></div><div class="line">1 directory, 10 files</div></pre></td></tr></table></figure>
+<a id="more"></a>
+<h3 id="文件内容对比"><a href="#文件内容对比" class="headerlink" title="文件内容对比"></a>文件内容对比</h3><h5 id="Master与备份文件内容对比"><a href="#Master与备份文件内容对比" class="headerlink" title="Master与备份文件内容对比"></a>Master与备份文件内容对比</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">[root@node1 redis]# diff redis.conf.bak master.conf </div><div class="line">128c128</div><div class="line">&lt; daemonize no</div><div class="line">---</div><div class="line"><span class="meta">&gt;</span><span class="bash"> daemonize yes</span></div><div class="line">247c247</div><div class="line">&lt; dir ./</div><div class="line">---</div><div class="line"><span class="meta">&gt;</span><span class="bash"> dir /opt/redis-db/master/</span></div><div class="line">593c593</div><div class="line">&lt; appendonly no</div><div class="line">---</div><div class="line"><span class="meta">&gt;</span><span class="bash"> appendonly yes</span></div></pre></td></tr></table></figure>
+<h5 id="master与node文件内容对比"><a href="#master与node文件内容对比" class="headerlink" title="master与node文件内容对比"></a>master与node文件内容对比</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">[root@node1 redis]# diff master.conf node.conf </div><div class="line">84c84</div><div class="line">&lt; port 6379</div><div class="line">---</div><div class="line"><span class="meta">&gt;</span><span class="bash"> port 6380</span></div><div class="line">150c150</div><div class="line">&lt; pidfile /var/run/redis_6379.pid</div><div class="line">---</div><div class="line"><span class="meta">&gt;</span><span class="bash"> pidfile /var/run/redis_6380.pid</span></div><div class="line">247c247</div><div class="line">&lt; dir /opt/redis-db/master/</div><div class="line">---</div><div class="line"><span class="meta">&gt;</span><span class="bash"> dir /opt/redis-db/node/</span></div><div class="line">265c265</div><div class="line">&lt; # slaveof &lt;masterip&gt; &lt;masterport&gt;</div><div class="line">---</div><div class="line"><span class="meta">&gt;</span><span class="bash"> slaveof 127.0.0.1 6379</span></div><div class="line">[root@node1 redis]#</div></pre></td></tr></table></figure>
+<h3 id="服务启动"><a href="#服务启动" class="headerlink" title="服务启动"></a>服务启动</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">[root@node1 redis]# bin/redis-server master.conf</div><div class="line">[root@node1 redis]# bin/redis-server node.conf</div><div class="line">[root@node1 redis]# ps -ef|grep redis</div><div class="line">root       5895      1  0 09:47 ?        00:00:00 bin/redis-server 127.0.0.1:6379</div><div class="line">root       5899      1  0 09:47 ?        00:00:00 bin/redis-server 127.0.0.1:6380</div><div class="line">root       5977   5922  0 09:56 pts/2    00:00:00 grep --color=auto redis</div><div class="line">[root@node1 redis]#</div></pre></td></tr></table></figure>
+<h3 id="主从切换"><a href="#主从切换" class="headerlink" title="主从切换"></a>主从切换</h3><h6 id="master-读写"><a href="#master-读写" class="headerlink" title="master 读写"></a>master 读写</h6><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">[root@node1 redis]# ./bin/redis-cli</div><div class="line">127.0.0.1:6379&gt; set name aric</div><div class="line">OK</div><div class="line">127.0.0.1:6379&gt; get name</div><div class="line">"aric"</div><div class="line">127.0.0.1:6379&gt; set age 21</div><div class="line">OK</div><div class="line">127.0.0.1:6379&gt; get age</div><div class="line">"21"</div><div class="line">127.0.0.1:6380&gt; quit</div><div class="line">[root@node1 redis]#</div></pre></td></tr></table></figure>
+<h5 id="node-只读"><a href="#node-只读" class="headerlink" title="node 只读"></a>node 只读</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">[root@node1 redis]# ./bin/redis-cli -p 6380</div><div class="line">127.0.0.1:6380&gt; keys *</div><div class="line">1) "name"</div><div class="line">2) "age"</div><div class="line">127.0.0.1:6380&gt; get name</div><div class="line">"aric"</div><div class="line">127.0.0.1:6380&gt; set name abc</div><div class="line">(error) READONLY You can't write against a read only slave.</div><div class="line">127.0.0.1:6380&gt; quit</div><div class="line">[root@node1 redis]#</div></pre></td></tr></table></figure>
+<h5 id="杀死Master节点"><a href="#杀死Master节点" class="headerlink" title="杀死Master节点"></a>杀死Master节点</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">[root@node1 redis]# bin/redis-cli shutdown</div><div class="line">[root@node1 redis]#</div><div class="line">[root@node1 redis]# bin/redis-cli</div><div class="line">Could not connect to Redis at 127.0.0.1:6379: Connection refused</div><div class="line">Could not connect to Redis at 127.0.0.1:6379: Connection refused</div><div class="line">not connected&gt; quit</div><div class="line">[root@node1 redis]# ps -ef|grep redis</div><div class="line">root       5899      1  0 09:47 ?        00:00:01 bin/redis-server 127.0.0.1:6380</div><div class="line">root       5984   5667  0 10:00 pts/1    00:00:00 grep --color=auto redis</div><div class="line">[root@node1 redis]#</div></pre></td></tr></table></figure>
+<h5 id="设置node节点升级为Master"><a href="#设置node节点升级为Master" class="headerlink" title="设置node节点升级为Master"></a>设置node节点升级为Master</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">[root@node1 redis]# bin/redis-cli -p 6380 slaveof NO ONE</div><div class="line">OK</div><div class="line">[root@node1 redis]# bin/redis-cli -p 6380</div><div class="line">127.0.0.1:6380&gt; keys *</div><div class="line">1) "name"</div><div class="line">2) "age"</div><div class="line">127.0.0.1:6380&gt; get name</div><div class="line">"aric"</div><div class="line">127.0.0.1:6380&gt; set name abc</div><div class="line">OK</div><div class="line">127.0.0.1:6380&gt; get name</div><div class="line">"abc"</div><div class="line">127.0.0.1:6380&gt; quit</div><div class="line">[root@node1 redis]#</div></pre></td></tr></table></figure>
+<h5 id="启动Master，使Master节点恢复，并更新最新数据"><a href="#启动Master，使Master节点恢复，并更新最新数据" class="headerlink" title="启动Master，使Master节点恢复，并更新最新数据"></a>启动Master，使Master节点恢复，并更新最新数据</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">[root@node1 redis]# cp /opt/redis-db/node/appendonly.aof /opt/redis-db/master/</div><div class="line">cp：是否覆盖"/opt/redis-db/master/appendonly.aof"？ y</div><div class="line">[root@node1 redis]# cp /opt/redis-db/node/dump.rdb /opt/redis-db/master/</div><div class="line">cp：是否覆盖"/opt/redis-db/master/dump.rdb"？ y</div><div class="line">[root@node1 redis]# ./bin/redis-server master.conf </div><div class="line">[root@node1 redis]# ./bin/redis-cli -p 6380 slaveof 127.0.0.1 6379</div><div class="line">OK</div><div class="line">[root@node1 redis]# ./bin/redis-cli</div><div class="line">127.0.0.1:6379&gt; keys *</div><div class="line">1) "name"</div><div class="line">2) "age"</div><div class="line">127.0.0.1:6379&gt; get name</div><div class="line">"abc"</div><div class="line">127.0.0.1:6379&gt; quit</div><div class="line">[root@node1 redis]# ./bin/redis-cli -p 6380</div><div class="line">127.0.0.1:6380&gt; get name</div><div class="line">"abc"</div><div class="line">127.0.0.1:6380&gt; set name tom</div><div class="line">(error) READONLY You can't write against a read only slave.</div><div class="line">127.0.0.1:6380&gt; quit</div><div class="line">[root@node1 redis]#</div></pre></td></tr></table></figure>
+<h3 id="自动切换可以使用keepalived实现或redis自带的哨兵机制"><a href="#自动切换可以使用keepalived实现或redis自带的哨兵机制" class="headerlink" title="自动切换可以使用keepalived实现或redis自带的哨兵机制"></a>自动切换可以使用keepalived实现或redis自带的哨兵机制</h3><h1 id="哨兵机制"><a href="#哨兵机制" class="headerlink" title="哨兵机制"></a>哨兵机制</h1><p>监控redis系统的运行状态</p>
+<ul>
+<li>监控主节点数据库和从节点数据库是否正常运行</li>
+<li>主节点服务器出现故障，可以将从节点服务器自动转换为主服务器</li>
+</ul>
+<h3 id="实现步骤"><a href="#实现步骤" class="headerlink" title="实现步骤"></a>实现步骤</h3><ul>
+<li>1.copy sentinel.conf 文件到“从服务器”安装目录</li>
+<li>2.修改sentinel.conf以下内容：<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span><span class="bash"> Example sentinel.conf</span></div><div class="line"></div><div class="line">port 26379</div><div class="line">dir "/tmp"</div><div class="line"></div><div class="line">sentinel monitor master 127.0.0.1 6379 1</div><div class="line">sentinel down-after-milliseconds master 1500</div><div class="line">sentinel failover-timeout master 10000</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li><p>3.启动服务</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[root@node1 redis]# ./bin/redis-server sentinel.conf --sentinel &amp;</div></pre></td></tr></table></figure>
+</li>
+<li><p>查看哨兵信息</p>
+<ul>
+<li>哨兵服务: redis-cli -p 26379</li>
+<li>查看信息: info Sentinel</li>
+</ul>
+</li>
+</ul>
+<h3 id="主从切换-1"><a href="#主从切换-1" class="headerlink" title="主从切换"></a>主从切换</h3><h5 id="杀死主节点服务"><a href="#杀死主节点服务" class="headerlink" title="杀死主节点服务"></a>杀死主节点服务</h5><pre><code>[root@node1 redis]# kill -9 6166
+</code></pre><h5 id="查看sentinel服务日志"><a href="#查看sentinel服务日志" class="headerlink" title="查看sentinel服务日志"></a>查看sentinel服务日志</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">6194:X 22 Oct 10:59:50.055 # +sdown master node1 127.0.0.1 6379</div><div class="line">6194:X 22 Oct 10:59:50.055 # +odown master node1 127.0.0.1 6379 #quorum 1/1</div><div class="line">6194:X 22 Oct 10:59:50.055 # +new-epoch 1</div><div class="line">6194:X 22 Oct 10:59:50.055 # +try-failover master node1 127.0.0.1 6379</div><div class="line">6194:X 22 Oct 10:59:50.057 # +vote-for-leader 0567c93f4760c410c77ed1717b808219c90d2258 1</div><div class="line">6194:X 22 Oct 10:59:50.058 # +elected-leader master node1 127.0.0.1 6379</div><div class="line">6194:X 22 Oct 10:59:50.058 # +failover-state-select-slave master node1 127.0.0.1 6379</div><div class="line">6194:X 22 Oct 10:59:50.159 # +selected-slave slave 127.0.0.1:6380 127.0.0.1 6380 @ node1 127.0.0.1 6379</div><div class="line">6194:X 22 Oct 10:59:50.159 * +failover-state-send-slaveof-noone slave 127.0.0.1:6380 127.0.0.1 6380 @ node1 127.0.0.1 6379</div><div class="line">6194:X 22 Oct 10:59:50.226 * +failover-state-wait-promotion slave 127.0.0.1:6380 127.0.0.1 6380 @ node1 127.0.0.1 6379</div><div class="line">6194:X 22 Oct 10:59:51.103 # +promoted-slave slave 127.0.0.1:6380 127.0.0.1 6380 @ node1 127.0.0.1 6379</div><div class="line">6194:X 22 Oct 10:59:51.104 # +failover-state-reconf-slaves master node1 127.0.0.1 6379</div><div class="line">6194:X 22 Oct 10:59:51.153 # +failover-end master node1 127.0.0.1 6379</div><div class="line">6194:X 22 Oct 10:59:51.153 # +switch-master node1 127.0.0.1 6379 127.0.0.1 6380</div><div class="line">6194:X 22 Oct 10:59:51.153 * +slave slave 127.0.0.1:6379 127.0.0.1 6379 @ node1 127.0.0.1 6380</div><div class="line">6194:X 22 Oct 10:59:52.696 # +sdown slave 127.0.0.1:6379 127.0.0.1 6379 @ node1 127.0.0.1 6380</div></pre></td></tr></table></figure>
+<h5 id="登录从节点服务器"><a href="#登录从节点服务器" class="headerlink" title="登录从节点服务器"></a>登录从节点服务器</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">[root@node1 redis]# ./bin/redis-cli -p 6380</div><div class="line">127.0.0.1:6380&gt; info</div><div class="line"><span class="meta">#</span><span class="bash"> Server</span></div><div class="line">...</div><div class="line"><span class="meta">#</span><span class="bash"> Replication</span></div><div class="line">role:master</div><div class="line">connected_slaves:0</div><div class="line">master_repl_offset:0</div><div class="line">repl_backlog_active:0</div><div class="line">repl_backlog_size:1048576</div><div class="line">repl_backlog_first_byte_offset:0</div><div class="line">repl_backlog_histlen:0</div><div class="line">..</div><div class="line"></div><div class="line">127.0.0.1:6380&gt; </div><div class="line">127.0.0.1:6380&gt; get name</div><div class="line">"abc"</div><div class="line">127.0.0.1:6380&gt; set name aric</div><div class="line">OK</div><div class="line">127.0.0.1:6380&gt; get name</div><div class="line">"aric"</div><div class="line">127.0.0.1:6380&gt; quit</div><div class="line">[root@node1 redis]#</div></pre></td></tr></table></figure>
+<h5 id="恢复主节点，自动切换为从服务器"><a href="#恢复主节点，自动切换为从服务器" class="headerlink" title="恢复主节点，自动切换为从服务器"></a>恢复主节点，自动切换为从服务器</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">[root@node1 redis]# ./bin/redis-server master.conf </div><div class="line">[root@node1 redis]# </div><div class="line">[root@node1 redis]# ./bin/redis-cli</div><div class="line">127.0.0.1:6379&gt; info</div><div class="line"># Server</div><div class="line">...</div><div class="line"># Replication</div><div class="line">role:slave</div><div class="line">master_host:127.0.0.1</div><div class="line">master_port:6380</div><div class="line">master_link_status:up</div><div class="line">master_last_io_seconds_ago:1</div><div class="line">master_sync_in_progress:0</div><div class="line">slave_repl_offset:4542</div><div class="line">slave_priority:100</div><div class="line">slave_read_only:1</div><div class="line">connected_slaves:0</div><div class="line">master_repl_offset:0</div><div class="line">repl_backlog_active:0</div><div class="line">repl_backlog_size:1048576</div><div class="line">repl_backlog_first_byte_offset:0</div><div class="line">repl_backlog_histlen:0</div><div class="line">...</div><div class="line">127.0.0.1:6379&gt; get name</div><div class="line">&quot;aric&quot;</div><div class="line">127.0.0.1:6379&gt; </div><div class="line">127.0.0.1:6379&gt; set name 123</div><div class="line">(error) READONLY You can&apos;t write against a read only slave.</div><div class="line">127.0.0.1:6379&gt;</div></pre></td></tr></table></figure>
+<h6 id="配置完成"><a href="#配置完成" class="headerlink" title="配置完成"></a>配置完成</h6>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;redis主备环境搭建master-slave&quot;&gt;&lt;a href=&quot;#redis主备环境搭建master-slave&quot; class=&quot;headerlink&quot; title=&quot;redis主备环境搭建master-slave&quot;&gt;&lt;/a&gt;redis主备环境搭建master-slave&lt;/h1&gt;&lt;p&gt;以下我在本地一台服务器搭建一个master–slave 主从复制结构&lt;/p&gt;
+&lt;h3 id=&quot;服务安装目录结构&quot;&gt;&lt;a href=&quot;#服务安装目录结构&quot; class=&quot;headerlink&quot; title=&quot;服务安装目录结构&quot;&gt;&lt;/a&gt;服务安装目录结构&lt;/h3&gt;&lt;figure class=&quot;highlight shell&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;5&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;6&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;7&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;8&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;9&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;10&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;11&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;12&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;13&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;14&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;15&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;[root@node1 redis]# tree&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;.&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;├── bin&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;│   ├── redis-benchmark&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;│   ├── redis-check-aof&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;│   ├── redis-check-rdb&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;│   ├── redis-cli&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;│   ├── redis-sentinel -&amp;gt; redis-server&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;│   └── redis-server&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;├── master.conf&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;├── node.conf&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;├── redis.conf.bak&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;└── sentinel.conf&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;1 directory, 10 files&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+    
+    </summary>
+    
+      <category term="Redis" scheme="https://tomoncle.github.io/categories/Redis/"/>
+    
+    
+      <category term="redis" scheme="https://tomoncle.github.io/tags/redis/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>redis集群搭建</title>
+    <link href="https://tomoncle.github.io/2016/09/02/redisCluster/"/>
+    <id>https://tomoncle.github.io/2016/09/02/redisCluster/</id>
+    <published>2016-09-02T09:38:07.000Z</published>
+    <updated>2018-04-02T09:57:44.392Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="redis集群-3-2"><a href="#redis集群-3-2" class="headerlink" title="redis集群 3.2"></a>redis集群 3.2</h1><blockquote>
+<p>这里我使用3.2版本测试. </p>
+</blockquote>
+<h2 id="1-新建redis集群文件夹"><a href="#1-新建redis集群文件夹" class="headerlink" title="1.新建redis集群文件夹"></a>1.新建redis集群文件夹</h2><pre><code>mkdir -p  /opt/redis-cluster
+cd /opt/redis-cluster
+</code></pre><h2 id="2-新建6个节点文件7001-7006-和redis文件夹"><a href="#2-新建6个节点文件7001-7006-和redis文件夹" class="headerlink" title="2.新建6个节点文件7001-7006 和redis文件夹"></a>2.新建6个节点文件7001-7006 和redis文件夹</h2><pre><code>mkdir 7001 7002 7003 7004 7005 7006 redis
+</code></pre><h2 id="3-copy解压后的redis文件到redis文件夹"><a href="#3-copy解压后的redis文件到redis文件夹" class="headerlink" title="3.copy解压后的redis文件到redis文件夹"></a>3.copy解压后的redis文件到redis文件夹</h2><pre><code>tar xvf redis3.2.bin.tar 
+cp -r redis /opt/redis-cluster
+</code></pre><h2 id="4-copy-redis文件夹下的redis-conf到6个节点文件下"><a href="#4-copy-redis文件夹下的redis-conf到6个节点文件下" class="headerlink" title="4.copy redis文件夹下的redis.conf到6个节点文件下"></a>4.copy redis文件夹下的redis.conf到6个节点文件下</h2><pre><code>cp ./redis/redis.conf ./700*
+</code></pre><h2 id="5-修改6个节点的redis-conf-文件"><a href="#5-修改6个节点的redis-conf-文件" class="headerlink" title="5.修改6个节点的redis.conf 文件"></a>5.修改6个节点的redis.conf 文件</h2><a id="more"></a>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">+----+---------------------------------------+--------------------------------------+---------------------------------------------</div><div class="line">|数量| 　　　默认参数          　　　　　　　　　　|     　修改参数                         ｜     描述</div><div class="line">+----+---------------------------------------+--------------------------------------+---------------------------------------------</div><div class="line">|  1 | bind 127.0.0.1         　　　　　　　　　| bind 192.168.1.1                     | 绑定的网卡地址</div><div class="line">|  2*| port 6379                             | port　700*                           | 端口</div><div class="line">|  3 | daemonize no           　　　　　　　　　| daemonize yes                        | 开启守护进程模式运行</div><div class="line">|  4 | pidfile /var/run/redis_6379.pid       | pidfile /var/run/redis_700*.pid      | 伪集群下要指定不同的守护进程pid </div><div class="line">|  5 | dir ./                 　　　　　　　　　| dir /opt/redis-cluster/700*/         | 指定不同的数据文件目录</div><div class="line">|  6*| appendonly no                         | appendonly yes                       | 开启aof持久化</div><div class="line">|  7*| # cluster-enabled yes  　　　　　　　　　| cluster-enabled yes                  | 开启集群模式</div><div class="line">|  8*| # cluster-config-file nodes-6379.conf | cluster-config-file nodes-700*.conf  | 集群配置文件，伪集群下要指定不同文件地址，会自动生成.</div><div class="line">|  9*| # cluster-node-timeout 15000          | cluster-node-timeout 15000           | 节点互连超时时间</div><div class="line">| 10#| databases 16           　　　　　　　　　| databases 1                          | 可用数据库，默认存在０号服务器，建议设置一个 </div><div class="line">| 11#| # cluster-migration-barrier 1         | cluster-migration-barrier 1          | master可以拥有的最小slave数量</div><div class="line">| 12#| # cluster-require-full-coverage yes   | cluster-require-full-coverage yes    | 集群若存在key space没有覆盖，禁止写入 </div><div class="line">+----+---------------------------------------+--------------------------------------+---------------------------------------------</div><div class="line">*表示集群模式最小配置，＃表示建议配置，可以不配置</div></pre></td></tr></table></figure>
+<pre><code>vim redis.conf
+[root@node1 redis-cluster]# diff redis/redis.conf 7001/redis.conf 
+61c61
+&lt; bind 127.0.0.1
+---
+&gt; bind 192.168.137.147
+84c84
+&lt; port 6379
+---
+&gt; port 7001
+128c128
+&lt; daemonize no
+---
+&gt; daemonize yes
+247c247
+&lt; dir ./
+---
+&gt; dir /opt/redis-cluster/7001/
+593c593
+&lt; appendonly no
+---
+&gt; appendonly yes
+721c721
+&lt; # cluster-enabled yes
+---
+&gt; cluster-enabled yes
+729c729
+&lt; # cluster-config-file nodes-6379.conf
+---
+&gt; cluster-config-file nodes-7001.conf
+735c735
+&lt; # cluster-node-timeout 15000
+---
+&gt; cluster-node-timeout 5000
+[root@node1 redis-cluster]# 
+
+#vim 替换快捷键  :%s/7001/7002/g
+</code></pre><h2 id="6-安装ruby依赖包"><a href="#6-安装ruby依赖包" class="headerlink" title="6.安装ruby依赖包"></a>6.安装ruby依赖包</h2><pre><code>yum -y install ruby rubygems 
+gem install redis
+</code></pre><h2 id="7-分别启动redis-6个节点"><a href="#7-分别启动redis-6个节点" class="headerlink" title="7.分别启动redis 6个节点"></a>7.分别启动redis 6个节点</h2><pre><code>[root@node1 redis-cluster]# 
+[root@node1 redis-cluster]# ./redis/bin/redis-server ./7001/redis.conf 
+[root@node1 redis-cluster]# ./redis/bin/redis-server ./7002/redis.conf 
+[root@node1 redis-cluster]# ./redis/bin/redis-server ./7003/redis.conf 
+[root@node1 redis-cluster]# ./redis/bin/redis-server ./7004/redis.conf 
+[root@node1 redis-cluster]# ./redis/bin/redis-server ./7005/redis.conf 
+[root@node1 redis-cluster]# ./redis/bin/redis-server ./7006/redis.conf 
+[root@node1 redis-cluster]# 
+[root@node1 redis-cluster]# ps -ef|grep redis
+root       2474      1  0 23:11 ?        00:00:00 ./redis/bin/redis-server 192.168.137.147:7001 [cluster]
+root       2478      1  0 23:11 ?        00:00:00 ./redis/bin/redis-server 192.168.137.147:7002 [cluster]
+root       2482      1  0 23:12 ?        00:00:00 ./redis/bin/redis-server 192.168.137.147:7003 [cluster]
+root       2486      1  0 23:12 ?        00:00:00 ./redis/bin/redis-server 192.168.137.147:7004 [cluster]
+root       2490      1  0 23:12 ?        00:00:00 ./redis/bin/redis-server 192.168.137.147:7005 [cluster]
+root       2494      1  0 23:12 ?        00:00:00 ./redis/bin/redis-server 192.168.137.147:7006 [cluster]
+root       2515   2370  0 23:12 pts/1    00:00:00 grep --color=auto redis
+[root@node1 redis-cluster]# 
+</code></pre><h2 id="8-使用redis-trib-rb-创建集群"><a href="#8-使用redis-trib-rb-创建集群" class="headerlink" title="8.使用redis-trib.rb 创建集群"></a>8.使用redis-trib.rb 创建集群</h2><pre><code>[root@node1 redis-cluster]# 
+[root@node1 redis-cluster]# ./redis/bin/redis-trib.rb create --replicas 1 \
+&gt; 192.168.137.147:7001 192.168.137.147:7002 192.168.137.147:7003 \
+&gt; 192.168.137.147:7004 192.168.137.147:7005 192.168.137.147:7006
+&gt;&gt;&gt; Creating cluster
+&gt;&gt;&gt; Performing hash slots allocation on 6 nodes...
+Using 3 masters:
+192.168.137.147:7001
+192.168.137.147:7002
+192.168.137.147:7003
+Adding replica 192.168.137.147:7004 to 192.168.137.147:7001
+Adding replica 192.168.137.147:7005 to 192.168.137.147:7002
+Adding replica 192.168.137.147:7006 to 192.168.137.147:7003
+M: 7ea4b261762457810bd5f7d50388a5e399e4ee19 192.168.137.147:7001
+   slots:0-5460 (5461 slots) master
+M: 4c928118bfd6cc950636f2950048ca557ccf6e8e 192.168.137.147:7002
+   slots:5461-10922 (5462 slots) master
+M: d3c10b1f6b44f32530536e9d0bc810928d1a3c21 192.168.137.147:7003
+   slots:10923-16383 (5461 slots) master
+S: 7154bff37824c68916aff613cc1f13722cff6a7e 192.168.137.147:7004
+   replicates 7ea4b261762457810bd5f7d50388a5e399e4ee19
+S: b1c170a509cf6ad8393560ca54810f8ebc2652d8 192.168.137.147:7005
+   replicates 4c928118bfd6cc950636f2950048ca557ccf6e8e
+S: 2d243d04267ee61069249cb792441f42c5ea3438 192.168.137.147:7006
+   replicates d3c10b1f6b44f32530536e9d0bc810928d1a3c21
+Can I set the above configuration? (type &apos;yes&apos; to accept): yes
+&gt;&gt;&gt; Nodes configuration updated
+&gt;&gt;&gt; Assign a different config epoch to each node
+&gt;&gt;&gt; Sending CLUSTER MEET messages to join the cluster
+Waiting for the cluster to join......
+&gt;&gt;&gt; Performing Cluster Check (using node 192.168.137.147:7001)
+M: 7ea4b261762457810bd5f7d50388a5e399e4ee19 192.168.137.147:7001
+   slots:0-5460 (5461 slots) master
+M: 4c928118bfd6cc950636f2950048ca557ccf6e8e 192.168.137.147:7002
+   slots:5461-10922 (5462 slots) master
+M: d3c10b1f6b44f32530536e9d0bc810928d1a3c21 192.168.137.147:7003
+   slots:10923-16383 (5461 slots) master
+M: 7154bff37824c68916aff613cc1f13722cff6a7e 192.168.137.147:7004
+   slots: (0 slots) master
+   replicates 7ea4b261762457810bd5f7d50388a5e399e4ee19
+M: b1c170a509cf6ad8393560ca54810f8ebc2652d8 192.168.137.147:7005
+   slots: (0 slots) master
+   replicates 4c928118bfd6cc950636f2950048ca557ccf6e8e
+M: 2d243d04267ee61069249cb792441f42c5ea3438 192.168.137.147:7006
+   slots: (0 slots) master
+   replicates d3c10b1f6b44f32530536e9d0bc810928d1a3c21
+[OK] All nodes agree about slots configuration.
+&gt;&gt;&gt; Check for open slots...
+&gt;&gt;&gt; Check slots coverage...
+[OK] All 16384 slots covered.
+[root@node1 redis-cluster]# 
+</code></pre><h2 id="9-集群验证-c-表示集群模式"><a href="#9-集群验证-c-表示集群模式" class="headerlink" title="9.集群验证 -c 表示集群模式"></a>9.集群验证 -c 表示集群模式</h2><h5 id="客户端登录"><a href="#客户端登录" class="headerlink" title="客户端登录"></a>客户端登录</h5><pre><code>[root@node1 redis-cluster]# ./redis/bin/redis-cli -c -h 192.168.137.147 -p 7001
+</code></pre><h5 id="查看当前节点信息"><a href="#查看当前节点信息" class="headerlink" title="查看当前节点信息"></a>查看当前节点信息</h5><pre><code>192.168.137.147:7001&gt; info
+# Server
+redis_version:3.2.3
+...
+lru_clock:582158
+executable:/opt/redis-cluster/./redis/bin/redis-server
+config_file:/opt/redis-cluster/./7001/redis.conf
+...
+
+# Replication
+role:master
+connected_slaves:1
+slave0:ip=192.168.137.147,port=7004,state=online,offset=393,lag=0
+master_repl_offset:393
+repl_backlog_active:1
+repl_backlog_size:1048576
+repl_backlog_first_byte_offset:2
+repl_backlog_histlen:392
+
+# CPU
+used_cpu_sys:0.47
+used_cpu_user:0.30
+used_cpu_sys_children:0.00
+used_cpu_user_children:0.00
+
+# Cluster
+cluster_enabled:1
+
+# Keyspace
+</code></pre><h5 id="查看集群信息"><a href="#查看集群信息" class="headerlink" title="查看集群信息"></a>查看集群信息</h5><pre><code>192.168.137.147:7001&gt; cluster info
+cluster_state:ok
+cluster_slots_assigned:16384
+cluster_slots_ok:16384
+cluster_slots_pfail:0
+cluster_slots_fail:0
+cluster_known_nodes:6
+cluster_size:3
+cluster_current_epoch:6
+cluster_my_epoch:1
+cluster_stats_messages_sent:851
+cluster_stats_messages_received:851
+</code></pre><h5 id="查看node节点信息"><a href="#查看node节点信息" class="headerlink" title="查看node节点信息"></a>查看node节点信息</h5><pre><code>192.168.137.147:7001&gt; cluster nodes
+b1c170a509cf6ad8393560ca54810f8ebc2652d8 192.168.137.147:7005 slave 4c928118bfd6cc950636f2950048ca557ccf6e8e 0 1476977272444 5 connected
+2d243d04267ee61069249cb792441f42c5ea3438 192.168.137.147:7006 slave d3c10b1f6b44f32530536e9d0bc810928d1a3c21 0 1476977268902 6 connected
+7ea4b261762457810bd5f7d50388a5e399e4ee19 192.168.137.147:7001 myself,master - 0 0 1 connected 0-5460
+d3c10b1f6b44f32530536e9d0bc810928d1a3c21 192.168.137.147:7003 master - 0 1476977269407 3 connected 10923-16383
+7154bff37824c68916aff613cc1f13722cff6a7e 192.168.137.147:7004 slave 7ea4b261762457810bd5f7d50388a5e399e4ee19 0 1476977271434 4 connected
+4c928118bfd6cc950636f2950048ca557ccf6e8e 192.168.137.147:7002 master - 0 1476977270417 2 connected 5461-10922
+192.168.137.147:7001&gt; 
+</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;redis集群-3-2&quot;&gt;&lt;a href=&quot;#redis集群-3-2&quot; class=&quot;headerlink&quot; title=&quot;redis集群 3.2&quot;&gt;&lt;/a&gt;redis集群 3.2&lt;/h1&gt;&lt;blockquote&gt;
+&lt;p&gt;这里我使用3.2版本测试. &lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;1-新建redis集群文件夹&quot;&gt;&lt;a href=&quot;#1-新建redis集群文件夹&quot; class=&quot;headerlink&quot; title=&quot;1.新建redis集群文件夹&quot;&gt;&lt;/a&gt;1.新建redis集群文件夹&lt;/h2&gt;&lt;pre&gt;&lt;code&gt;mkdir -p  /opt/redis-cluster
+cd /opt/redis-cluster
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&quot;2-新建6个节点文件7001-7006-和redis文件夹&quot;&gt;&lt;a href=&quot;#2-新建6个节点文件7001-7006-和redis文件夹&quot; class=&quot;headerlink&quot; title=&quot;2.新建6个节点文件7001-7006 和redis文件夹&quot;&gt;&lt;/a&gt;2.新建6个节点文件7001-7006 和redis文件夹&lt;/h2&gt;&lt;pre&gt;&lt;code&gt;mkdir 7001 7002 7003 7004 7005 7006 redis
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&quot;3-copy解压后的redis文件到redis文件夹&quot;&gt;&lt;a href=&quot;#3-copy解压后的redis文件到redis文件夹&quot; class=&quot;headerlink&quot; title=&quot;3.copy解压后的redis文件到redis文件夹&quot;&gt;&lt;/a&gt;3.copy解压后的redis文件到redis文件夹&lt;/h2&gt;&lt;pre&gt;&lt;code&gt;tar xvf redis3.2.bin.tar 
+cp -r redis /opt/redis-cluster
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&quot;4-copy-redis文件夹下的redis-conf到6个节点文件下&quot;&gt;&lt;a href=&quot;#4-copy-redis文件夹下的redis-conf到6个节点文件下&quot; class=&quot;headerlink&quot; title=&quot;4.copy redis文件夹下的redis.conf到6个节点文件下&quot;&gt;&lt;/a&gt;4.copy redis文件夹下的redis.conf到6个节点文件下&lt;/h2&gt;&lt;pre&gt;&lt;code&gt;cp ./redis/redis.conf ./700*
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&quot;5-修改6个节点的redis-conf-文件&quot;&gt;&lt;a href=&quot;#5-修改6个节点的redis-conf-文件&quot; class=&quot;headerlink&quot; title=&quot;5.修改6个节点的redis.conf 文件&quot;&gt;&lt;/a&gt;5.修改6个节点的redis.conf 文件&lt;/h2&gt;
+    
+    </summary>
+    
+      <category term="Redis" scheme="https://tomoncle.github.io/categories/Redis/"/>
+    
+    
+      <category term="redis" scheme="https://tomoncle.github.io/tags/redis/"/>
+    
+      <category term="cluster" scheme="https://tomoncle.github.io/tags/cluster/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>mongodb使用整理</title>
+    <link href="https://tomoncle.github.io/2016/06/06/mongodb/"/>
+    <id>https://tomoncle.github.io/2016/06/06/mongodb/</id>
+    <published>2016-06-06T09:11:08.000Z</published>
+    <updated>2018-04-02T09:58:19.476Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="mongodb"><a href="#mongodb" class="headerlink" title="mongodb"></a>mongodb</h1><h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><ul>
+<li><p>1.数据库 <a href="https://www.mongodb.com/download-center?jmp=nav#community" target="_blank" rel="external">下载地址</a>　</p>
+</li>
+<li><p>2.解压安装包到 <code>/usr/local/mongodb/</code></p>
+<ul>
+<li><code>sudo mkdir /usr/local/mongodb</code></li>
+<li><code>sudo tar zxvf 软件包 -C /usr/local/mongodb/</code></li>
+</ul>
+</li>
+<li><p>3.创建数据库<code>文件夹data</code> ,<code>日志文件logs</code></p>
+<ul>
+<li><code>sudo mkdir /usr/local/mongodb/data</code></li>
+<li><code>sudo touch /usr/local/mongodb/logs</code></li>
+</ul>
+</li>
+<li><p>4.创建启动脚本 <code>start.sh</code></p>
+<a id="more"></a>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span>! /bin/bash</div><div class="line"></div><div class="line">echo "warning:start mongodb"</div><div class="line">sleep 1</div><div class="line">echo "............."</div><div class="line">echo "............."</div><div class="line">echo "............."</div><div class="line">workdir=/usr/local/mongodb/mongodb-3.2.11</div><div class="line">datapath=/usr/local/mongodb/data/</div><div class="line">logpath=/usr/local/mongodb/logs</div><div class="line"></div><div class="line">sudo "$workdir"/bin/mongod --dbpath="$datapath" --logpath="$logpath" --logappend  --port=27017 --fork</div><div class="line">sleep 2</div><div class="line">echo -e "\n mongodb start success!!!"</div></pre></td></tr></table></figure>
+</li>
+<li><p>5.创建mongodb客户端软链接,直接使用mongo命令 :<br><code>sudo ln -s /usr/local/mongodb/mongodb-3.2.11/bin/mongo /usr/local/bin/</code></p>
+</li>
+</ul>
+<h2 id="参数说明"><a href="#参数说明" class="headerlink" title="参数说明"></a>参数说明</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">--dbpath=/usr/lcoal/mongodb/data/             mongodb数据文件存储路径	 </div><div class="line">--logpath=/var/log/mongodb/mongodb.log        mongod的日志路径	                   </div><div class="line">--logappend=true                              日志使用追加代替覆盖	               </div><div class="line">--bind_ip=10.10.10.10                         绑定的IP	                          </div><div class="line">--port=27107                                  绑定的端口	                         </div><div class="line">--journal=true                                write操作首先写入“日记”，是一个数据安全的设置，具体参考官方文档。	   </div><div class="line">--fork=true                                   后台运行           　　　　　　　　　　</div><div class="line">-f ./mongo.conf                               启动配置文件，可以将以上参数写入配置文件，通过mongod -f ./mongo.conf启动</div></pre></td></tr></table></figure>
+<h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><pre><code>SQL术语/概念　　　 MongoDB概念　　      意义
+database　　　　　 database　　　　　　 数据库
+table　　　　　　　collection　　　　 　数据库表/集合
+row　　　　　　　　document　　　　　　 数据记录行/文档
+column　　　　　　 field　　　　　　　　数据字段/域
+index　　　　　　　index　　　　　　　  索引
+primarykey　　　　 primary key　　　　  主键,MongoDB自动将_id字段设置为主键
+</code></pre><h2 id="连接"><a href="#连接" class="headerlink" title="连接"></a>连接</h2><pre><code>连接本地数据库服务器，端口是默认的。
+mongodb://localhost
+使用用户名fred，密码foobar登录localhost的admin数据库。
+mongodb://fred:foobar@localhost
+使用用户名fred，密码foobar登录localhost的baz数据库。
+mongodb://fred:foobar@localhost/baz
+连接 replica pair, 服务器1为example1.com服务器2为example2。
+mongodb://example1.com:27017,example2.com:27017
+连接 replica set 三台服务器 (端口 27017, 27018, 和27019):
+mongodb://localhost,localhost:27018,localhost:27019
+连接 replica set 三台服务器, 写入操作应用在主服务器 并且分布查询到从服务器。
+mongodb://host1,host2,host3/?slaveOk=true
+直接连接第一个服务器，无论是replica set一部分或者主服务器或者从服务器。
+mongodb://host1,host2,host3/?connect=direct;slaveOk=true
+当你的连接服务器有优先级，还需要列出所有服务器，你可以使用上述连接方式。
+安全模式连接到localhost:
+mongodb://localhost/?safe=true
+以安全模式连接到replica set，并且等待至少两个复制服务器成功写入，超时时间设置为2秒。
+mongodb://host1,host2,host3/?safe=true;w=2;wtimeoutMS=2000
+</code></pre><h2 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h2><h6 id="mongodb默认使用test数据库"><a href="#mongodb默认使用test数据库" class="headerlink" title="mongodb默认使用test数据库"></a>mongodb默认使用test数据库</h6><pre><code>查询数据库列表：
+＞show dbs
+创建或切换数据库：（ 注：刚刚创建的数据库使用show dbs命令无法看到，需要插入数据才会显示 db.aric.insert({&quot;name&quot;:&quot;king-aric&quot;})）
+＞use aric
+查看当前数据库：
+＞db
+删除数据库：（首先切换到要删除的数据，use db_name,使用　show dbs查看是否删除成功）
+＞ db.dropDatabase()
+查看当前数据库集合（表）
+＞show tables 或　show collections
+创建集合（表）：当插入文档的时候，会自动创建相应的集合
+＞db.collection_or_table_name.insert({})
+删除集合（表）：
+＞db.collection_or_table_name.drop()
+</code></pre><h2 id="文档"><a href="#文档" class="headerlink" title="文档"></a>文档</h2><pre><code>插入：
+＞db.aric.save({&quot;k&quot;:2})　　插入或更新（当指定文档id时，会覆盖当前文档的数据）
+＞db.aric.insert({&quot;k&quot;:2})　插入
+更新：将k为２的对象改为k=2xxxx
+＞db.aric.update({&quot;k&quot;:2},{$set:{&quot;k&quot;:&quot;2xxx&quot;}},{multi:true}) 更新多条，
+＞db.aric.update({&quot;k&quot;:2},{$set:{&quot;k&quot;:&quot;2xxx&quot;}})　更新一条
+删除：删除k=2xxx的数据
+＞db.aric.remove({&quot;k&quot;:&quot;2xxx&quot;},1) 删除一条
+＞db.aric.remove({&quot;k&quot;:&quot;2xxx&quot;})　删除多条
+＞db.aric.remove({})　删除全部
+查询：
+＞db.aric.find()
+＞db.aric.find().pretty() 格式化输出
+＞db.aric.findOne() 返回一个文档
+复杂查询：SQL : &apos;where age&gt;50 AND (name = &apos;aric&apos; OR title = &apos;MongoDB&apos;)&apos;
+＞db.aric.find({&quot;age&quot;: {$gt:50}, $or: [{&quot;name&quot;: &quot;aric&quot;},{&quot;title&quot;: &quot;MongoDB&quot;}]}).pretty()
+</code></pre><h1 id="mongodb常见异常"><a href="#mongodb常见异常" class="headerlink" title="mongodb常见异常"></a>mongodb常见异常</h1><h3 id="child-process-failed-exited-with-error-number-1"><a href="#child-process-failed-exited-with-error-number-1" class="headerlink" title="child process failed, exited with error number 1"></a>child process failed, exited with error number 1</h3><blockquote>
+<p>about to fork child process, waiting until server is ready for connections.<br>forked process: 2340<br>ERROR: child process failed, exited with error number 1</p>
+</blockquote>
+<p>解决办法：</p>
+<ul>
+<li>1.删除 /usr/local/mongodb/data/mongo.lock</li>
+<li>2.执行以下脚本清除数据库<ul>
+<li>查找清除目录：<code>/usr/local/bin/mongod --repair</code></li>
+<li>清除指定目录：<code>/usr/local/bin/mongod --repair --dbpath=/usr/local/mongodb/data/</code></li>
+</ul>
+</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;mongodb&quot;&gt;&lt;a href=&quot;#mongodb&quot; class=&quot;headerlink&quot; title=&quot;mongodb&quot;&gt;&lt;/a&gt;mongodb&lt;/h1&gt;&lt;h2 id=&quot;安装&quot;&gt;&lt;a href=&quot;#安装&quot; class=&quot;headerlink&quot; title=&quot;安装&quot;&gt;&lt;/a&gt;安装&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;1.数据库 &lt;a href=&quot;https://www.mongodb.com/download-center?jmp=nav#community&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;下载地址&lt;/a&gt;　&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;2.解压安装包到 &lt;code&gt;/usr/local/mongodb/&lt;/code&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;sudo mkdir /usr/local/mongodb&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;sudo tar zxvf 软件包 -C /usr/local/mongodb/&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;3.创建数据库&lt;code&gt;文件夹data&lt;/code&gt; ,&lt;code&gt;日志文件logs&lt;/code&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;sudo mkdir /usr/local/mongodb/data&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;sudo touch /usr/local/mongodb/logs&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;4.创建启动脚本 &lt;code&gt;start.sh&lt;/code&gt;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Mongodb" scheme="https://tomoncle.github.io/categories/Mongodb/"/>
+    
+    
+      <category term="Mongodb" scheme="https://tomoncle.github.io/tags/Mongodb/"/>
+    
+      <category term="DB" scheme="https://tomoncle.github.io/tags/DB/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>MQ安装整理</title>
+    <link href="https://tomoncle.github.io/2016/05/02/MQ/"/>
+    <id>https://tomoncle.github.io/2016/05/02/MQ/</id>
+    <published>2016-05-02T09:40:29.000Z</published>
+    <updated>2018-04-02T09:58:02.696Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="activeMQ"><a href="#activeMQ" class="headerlink" title="activeMQ"></a>activeMQ</h1><h3 id="安装-下载"><a href="#安装-下载" class="headerlink" title="安装-下载"></a>安装-<a href="http://activemq.apache.org/download-archives.html" target="_blank" rel="external">下载</a></h3><ul>
+<li>1.安装jdk，需要jdk1.7以上版本</li>
+<li>2.解压缩activeMQ的压缩包 : <code>tar -zxvf apache-activemq-*-bin.tar.gz</code></li>
+<li>3.进入<code>bin</code>目录<code>启动</code>和<code>停止</code>:<ul>
+<li>启动 ：<code>./activemq start</code></li>
+<li>停止 ：<code>./activemq stop</code></li>
+</ul>
+</li>
+</ul>
+<h3 id="访问后台管理"><a href="#访问后台管理" class="headerlink" title="访问后台管理:"></a>访问后台管理:</h3><ul>
+<li>地址：<code>http://localhost:8161/admin</code></li>
+<li>用户名：<code>admin</code></li>
+<li>密码：<code>admin</code></li>
+</ul>
+<h3 id="端口说明："><a href="#端口说明：" class="headerlink" title="端口说明："></a>端口说明：</h3><p><code>ActiveMQ</code>默认采用<code>61616</code>端口提供<code>JMS</code>服务，使用<code>8161</code>端口提供管理控制台服务</p>
+<a id="more"></a>
+<h1 id="rabbitMQ"><a href="#rabbitMQ" class="headerlink" title="rabbitMQ"></a>rabbitMQ</h1><h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><h4 id="ubuntu14-04"><a href="#ubuntu14-04" class="headerlink" title="ubuntu14.04"></a>ubuntu14.04</h4><ul>
+<li>安装<code>rabbitMQ</code>, 默认安装依赖的<code>erlang</code>(使用<code>erl</code>命令来检测): <code>sudo apt-get install rabbitmq-server</code></li>
+<li>检测安装目录: <code>whereis rabbitmq</code></li>
+<li>进入安装目录，开启web查看工具：<code>cd /usr/lib/rabbitmq/bin &amp;&amp; rabbitmq-plugins enable rabbitmq_management</code></li>
+<li>重启服务：<code>rabbitmqctl stop &amp; rabbitmq-server start</code></li>
+<li>测试访问：<code>curl http://127.0.0.1:15672/</code></li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;activeMQ&quot;&gt;&lt;a href=&quot;#activeMQ&quot; class=&quot;headerlink&quot; title=&quot;activeMQ&quot;&gt;&lt;/a&gt;activeMQ&lt;/h1&gt;&lt;h3 id=&quot;安装-下载&quot;&gt;&lt;a href=&quot;#安装-下载&quot; class=&quot;headerlink&quot; title=&quot;安装-下载&quot;&gt;&lt;/a&gt;安装-&lt;a href=&quot;http://activemq.apache.org/download-archives.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;下载&lt;/a&gt;&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;1.安装jdk，需要jdk1.7以上版本&lt;/li&gt;
+&lt;li&gt;2.解压缩activeMQ的压缩包 : &lt;code&gt;tar -zxvf apache-activemq-*-bin.tar.gz&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;3.进入&lt;code&gt;bin&lt;/code&gt;目录&lt;code&gt;启动&lt;/code&gt;和&lt;code&gt;停止&lt;/code&gt;:&lt;ul&gt;
+&lt;li&gt;启动 ：&lt;code&gt;./activemq start&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;停止 ：&lt;code&gt;./activemq stop&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;访问后台管理&quot;&gt;&lt;a href=&quot;#访问后台管理&quot; class=&quot;headerlink&quot; title=&quot;访问后台管理:&quot;&gt;&lt;/a&gt;访问后台管理:&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;地址：&lt;code&gt;http://localhost:8161/admin&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;用户名：&lt;code&gt;admin&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;密码：&lt;code&gt;admin&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;端口说明：&quot;&gt;&lt;a href=&quot;#端口说明：&quot; class=&quot;headerlink&quot; title=&quot;端口说明：&quot;&gt;&lt;/a&gt;端口说明：&lt;/h3&gt;&lt;p&gt;&lt;code&gt;ActiveMQ&lt;/code&gt;默认采用&lt;code&gt;61616&lt;/code&gt;端口提供&lt;code&gt;JMS&lt;/code&gt;服务，使用&lt;code&gt;8161&lt;/code&gt;端口提供管理控制台服务&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="MQ" scheme="https://tomoncle.github.io/categories/MQ/"/>
+    
+    
+      <category term="activemq" scheme="https://tomoncle.github.io/tags/activemq/"/>
+    
+      <category term="rabbitmq" scheme="https://tomoncle.github.io/tags/rabbitmq/"/>
+    
+      <category term="mq" scheme="https://tomoncle.github.io/tags/mq/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>mysql常用命令</title>
+    <link href="https://tomoncle.github.io/2016/05/02/mysql/"/>
+    <id>https://tomoncle.github.io/2016/05/02/mysql/</id>
+    <published>2016-05-02T09:16:08.000Z</published>
+    <updated>2018-04-02T09:22:03.424Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="mysql安装"><a href="#mysql安装" class="headerlink" title="mysql安装"></a>mysql安装</h1><blockquote>
+<p>整理一些常用的mysql命令与一些示例.</p>
+</blockquote>
+<h1 id="初始化配置"><a href="#初始化配置" class="headerlink" title="初始化配置"></a>初始化配置</h1><h4 id="初始化root密码：mysqladmin-u-root-password-39-root-39"><a href="#初始化root密码：mysqladmin-u-root-password-39-root-39" class="headerlink" title="初始化root密码：mysqladmin -u root password &#39;root&#39;"></a>初始化root密码：<code>mysqladmin -u root password &#39;root&#39;</code></h4><h4 id="修改root密码"><a href="#修改root密码" class="headerlink" title="修改root密码"></a>修改root密码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">@&gt;mysql -u root -p</div><div class="line">@&gt;密码</div><div class="line">MySQL&gt;update mysql.user set password=password(&apos;新密码&apos;) where User=&quot;admin&quot; and Host=&quot;localhost&quot;;</div><div class="line">MySQL&gt;flush privileges;</div></pre></td></tr></table></figure>
+<h4 id="开启远程访问"><a href="#开启远程访问" class="headerlink" title="开启远程访问"></a>开启远程访问</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">MySQL&gt;use mysql; </div><div class="line">MySQL&gt;update user set host = &apos;%&apos; where user = &apos;root&apos;;</div><div class="line">MySQL&gt;flush privileges;</div></pre></td></tr></table></figure>
+<h4 id="异常：ERROR-1062-23000-Duplicate-entry-‘-root’-for-key-‘PRIMARY’"><a href="#异常：ERROR-1062-23000-Duplicate-entry-‘-root’-for-key-‘PRIMARY’" class="headerlink" title="异常：ERROR 1062 (23000): Duplicate entry ‘%-root’ for key ‘PRIMARY’"></a>异常：ERROR 1062 (23000): Duplicate entry ‘%-root’ for key ‘PRIMARY’</h4><p>使用命令 <code>select host from user where user=&#39;root&#39;;</code>查看是否存在了<strong>host=’%’</strong>,如果存在，直接命令：<code>flush privileges;</code></p>
+<a id="more"></a>
+<h1 id="linux常用命令"><a href="#linux常用命令" class="headerlink" title="linux常用命令"></a>linux常用命令</h1><p>操作命令要以分号结束</p>
+<h3 id="登陆"><a href="#登陆" class="headerlink" title="登陆"></a>登陆</h3><pre><code>mysql -uroot -p
+</code></pre><h3 id="终端清屏"><a href="#终端清屏" class="headerlink" title="终端清屏"></a>终端清屏</h3><pre><code>mysql&gt; system clear
+</code></pre><h2 id="创建："><a href="#创建：" class="headerlink" title="创建："></a>创建：</h2><h5 id="创建数据库："><a href="#创建数据库：" class="headerlink" title="创建数据库："></a>创建数据库：</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">mysql -h localhost -P 3306 -uroot -p123456 &lt;&lt;EOF</div><div class="line">  CREATE DATABASE db_name;</div><div class="line">  alter database db_name character set utf8;</div><div class="line">  GRANT ALL PRIVILEGES ON db_name.* TO 'user_name'@'localhost' IDENTIFIED BY 'password';</div><div class="line">  GRANT ALL PRIVILEGES ON db_name.* TO 'user_name'@'%' IDENTIFIED BY 'password';</div><div class="line">  FLUSH PRIVILEGES;</div><div class="line">  exit</div><div class="line">EOF</div></pre></td></tr></table></figure>
+<h2 id="查看"><a href="#查看" class="headerlink" title="查看"></a>查看</h2><h5 id="查看数据库："><a href="#查看数据库：" class="headerlink" title="查看数据库："></a>查看数据库：</h5><pre><code>show databases;
+</code></pre><h5 id="进入数据库："><a href="#进入数据库：" class="headerlink" title="进入数据库："></a>进入数据库：</h5><pre><code>use test;
+</code></pre><h5 id="查看数据库表："><a href="#查看数据库表：" class="headerlink" title="查看数据库表："></a>查看数据库表：</h5><pre><code>show tables;
+
+select table_name from information_schema.tables where table_schema=&apos;king-aric&apos;;
+</code></pre><h5 id="查看表结构："><a href="#查看表结构：" class="headerlink" title="查看表结构："></a>查看表结构：</h5><pre><code>desc tablename;
+</code></pre><h5 id="查看表数据："><a href="#查看表数据：" class="headerlink" title="查看表数据："></a>查看表数据：</h5><pre><code>select * from tablename;
+select * from tablename\G
+</code></pre><h5 id="生成删除test数据库的所有表的结果集"><a href="#生成删除test数据库的所有表的结果集" class="headerlink" title="生成删除test数据库的所有表的结果集"></a>生成删除test数据库的所有表的结果集</h5><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">mysql&gt; </div><div class="line">mysql&gt; SELECT concat('DROP TABLE IF EXISTS ', table_name, ';')</div><div class="line">    -&gt; FROM information_schema.tables</div><div class="line">    -&gt; WHERE table_schema = 'test';</div><div class="line">+--------------------------------------------------+</div><div class="line">| concat('DROP TABLE IF EXISTS ', table_name, ';') |</div><div class="line">+--------------------------------------------------+</div><div class="line">| DROP TABLE IF EXISTS celery_taskmeta;            |</div><div class="line">| DROP TABLE IF EXISTS celery_tasksetmeta;         |</div><div class="line">| DROP TABLE IF EXISTS cloud_center;               |</div><div class="line">| DROP TABLE IF EXISTS cloud_version;              |</div><div class="line">| DROP TABLE IF EXISTS cron_model;                 |</div><div class="line">+--------------------------------------------------+</div><div class="line">5 rows in set (0.07 sec)</div><div class="line"></div><div class="line">mysql&gt; DROP TABLE IF EXISTS celery_taskmeta;</div></pre></td></tr></table></figure>
+<h5 id="生成清空test数据库所有表数据结果集"><a href="#生成清空test数据库所有表数据结果集" class="headerlink" title="生成清空test数据库所有表数据结果集"></a>生成清空test数据库所有表数据结果集</h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">SELECT</span> <span class="keyword">concat</span>(<span class="string">'TRUNCATE TABLE '</span>, table_name, <span class="string">';'</span>) <span class="keyword">FROM</span> information_schema.tables <span class="keyword">WHERE</span> table_schema = <span class="string">'test'</span>;</div></pre></td></tr></table></figure>
+<h2 id="mysql备份"><a href="#mysql备份" class="headerlink" title="mysql备份"></a>mysql备份</h2><h3 id="只导出表结构"><a href="#只导出表结构" class="headerlink" title="只导出表结构"></a>只导出表结构</h3><h5 id="导出整个数据库结构（不包含数据）"><a href="#导出整个数据库结构（不包含数据）" class="headerlink" title="导出整个数据库结构（不包含数据）"></a>导出整个数据库结构（不包含数据）</h5><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">root@aric-ThinkPad-E450:/# mysqldump -h localhost -uroot -p -d database &gt; dump.sql</div></pre></td></tr></table></figure>
+<h5 id="导出单个数据表结构（不包含数据）"><a href="#导出单个数据表结构（不包含数据）" class="headerlink" title="导出单个数据表结构（不包含数据）"></a>导出单个数据表结构（不包含数据）</h5><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">root@aric-ThinkPad-E450:/# mysqldump -h localhost -uroot -p  -d database table &gt; dump.sql</div></pre></td></tr></table></figure>
+<h3 id="只导出表数据"><a href="#只导出表数据" class="headerlink" title="只导出表数据"></a>只导出表数据</h3><h5 id="导出整个数据库数据"><a href="#导出整个数据库数据" class="headerlink" title="导出整个数据库数据"></a>导出整个数据库数据</h5><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">root@aric-ThinkPad-E450:/# mysqldump -h localhost -uroot -p  -t database &gt; dump.sql</div></pre></td></tr></table></figure>
+<h5 id="导出数据库一个表数据"><a href="#导出数据库一个表数据" class="headerlink" title="导出数据库一个表数据"></a>导出数据库一个表数据</h5><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">root@aric-ThinkPad-E450:/# mysqldump -h localhost -uroot -p  -t database table &gt; table_dump.sql</div></pre></td></tr></table></figure>
+<h3 id="导出结构-数据"><a href="#导出结构-数据" class="headerlink" title="导出结构+数据"></a>导出结构+数据</h3><h5 id="导出整个数据库结构和数据"><a href="#导出整个数据库结构和数据" class="headerlink" title="导出整个数据库结构和数据"></a>导出整个数据库结构和数据</h5><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">root@aric-ThinkPad-E450:/# mysqldump -h localhost -uroot -p database &gt; dump.sql</div></pre></td></tr></table></figure>
+<h5 id="导出单个数据表结构和数据"><a href="#导出单个数据表结构和数据" class="headerlink" title="导出单个数据表结构和数据"></a>导出单个数据表结构和数据</h5><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">root@aric-ThinkPad-E450:/# mysqldump -h localhost -uroot -p  database table &gt; dump.sql</div></pre></td></tr></table></figure>
+<h2 id="mysql脚本"><a href="#mysql脚本" class="headerlink" title="mysql脚本"></a>mysql脚本</h2><h3 id="保存生成＂删除test数据库＂的脚本到文件"><a href="#保存生成＂删除test数据库＂的脚本到文件" class="headerlink" title="保存生成＂删除test数据库＂的脚本到文件"></a>保存生成＂删除test数据库＂的脚本到文件</h3><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">root@aric-ThinkPad-E450:/# </div><div class="line">root@aric-ThinkPad-E450:/# mysql -p  -N -s information_schema -e "SELECT CONCAT('delete from ',TABLE_NAME,';') FROM TABLES WHERE TABLE_SCHEMA='test'" &gt; /opt/temp.sql;</div><div class="line">Enter password: </div><div class="line">root@aric-ThinkPad-E450:/# cat /opt/temp.sql</div></pre></td></tr></table></figure>
+<h3 id="执行sql脚本-参数-“-D数据库”-到test数据库"><a href="#执行sql脚本-参数-“-D数据库”-到test数据库" class="headerlink" title="执行sql脚本[参数　“-D数据库”]到test数据库"></a>执行sql脚本[参数　“-D数据库”]到test数据库</h3><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">root@aric-ThinkPad-E450:/# mysql -p -Dtest &lt; /opt/temp.sql</div></pre></td></tr></table></figure>
+<h3 id="执行sql语句"><a href="#执行sql语句" class="headerlink" title="执行sql语句"></a>执行sql语句</h3><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">root@aric-ThinkPad-E450:/# mysql -p -e "select * from test.users"</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;mysql安装&quot;&gt;&lt;a href=&quot;#mysql安装&quot; class=&quot;headerlink&quot; title=&quot;mysql安装&quot;&gt;&lt;/a&gt;mysql安装&lt;/h1&gt;&lt;blockquote&gt;
+&lt;p&gt;整理一些常用的mysql命令与一些示例.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id=&quot;初始化配置&quot;&gt;&lt;a href=&quot;#初始化配置&quot; class=&quot;headerlink&quot; title=&quot;初始化配置&quot;&gt;&lt;/a&gt;初始化配置&lt;/h1&gt;&lt;h4 id=&quot;初始化root密码：mysqladmin-u-root-password-39-root-39&quot;&gt;&lt;a href=&quot;#初始化root密码：mysqladmin-u-root-password-39-root-39&quot; class=&quot;headerlink&quot; title=&quot;初始化root密码：mysqladmin -u root password &amp;#39;root&amp;#39;&quot;&gt;&lt;/a&gt;初始化root密码：&lt;code&gt;mysqladmin -u root password &amp;#39;root&amp;#39;&lt;/code&gt;&lt;/h4&gt;&lt;h4 id=&quot;修改root密码&quot;&gt;&lt;a href=&quot;#修改root密码&quot; class=&quot;headerlink&quot; title=&quot;修改root密码&quot;&gt;&lt;/a&gt;修改root密码&lt;/h4&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;@&amp;gt;mysql -u root -p&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;@&amp;gt;密码&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;MySQL&amp;gt;update mysql.user set password=password(&amp;apos;新密码&amp;apos;) where User=&amp;quot;admin&amp;quot; and Host=&amp;quot;localhost&amp;quot;;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;MySQL&amp;gt;flush privileges;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h4 id=&quot;开启远程访问&quot;&gt;&lt;a href=&quot;#开启远程访问&quot; class=&quot;headerlink&quot; title=&quot;开启远程访问&quot;&gt;&lt;/a&gt;开启远程访问&lt;/h4&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;MySQL&amp;gt;use mysql; &lt;/div&gt;&lt;div class=&quot;line&quot;&gt;MySQL&amp;gt;update user set host = &amp;apos;%&amp;apos; where user = &amp;apos;root&amp;apos;;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;MySQL&amp;gt;flush privileges;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h4 id=&quot;异常：ERROR-1062-23000-Duplicate-entry-‘-root’-for-key-‘PRIMARY’&quot;&gt;&lt;a href=&quot;#异常：ERROR-1062-23000-Duplicate-entry-‘-root’-for-key-‘PRIMARY’&quot; class=&quot;headerlink&quot; title=&quot;异常：ERROR 1062 (23000): Duplicate entry ‘%-root’ for key ‘PRIMARY’&quot;&gt;&lt;/a&gt;异常：ERROR 1062 (23000): Duplicate entry ‘%-root’ for key ‘PRIMARY’&lt;/h4&gt;&lt;p&gt;使用命令 &lt;code&gt;select host from user where user=&amp;#39;root&amp;#39;;&lt;/code&gt;查看是否存在了&lt;strong&gt;host=’%’&lt;/strong&gt;,如果存在，直接命令：&lt;code&gt;flush privileges;&lt;/code&gt;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Mysql" scheme="https://tomoncle.github.io/categories/Mysql/"/>
+    
+    
+      <category term="Mysql" scheme="https://tomoncle.github.io/tags/Mysql/"/>
     
   </entry>
   
