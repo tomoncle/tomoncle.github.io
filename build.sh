@@ -66,7 +66,7 @@ fi
 cd ${BUILD_PROJECT}
 # deploy jar files to tmp dir
 mvn clean deploy -Dmaven.test.skip  -DaltDeploymentRepository=self-mvn-repo::default::file:${TEMP_REPO}
-mvn clean deploy source:jar -Dmaven.test.skip=true -DaltDeploymentRepository=self-mvn-repo::default::file:${TEMP_REPO}
+mvn clean source:jar deploy -Dmaven.test.skip=true -DaltDeploymentRepository=self-mvn-repo::default::file:${TEMP_REPO}
 
 # overwrite or create deploy files
 # if snapshots : "$ cp -rf ${TEMP_REPO}/* $M2_REPO/snapshots/"
