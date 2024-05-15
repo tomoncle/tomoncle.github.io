@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2018 tomoncle
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~    http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>spring-boot-config</artifactId>
+        <groupId>com.tomoncle</groupId>
+        <version>2.1.2</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>spring-boot-config-monitor-server</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <!--################ 服务端配置 ################-->
+        <!--
+            作为服务端时，启用以下配置
+            针对Actuator接口进行UI美化封装的监控工具
+            https://github.com/codecentric/spring-boot-admin
+        -->
+        <!-- https://mvnrepository.com/artifact/de.codecentric/spring-boot-admin-starter-server -->
+        <dependency>
+            <groupId>de.codecentric</groupId>
+            <artifactId>spring-boot-admin-server</artifactId>
+            <version>${spring-boot-admin.version}</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/de.codecentric/spring-boot-admin-server-ui -->
+        <dependency>
+            <groupId>de.codecentric</groupId>
+            <artifactId>spring-boot-admin-server-ui</artifactId>
+            <version>${spring-boot-admin.version}</version>
+        </dependency>
+
+        <!--################ spring-boot-admin Plugins ################-->
+        <!--
+        https://mvnrepository.com/artifact/de.codecentric/spring-boot-admin-server-ui-hystrix
+        hystrix-dashboard
+            加入该依赖需要配置
+            Add the /hystrix.stream to the proxified endpoints
+            spring.boot.admin.routes.endpoints＝......,loggers,auditevents,hystrix.stream
+        -->
+        <dependency>
+            <groupId>de.codecentric</groupId>
+            <artifactId>spring-boot-admin-server-ui-hystrix</artifactId>
+            <version>${spring-boot-admin.server.ui.hystrix.version}</version>
+        </dependency>
+        <!--
+        https://mvnrepository.com/artifact/de.codecentric/spring-boot-admin-server-ui-activiti
+        Activiti UI Module
+            加入该依赖需要配置
+            spring.boot.admin.routes.endpoints＝......,loggers,activiti
+        -->
+        <dependency>
+            <groupId>de.codecentric</groupId>
+            <artifactId>spring-boot-admin-server-ui-activiti</artifactId>
+            <version>${spring-boot-admin.server.ui.activiti.version}</version>
+        </dependency>
+        <!--  认证模块配置   -->
+        <dependency>
+            <groupId>com.tomoncle</groupId>
+            <artifactId>spring-boot-config-monitor-security</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <!--                 内置客户端配置            -->
+        <!--Actuator插件是SpringBoot原生提供的一个服务，可以通过暴露端点路由，
+          用来输出应用中的诸多 端点信息,健康度、运行指标、日志信息、线程状况等等-->
+
+        <!--   注意：当项目“同时”引用了
+         “spring-boot-starter-actuator” 与 “spring-boot-starter-data-elasticsearch” 依赖时,
+         Actuator会自动检查 elasticsearch 服务健康状态 , 默认检查elasticsearch的服务地址为 localhost:9200,
+         所以此时如果 elasticsearch 服务地址不是 localhost:9200 时,
+         需要显示的在配置文件中指定elasticsearch服务地址 或者 禁用elasticsearch健康检查
+         方式一： 显示指定      spring.elasticsearch.jest.uris=["http://172.16.110.129:9200"]
+         方式二： 关闭健康检查  management.health.elasticsearch.enabled=false  -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <!--
+        加入该依赖会根据配置文件，将引入该依赖的Spring Boot应用自动注册为客户端
+        https://mvnrepository.com/artifact/de.codecentric/spring-boot-admin-starter-client
+        -->
+        <dependency>
+            <groupId>de.codecentric</groupId>
+            <artifactId>spring-boot-admin-starter-client</artifactId>
+            <version>${spring-boot-admin.version}</version>
+        </dependency>
+        <!--               内置客户端配置结束          -->
+        <!--################ 测试依赖 ################-->
+        <dependency>
+            <groupId>com.tomoncle</groupId>
+            <artifactId>spring-boot-config-autoscan</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.tomoncle</groupId>
+            <artifactId>spring-boot-config-utils</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+
+</project>
