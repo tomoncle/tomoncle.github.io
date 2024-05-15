@@ -41,7 +41,7 @@
             <!--  tomoncle's private maven releases repository.  -->
             <id>tomoncle repository</id>
             <name>tomoncle Repositories</name>
-            <url>https://github.com/tomoncle/m2/raw/master/repository/</url>
+            <url>https://tomoncle.github.io/repository/</url>
             <!--  github访问速度慢，使用备用地址
             <url>https://maven.tomoncle.com</url>
              -->
@@ -56,7 +56,7 @@
             <!--  snapshots repository.  -->
             <id>tomoncle snapshots</id>
             <name>tomoncle snapshots Repositories</name>
-            <url>https://github.com/tomoncle/m2/raw/master/snapshots/</url>
+            <url>https://tomoncle.github.io/snapshots/</url>
             <!--  github访问速度慢，使用备用地址
             <url>https://snapshots-maven.tomoncle.com</url>
              -->
@@ -67,12 +67,6 @@
                 <enabled>true</enabled>
             </snapshots>
         </repository>
-
-        <!--                <repository>-->
-        <!--                    &lt;!&ndash;Apache Snapshot&ndash;&gt;-->
-        <!--                    <id>Apache Snapshot</id>-->
-        <!--                    <url>https://repository.apache.org/content/groups/snapshots</url>-->
-        <!--                </repository>-->
     </repositories>
 
     <!--  add spring-boot-config-parent dependencies.  -->
@@ -123,10 +117,10 @@ $ mvn clean compile
 * 4.Look logs:
 ```sh
 [INFO] Scanning for projects...
-Downloading from tomoncle: https://github.com/tomoncle/m2/raw/master/repository/com/tomoncle/spring-boot-config-parent/2.1.2/spring-boot-config-parent-2.1.2.pom
-Downloaded from tomoncle: https://github.com/tomoncle/m2/raw/master/repository/com/tomoncle/spring-boot-config-parent/2.1.2/spring-boot-config-parent-2.1.2.pom (4.7 kB at 1.2 kB/s)
-Downloading from tomoncle: https://github.com/tomoncle/m2/raw/master/repository/com/tomoncle/spring-boot-config/2.1.2/spring-boot-config-2.1.2.pom
-Downloaded from tomoncle: https://github.com/tomoncle/m2/raw/master/repository/com/tomoncle/spring-boot-config/2.1.2/spring-boot-config-2.1.2.pom (6.0 kB at 3.2 kB/s)
+Downloading from tomoncle: https://tomoncle.github.io/repository/com/tomoncle/spring-boot-config-parent/2.1.2/spring-boot-config-parent-2.1.2.pom
+Downloaded from tomoncle: https://tomoncle.github.io/repository/com/tomoncle/spring-boot-config-parent/2.1.2/spring-boot-config-parent-2.1.2.pom (4.7 kB at 1.2 kB/s)
+Downloading from tomoncle: https://tomoncle.github.io/repository/com/tomoncle/spring-boot-config/2.1.2/spring-boot-config-2.1.2.pom
+Downloaded from tomoncle: https://tomoncle.github.io/repository/com/tomoncle/spring-boot-config/2.1.2/spring-boot-config-2.1.2.pom (6.0 kB at 3.2 kB/s)
 [INFO] ------------------------------------------------------------------------
 [INFO] Reactor Build Order:
 [INFO] 
@@ -142,26 +136,26 @@ Downloaded from tomoncle: https://github.com/tomoncle/m2/raw/master/repository/c
 [INFO] --------< com.tomoncle:mxnet-spring-samples-image-recognition >---------
 [INFO] Building mxnet-spring-samples-image-recognition 1.0-SNAPSHOT       [2/2]
 [INFO] --------------------------------[ jar ]---------------------------------
-Downloading from tomoncle: https://github.com/tomoncle/m2/raw/master/repository/com/tomoncle/spring-boot-config-monitor-server/2.1.2/spring-boot-config-monitor-server-2.1.2.pom
-Downloaded from tomoncle: https://github.com/tomoncle/m2/raw/master/repository/com/tomoncle/spring-boot-config-monitor-server/2.1.2/spring-boot-config-monitor-server-2.1.2.pom (2.9 kB at 1.8 kB/s)
-Downloading from tomoncle: https://github.com/tomoncle/m2/raw/master/repository/com/tomoncle/spring-boot-config-monitor-client/2.1.2/spring-boot-config-monitor-client-2.1.2.pom
-Downloaded from tomoncle: https://github.com/tomoncle/m2/raw/master/repository/com/tomoncle/spring-boot-config-monitor-client/2.1.2/spring-boot-config-monitor-client-2.1.2.pom (2.2 kB at 1.2 kB/s)
-Downloading from tomoncle: https://github.com/tomoncle/m2/raw/master/repository/com/tomoncle/spring-boot-config-constants/2.1.2/spring-boot-config-constants-2.1.2.pom
-Downloaded from tomoncle: https://github.com/tomoncle/m2/raw/master/repository/com/tomoncle/spring-boot-config-constants/2.1.2/spring-boot-config-constants-2.1.2.pom (524 B at 224 B/s)
-Downloading from tomoncle: https://github.com/tomoncle/m2/raw/master/repository/com/tomoncle/spring-boot-config-errors/2.1.2/spring-boot-config-errors-2.1.2.pom
-Downloaded from tomoncle: https://github.com/tomoncle/m2/raw/master/repository/com/tomoncle/spring-boot-config-errors/2.1.2/spring-boot-config-errors-2.1.2.pom (974 B at 522 B/s)
-Downloading from tomoncle: https://github.com/tomoncle/m2/raw/master/repository/com/tomoncle/spring-boot-config-utils/2.1.2/spring-boot-config-utils-2.1.2.pom
-Downloaded from tomoncle: https://github.com/tomoncle/m2/raw/master/repository/com/tomoncle/spring-boot-config-utils/2.1.2/spring-boot-config-utils-2.1.2.pom (1.6 kB at 882 B/s)
-Downloading from tomoncle: https://github.com/tomoncle/m2/raw/master/repository/com/tomoncle/spring-boot-config-monitor-server/2.1.2/spring-boot-config-monitor-server-2.1.2.jar
-Downloading from tomoncle: https://github.com/tomoncle/m2/raw/master/repository/com/tomoncle/spring-boot-config-constants/2.1.2/spring-boot-config-constants-2.1.2.jar
-Downloading from tomoncle: https://github.com/tomoncle/m2/raw/master/repository/com/tomoncle/spring-boot-config-monitor-client/2.1.2/spring-boot-config-monitor-client-2.1.2.jar
-Downloading from tomoncle: https://github.com/tomoncle/m2/raw/master/repository/com/tomoncle/spring-boot-config-errors/2.1.2/spring-boot-config-errors-2.1.2.jar
-Downloading from tomoncle: https://github.com/tomoncle/m2/raw/master/repository/com/tomoncle/spring-boot-config-utils/2.1.2/spring-boot-config-utils-2.1.2.jar
-Downloaded from tomoncle: https://github.com/tomoncle/m2/raw/master/repository/com/tomoncle/spring-boot-config-monitor-server/2.1.2/spring-boot-config-monitor-server-2.1.2.jar (3.4 kB at 2.1 kB/s)
-Downloaded from tomoncle: https://github.com/tomoncle/m2/raw/master/repository/com/tomoncle/spring-boot-config-monitor-client/2.1.2/spring-boot-config-monitor-client-2.1.2.jar (2.2 kB at 951 B/s)
-Downloaded from tomoncle: https://github.com/tomoncle/m2/raw/master/repository/com/tomoncle/spring-boot-config-utils/2.1.2/spring-boot-config-utils-2.1.2.jar (21 kB at 8.1 kB/s)
-Downloaded from tomoncle: https://github.com/tomoncle/m2/raw/master/repository/com/tomoncle/spring-boot-config-constants/2.1.2/spring-boot-config-constants-2.1.2.jar (2.7 kB at 761 B/s)
-Downloaded from tomoncle: https://github.com/tomoncle/m2/raw/master/repository/com/tomoncle/spring-boot-config-errors/2.1.2/spring-boot-config-errors-2.1.2.jar (11 kB at 2.1 kB/s)
+Downloading from tomoncle: https://tomoncle.github.io/repository/com/tomoncle/spring-boot-config-monitor-server/2.1.2/spring-boot-config-monitor-server-2.1.2.pom
+Downloaded from tomoncle: https://tomoncle.github.io/repository/com/tomoncle/spring-boot-config-monitor-server/2.1.2/spring-boot-config-monitor-server-2.1.2.pom (2.9 kB at 1.8 kB/s)
+Downloading from tomoncle: https://tomoncle.github.io/repository/com/tomoncle/spring-boot-config-monitor-client/2.1.2/spring-boot-config-monitor-client-2.1.2.pom
+Downloaded from tomoncle: https://tomoncle.github.io/repository/com/tomoncle/spring-boot-config-monitor-client/2.1.2/spring-boot-config-monitor-client-2.1.2.pom (2.2 kB at 1.2 kB/s)
+Downloading from tomoncle: https://tomoncle.github.io/repository/com/tomoncle/spring-boot-config-constants/2.1.2/spring-boot-config-constants-2.1.2.pom
+Downloaded from tomoncle: https://tomoncle.github.io/repository/com/tomoncle/spring-boot-config-constants/2.1.2/spring-boot-config-constants-2.1.2.pom (524 B at 224 B/s)
+Downloading from tomoncle: https://tomoncle.github.io/repository/com/tomoncle/spring-boot-config-errors/2.1.2/spring-boot-config-errors-2.1.2.pom
+Downloaded from tomoncle: https://tomoncle.github.io/repository/com/tomoncle/spring-boot-config-errors/2.1.2/spring-boot-config-errors-2.1.2.pom (974 B at 522 B/s)
+Downloading from tomoncle: https://tomoncle.github.io/repository/com/tomoncle/spring-boot-config-utils/2.1.2/spring-boot-config-utils-2.1.2.pom
+Downloaded from tomoncle: https://tomoncle.github.io/repository/com/tomoncle/spring-boot-config-utils/2.1.2/spring-boot-config-utils-2.1.2.pom (1.6 kB at 882 B/s)
+Downloading from tomoncle: https://tomoncle.github.io/repository/com/tomoncle/spring-boot-config-monitor-server/2.1.2/spring-boot-config-monitor-server-2.1.2.jar
+Downloading from tomoncle: https://tomoncle.github.io/repository/com/tomoncle/spring-boot-config-constants/2.1.2/spring-boot-config-constants-2.1.2.jar
+Downloading from tomoncle: https://tomoncle.github.io/repository/com/tomoncle/spring-boot-config-monitor-client/2.1.2/spring-boot-config-monitor-client-2.1.2.jar
+Downloading from tomoncle: https://tomoncle.github.io/repository/com/tomoncle/spring-boot-config-errors/2.1.2/spring-boot-config-errors-2.1.2.jar
+Downloading from tomoncle: https://tomoncle.github.io/repository/com/tomoncle/spring-boot-config-utils/2.1.2/spring-boot-config-utils-2.1.2.jar
+Downloaded from tomoncle: https://tomoncle.github.io/repository/com/tomoncle/spring-boot-config-monitor-server/2.1.2/spring-boot-config-monitor-server-2.1.2.jar (3.4 kB at 2.1 kB/s)
+Downloaded from tomoncle: https://tomoncle.github.io/repository/com/tomoncle/spring-boot-config-monitor-client/2.1.2/spring-boot-config-monitor-client-2.1.2.jar (2.2 kB at 951 B/s)
+Downloaded from tomoncle: https://tomoncle.github.io/repository/com/tomoncle/spring-boot-config-utils/2.1.2/spring-boot-config-utils-2.1.2.jar (21 kB at 8.1 kB/s)
+Downloaded from tomoncle: https://tomoncle.github.io/repository/com/tomoncle/spring-boot-config-constants/2.1.2/spring-boot-config-constants-2.1.2.jar (2.7 kB at 761 B/s)
+Downloaded from tomoncle: https://tomoncle.github.io/repository/com/tomoncle/spring-boot-config-errors/2.1.2/spring-boot-config-errors-2.1.2.jar (11 kB at 2.1 kB/s)
 [INFO] 
 [INFO] --- maven-clean-plugin:3.1.0:clean (default-clean) @ mxnet-spring-samples-image-recognition ---
 [INFO] Deleting /home/tomoncle/workspace/java/github.com/tomoncle/mxnet-spring-samples/mxnet-spring-samples-image-recognition/target
