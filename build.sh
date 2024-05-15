@@ -25,6 +25,9 @@ CD=$(dirname $(pwd)/$0)
 # export M2_REPO=/home/tomoncle/workspace/java/m2
 # export BUILD_PROJECT=/home/tomoncle/workspace/java/spring-boot-config
 
+M2_REPO=/data/tomoncleshare/maven-repo/m2
+BUILD_PROJECT=/home/tomoncle/workspaces/github/http-requests
+
 if [ -z ${M2_REPO} ] || [ -z ${BUILD_PROJECT} ]
 then  
    echo -e "
