@@ -1,7 +1,7 @@
-# M2 [![Build Status](https://travis-ci.org/tomoncle/m2.svg?branch=master)][travis] ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/tomoncle/m2.svg) ![GitHub repo size](https://img.shields.io/github/repo-size/tomoncle/m2.svg?color=green&logoColor=green) ![GitHub top language](https://img.shields.io/github/languages/top/tomoncle/m2.svg?color=yes) ![GitHub issues](https://img.shields.io/github/issues/tomoncle/m2.svg) ![Hex.pm](https://img.shields.io/hexpm/l/plug.svg)
+# M2 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/tomoncle/tomoncle.github.io.svg) ![GitHub repo size](https://img.shields.io/github/repo-size/tomoncle/tomoncle.github.io.svg?color=green&logoColor=green) ![GitHub top language](https://img.shields.io/github/languages/top/tomoncle/tomoncle.github.io.svg?color=yes) ![GitHub issues](https://img.shields.io/github/issues/tomoncle/tomoncle.github.io.svg) ![Hex.pm](https://img.shields.io/hexpm/l/plug.svg)
 
 ---
-> **友情提示：本仓库仅用于测试目的，不用于商业用途！**. 
+> **友情提示：本仓库仅用于测试目的，不用于商业用途！**
 ---
 
 ```LICENSE
@@ -15,7 +15,8 @@
 ## 使用说明
 
 * 在maven项目根目录下的 `pom.xml` 中添加下面内容, 来启用该仓库 :
-```pom.xml
+
+```xml
 <repositories>
     <repository>
         <id>github</id>
