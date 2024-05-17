@@ -69,9 +69,9 @@ mvn clean source:jar deploy -Dmaven.test.skip=true -DaltDeploymentRepository=sel
 # if snapshots : "$ cp -rf ${TEMP_REPO}/* $M2_REPO/snapshots/"
 if [ "$DEPLOY_TYPE" == "R" ] 
 then
-    cp -rf ${TEMP_REPO}/* ${M2_REPO}/repository/
+    cp -rf ${TEMP_REPO}/* ${M2_REPO}/maven/repository/
 else
-    cp -rf ${TEMP_REPO}/* ${M2_REPO}/snapshots/
+    cp -rf ${TEMP_REPO}/* ${M2_REPO}/maven/snapshots/
 fi 
 
 # commit your new files
