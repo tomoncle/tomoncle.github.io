@@ -1,1 +1,5 @@
-maven/build.sh.bak
+# maven
+maven/build.sh
+maven/repository/index.html
+maven/snapshots/index.html
+
