@@ -26,7 +26,8 @@
 </repositories>
 ```
 
-* 编译
+* 编译 :
+
 ```bash
 $ cd $projectRootPath
 $ mvn clean compile
