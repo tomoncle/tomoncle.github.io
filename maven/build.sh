@@ -54,12 +54,12 @@ git update-index --assume-unchanged build.sh
 git update-index --assume-unchanged repository/index.html
 git update-index --assume-unchanged snapshots/index.html
 # set userinfo
-git config user.email github@sample.dev
-git config user.name  github
+git config user.name "GitHub Actions"
+git config user.email "github-actions@github.com"
 # push
 git pull origin master
 git add ./
-git commit -am "commit new files"
+git commit -am "workflow build a package using Maven and then publish it to GitHub"
 #git push origin master
 ${GIT_PUSH_CALLBACK} << EOF
     set timeout 30
