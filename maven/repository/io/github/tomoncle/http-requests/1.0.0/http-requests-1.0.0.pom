@@ -9,7 +9,6 @@
     <version>1.0.0</version>
 
     <properties>
-        <!-- maven compiler -->
         <maven-compiler.version>3.2</maven-compiler.version>
         <maven-surefire.version>2.12.4</maven-surefire.version>
         <java.version>1.8</java.version>
@@ -18,18 +17,13 @@
         <updateReleaseInfo>true</updateReleaseInfo>
         <project.build.sourceEncoding>${file_encoding}</project.build.sourceEncoding>
     </properties>
-    <!--
-       ************
-       * 开发者信息 *
-       ************
-       -->
     <developers>
         <developer>
             <id>tomoncle</id>
             <name>tomoncle</name>
             <email>tomoncle@sina.com</email>
-            <organization>tomoncle.com</organization>
-            <organizationUrl>http://www.tomoncle.com</organizationUrl>
+            <organization>tomoncleshare</organization>
+            <organizationUrl>https://www.tomoncle.com</organizationUrl>
             <url>https://github.com/tomoncle</url>
         </developer>
     </developers>
