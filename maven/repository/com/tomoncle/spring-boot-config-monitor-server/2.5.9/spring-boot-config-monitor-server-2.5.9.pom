@@ -30,7 +30,7 @@
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
+            <artifactId>spring-boot-starter-web</artifactId>
             <optional>true</optional>
         </dependency>
         <!--################ 服务端配置 ################-->
@@ -51,38 +51,9 @@
             <artifactId>spring-boot-admin-server-ui</artifactId>
             <version>${spring-boot-admin.version}</version>
         </dependency>
+        <!--################ 服务端配置结束 ################-->
 
-        <!--################ spring-boot-admin Plugins ################-->
-        <!--
-        https://mvnrepository.com/artifact/de.codecentric/spring-boot-admin-server-ui-hystrix
-        hystrix-dashboard
-            加入该依赖需要配置
-            Add the /hystrix.stream to the proxified endpoints
-            spring.boot.admin.routes.endpoints＝......,loggers,auditevents,hystrix.stream
-        -->
-        <dependency>
-            <groupId>de.codecentric</groupId>
-            <artifactId>spring-boot-admin-server-ui-hystrix</artifactId>
-            <version>${spring-boot-admin.server.ui.hystrix.version}</version>
-        </dependency>
-        <!--
-        https://mvnrepository.com/artifact/de.codecentric/spring-boot-admin-server-ui-activiti
-        Activiti UI Module
-            加入该依赖需要配置
-            spring.boot.admin.routes.endpoints＝......,loggers,activiti
-        -->
-        <dependency>
-            <groupId>de.codecentric</groupId>
-            <artifactId>spring-boot-admin-server-ui-activiti</artifactId>
-            <version>${spring-boot-admin.server.ui.activiti.version}</version>
-        </dependency>
-        <!--  认证模块配置   -->
-        <dependency>
-            <groupId>com.tomoncle</groupId>
-            <artifactId>spring-boot-config-monitor-security</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <!--                 内置客户端配置            -->
+        <!--################ 内置客户端配置 ################-->
         <!--Actuator插件是SpringBoot原生提供的一个服务，可以通过暴露端点路由，
           用来输出应用中的诸多 端点信息,健康度、运行指标、日志信息、线程状况等等-->
 
@@ -106,7 +77,14 @@
             <artifactId>spring-boot-admin-starter-client</artifactId>
             <version>${spring-boot-admin.version}</version>
         </dependency>
-        <!--               内置客户端配置结束          -->
+        <!--################ 内置客户端配置结束 ################-->
+
+        <!--spring security进行安全验证-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
         <!--################ 测试依赖 ################-->
         <dependency>
             <groupId>com.tomoncle</groupId>

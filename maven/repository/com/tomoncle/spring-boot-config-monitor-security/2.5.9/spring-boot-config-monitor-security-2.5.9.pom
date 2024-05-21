@@ -27,26 +27,26 @@
 
     <artifactId>spring-boot-config-monitor-security</artifactId>
 
-    <dependencies>
-        <!--Login UI Module
-          The Login module just provides you a login page and a logout button.
-          https://mvnrepository.com/artifact/de.codecentric/spring-boot-admin-server-ui-login
-          -->
-        <dependency>
-            <groupId>de.codecentric</groupId>
-            <artifactId>spring-boot-admin-server-ui-login</artifactId>
-            <version>${spring-boot-admin.server.ui.login.version}</version>
-        </dependency>
-        <!--spring security进行安全验证-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
-        <!--security需要提供servlet支持-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-    </dependencies>
+    <!--    <dependencies>-->
+    <!--        &lt;!&ndash;Login UI Module-->
+    <!--          The Login module just provides you a login page and a logout button.-->
+    <!--          https://mvnrepository.com/artifact/de.codecentric/spring-boot-admin-server-ui-login-->
+    <!--          &ndash;&gt;-->
+    <!--        <dependency>-->
+    <!--            <groupId>de.codecentric</groupId>-->
+    <!--            <artifactId>spring-boot-admin-server-ui-login</artifactId>-->
+    <!--            <version>${spring-boot-admin.plugins.ui.version}</version>-->
+    <!--        </dependency>-->
+    <!--        &lt;!&ndash;spring security进行安全验证&ndash;&gt;-->
+    <!--        <dependency>-->
+    <!--            <groupId>org.springframework.boot</groupId>-->
+    <!--            <artifactId>spring-boot-starter-security</artifactId>-->
+    <!--        </dependency>-->
+    <!--        &lt;!&ndash;security需要提供servlet支持&ndash;&gt;-->
+    <!--        <dependency>-->
+    <!--            <groupId>org.springframework.boot</groupId>-->
+    <!--            <artifactId>spring-boot-starter-web</artifactId>-->
+    <!--        </dependency>-->
+    <!--    </dependencies>-->
 
 </project>

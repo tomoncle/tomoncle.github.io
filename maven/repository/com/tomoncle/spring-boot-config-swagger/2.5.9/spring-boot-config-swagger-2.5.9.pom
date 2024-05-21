@@ -40,7 +40,7 @@
             <optional>true</optional>
         </dependency>
 
-        <!--   swagger dependency    -->
+        <!-- swagger dependency -->
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
@@ -50,7 +50,27 @@
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
             <version>${swagger.version}</version>
+            <exclusions>
+                <!--
+                remove: swagger-models 1.5.20
+                fix : i.s.m.p.AbstractSerializableParameter : Illegal DefaultValue null for parameter type integer
+                -->
+                <exclusion>
+                    <groupId>io.swagger</groupId>
+                    <artifactId>swagger-models</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
+        <!--
+        fix : i.s.m.p.AbstractSerializableParameter : Illegal DefaultValue null for parameter type integer
+        -->
+        <dependency>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-models</artifactId>
+            <version>1.5.22</version>
+        </dependency>
+        <!-- swagger dependency -->
+
         <dependency>
             <groupId>com.tomoncle</groupId>
             <artifactId>spring-boot-config-constants</artifactId>

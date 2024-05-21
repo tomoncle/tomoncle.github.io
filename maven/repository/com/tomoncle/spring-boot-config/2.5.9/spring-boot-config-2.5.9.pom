@@ -98,6 +98,9 @@
         <module>spring-boot-config-clickhouse</module>
         <module>spring-boot-config-aop</module>
         <module>spring-boot-config-crypto</module>
+        <module>spring-boot-config-aws-s3</module>
+        <module>spring-boot-config-about-samples</module>
+        <module>spring-boot-config-mybatis-generator</module>
     </modules>
 
 
@@ -115,9 +118,7 @@
         <spring-cloud.version>Greenwich.RELEASE</spring-cloud.version>
         <!--spring-boot监控插件-->
         <spring-boot-admin.version>2.5.5</spring-boot-admin.version>
-        <spring-boot-admin.server.ui.login.version>1.5.7</spring-boot-admin.server.ui.login.version>
-        <spring-boot-admin.server.ui.hystrix.version>1.5.7</spring-boot-admin.server.ui.hystrix.version>
-        <spring-boot-admin.server.ui.activiti.version>1.5.7</spring-boot-admin.server.ui.activiti.version>
+        <spring-boot-admin.plugins.ui.version>1.5.7</spring-boot-admin.plugins.ui.version>
         <!--spring-boot fix Apache Log4j 远程代码执行漏洞 严重
           springboot 2.5.9 已经升级到 2.17.1
         -->

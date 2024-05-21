@@ -28,9 +28,10 @@
     <artifactId>spring-boot-config-monitor-client</artifactId>
 
     <dependencies>
+        <!--servlet支持，main方法启动时，需要注释provided作用域-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
+            <artifactId>spring-boot-starter-web</artifactId>
             <optional>true</optional>
         </dependency>
         <!-- ################ 客户端配置 ################-->
@@ -59,28 +60,14 @@
         </dependency>
         <!--  认证模块配置   -->
         <dependency>
-            <groupId>com.tomoncle</groupId>
-            <artifactId>spring-boot-config-monitor-security</artifactId>
-            <version>${project.version}</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
-
         <!--################ 测试依赖 ################-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <!--servlet支持，main方法启动时，需要注释provided作用域-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-tomcat</artifactId>
-            <scope>provided</scope>
-<!--            <scope>test</scope>-->
         </dependency>
         <dependency>
             <groupId>com.tomoncle</groupId>
