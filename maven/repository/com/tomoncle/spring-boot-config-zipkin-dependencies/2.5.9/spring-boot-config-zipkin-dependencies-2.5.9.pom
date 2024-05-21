@@ -15,8 +15,8 @@
   ~ limitations under the License.
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>spring-boot-config</artifactId>
@@ -28,35 +28,35 @@
     <artifactId>spring-boot-config-zipkin-dependencies</artifactId>
 
     <dependencies>
-            <dependency>
-                <groupId>io.zipkin.dependencies</groupId>
-                <artifactId>zipkin-dependencies-cassandra</artifactId>
-                <scope>test</scope>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.slf4j</groupId>
-                        <artifactId>slf4j-log4j12</artifactId>
-                    </exclusion>
-                    <!--<exclusion>-->
-                        <!--<groupId>log4j</groupId>-->
-                        <!--<artifactId>log4j</artifactId>-->
-                    <!--</exclusion>-->
-                </exclusions>
-            </dependency>
-            <!--<dependency>-->
-                <!--<groupId>io.zipkin.dependencies</groupId>-->
-                <!--<artifactId>zipkin-dependencies-cassandra3</artifactId>-->
-            <!--</dependency>-->
-            <dependency>
-                <groupId>io.zipkin.dependencies</groupId>
-                <artifactId>zipkin-dependencies-mysql</artifactId>
-                <scope>test</scope>
-            </dependency>
-            <dependency>
-                <groupId>io.zipkin.dependencies</groupId>
-                <artifactId>zipkin-dependencies-elasticsearch</artifactId>
-                <scope>test</scope>
-            </dependency>
+        <dependency>
+            <groupId>io.zipkin.dependencies</groupId>
+            <artifactId>zipkin-dependencies-cassandra</artifactId>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-log4j12</artifactId>
+                </exclusion>
+                <!--<exclusion>-->
+                <!--<groupId>log4j</groupId>-->
+                <!--<artifactId>log4j</artifactId>-->
+                <!--</exclusion>-->
+            </exclusions>
+        </dependency>
+        <!--<dependency>-->
+        <!--<groupId>io.zipkin.dependencies</groupId>-->
+        <!--<artifactId>zipkin-dependencies-cassandra3</artifactId>-->
+        <!--</dependency>-->
+        <dependency>
+            <groupId>io.zipkin.dependencies</groupId>
+            <artifactId>zipkin-dependencies-mysql</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.zipkin.dependencies</groupId>
+            <artifactId>zipkin-dependencies-elasticsearch</artifactId>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>com.tomoncle</groupId>
             <artifactId>spring-boot-config-utils</artifactId>
