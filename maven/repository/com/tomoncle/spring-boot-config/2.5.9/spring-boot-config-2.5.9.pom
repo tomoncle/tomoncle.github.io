@@ -101,6 +101,7 @@
         <module>spring-boot-config-aws-s3</module>
         <module>spring-boot-config-about-samples</module>
         <module>spring-boot-config-mybatis-generator</module>
+        <module>spring-boot-config-logging</module>
     </modules>
 
 

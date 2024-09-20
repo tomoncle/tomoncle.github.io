@@ -145,6 +145,12 @@
             <artifactId>httpclient</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.tomoncle</groupId>
+            <artifactId>spring-boot-config-logging</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
 </project>

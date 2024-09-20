@@ -120,11 +120,11 @@
                 <artifactId>spring-boot-config-zipkin-client</artifactId>
                 <version>${project.version}</version>
             </dependency>
-            <!--<dependency>-->
-            <!--<groupId>com.tomoncle</groupId>-->
-            <!--<artifactId>spring-boot-config-zipkin-dependencies</artifactId>-->
-            <!--<version>${project.version}</version>-->
-            <!--</dependency>-->
+            <dependency>
+                <groupId>com.tomoncle</groupId>
+                <artifactId>spring-boot-config-logging</artifactId>
+                <version>${project.version}</version>
+            </dependency>
             <dependency>
                 <groupId>com.tomoncle</groupId>
                 <artifactId>spring-boot-config-zuul</artifactId>
